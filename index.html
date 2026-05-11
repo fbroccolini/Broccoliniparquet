@@ -884,10 +884,85 @@
         .reveal:nth-child(3) { transition-delay: 0.24s; }
         .reveal:nth-child(4) { transition-delay: 0.36s; }
 
+
+        /* ── HAMBURGER & MOBILE MENU ─────────────────── */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 2.2rem;
+            height: 2.2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 101;
+        }
+        .nav-hamburger span {
+            display: block;
+            height: 1px;
+            background: var(--dark);
+            transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+            transform-origin: center;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        .nav-mobile {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 99;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 5rem 2rem 2rem;
+            flex-direction: column;
+            gap: 0;
+            transform: translateY(-100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-mobile.open { transform: translateY(0); }
+        .nav-mobile ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--border);
+        }
+        .nav-mobile ul li {
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-mobile ul li a {
+            display: block;
+            padding: 1.1rem 0;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--dark);
+            text-decoration: none;
+        }
+        .nav-mobile .mobile-cta {
+            display: block;
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--dark);
+            padding: 0.9rem 1.6rem;
+            text-decoration: none;
+        }
         /* ── RESPONSIVE ──────────────────────────── */
         @media (max-width: 960px) {
             nav { padding: 1.2rem 1.5rem; }
             .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+            .nav-cta { display: none; }
+            .nav-mobile { display: flex; }
 
             .hero { grid-template-columns: 1fr; }
             .hero-left { padding: 3rem 1.5rem 2rem; }
@@ -934,7 +1009,19 @@
         </ul>
     </div>
     <a href="contatti.html" class="nav-cta">Richiedi preventivo</a>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu">
+        <span></span><span></span><span></span>
+    </button>
 </nav>
+
+<!-- ── MOBILE MENU ─────────────────────────────────────────── -->
+<div class="nav-mobile" id="navMobile">
+    <ul>
+        <li><a href="contatti.html">Contatti</a></li>
+        <li><a href="test-rendering.html">Rendering AI</a></li>
+    </ul>
+    <a href="contatti.html" class="mobile-cta">Richiedi preventivo</a>
+</div>
 
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <div class="hero">
@@ -1175,6 +1262,22 @@
     window.addEventListener('scroll', () => {
         nav.style.padding = window.scrollY > 60 ? '1rem 3.5rem' : '1.5rem 3.5rem';
     }, { passive: true });
+
+    // Mobile hamburger menu
+    const hamburger = document.getElementById('navHamburger');
+    const mobileMenu = document.getElementById('navMobile');
+    hamburger.addEventListener('click', () => {
+        const isOpen = hamburger.classList.toggle('open');
+        mobileMenu.classList.toggle('open', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('open');
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+    });
 </script>
 
 </body>
