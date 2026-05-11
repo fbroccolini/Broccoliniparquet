@@ -1,0 +1,16 @@
+.claude/
+node_modules/
+temp_frames/
+temporary screenshots/
+package.json
+package-lock.json
+screenshot.mjs
+screenshot-section.mjs
+serve.mjs
+test-hero-video.html
+test-hero-video2.html
+test-marker-highlight.html
+*.png
+CLAUDE*.md
+frontend-design.md
+memory/

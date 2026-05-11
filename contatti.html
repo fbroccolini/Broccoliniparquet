@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contatti — Broccolini Srls</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Karla:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        * { outline: unset; }
+        :where(body) { margin: 0; }
+
+        :root {
+            --wp--preset--color--base:          #191919;
+            --wp--preset--color--base-2:        #111111;
+            --wp--preset--color--base-3:        #F4F4F4;
+            --wp--preset--color--contrast-2:    #FFFFFF;
+            --wp--preset--color--contrast-3:    #191919;
+            --wp--preset--color--border-70:     #707070;
+            --wp--preset--color--gray-light:    #D1D1D1;
+            --wp--preset--font-size--xs:        14px;
+            --wp--preset--font-size--s:         clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.234), 17px);
+            --wp--preset--font-size--m:         clamp(15px, 0.938rem + ((1vw - 3.2px) * 0.391), 20px);
+            --wp--preset--font-family--body:    'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            --bg:           var(--wp--preset--color--base-3);
+            --dark:         var(--wp--preset--color--base);
+            --dark-2:       var(--wp--preset--color--base-2);
+            --mid:          var(--wp--preset--color--border-70);
+            --accent:       #C4A882;
+            --border:       var(--wp--preset--color--gray-light);
+            --white:        var(--wp--preset--color--contrast-2);
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body:    var(--wp--preset--font-family--body);
+        }
+
+        html { scroll-behavior: smooth; cursor: default; }
+
+        body {
+            background-color: var(--wp--preset--color--base-3);
+            color: var(--wp--preset--color--contrast-3);
+            font-family: var(--wp--preset--font-family--body);
+            font-size: var(--wp--preset--font-size--s);
+            font-weight: 400;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAV ─────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 3.5rem;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            gap: 0;
+            line-height: 1;
+        }
+        .logo-name {
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            font-weight: 400;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--dark);
+            display: block;
+        }
+        .logo-rule {
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: var(--dark);
+            opacity: 0.18;
+            margin: 0.28rem 0 0.22rem;
+        }
+        .logo-sub {
+            font-family: var(--font-body);
+            font-size: 0.5rem;
+            font-weight: 400;
+            letter-spacing: 0.48em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--mid); }
+        .nav-links a.active { color: var(--mid); border-bottom: 1px solid var(--mid); padding-bottom: 2px; }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-cta {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--dark);
+            padding: 0.65rem 1.6rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .nav-cta:hover { background: var(--dark-2); }
+
+        /* ── PAGE HEADER ─────────────────────────── */
+        .page-header {
+            padding-top: 80px;
+            min-height: 42vh;
+            display: flex;
+            align-items: flex-end;
+            padding-left: 4.5rem;
+            padding-right: 4.5rem;
+            padding-bottom: 4rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            right: 0; top: 0; bottom: 0;
+            width: 40%;
+            background: linear-gradient(to bottom, #cfcabe 0%, #F9F9F9 100%);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .page-header-inner { position: relative; z-index: 1; }
+
+        .page-eyebrow {
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+        .page-eyebrow::before {
+            content: '';
+            display: block;
+            width: 2rem; height: 1px;
+            background: var(--mid);
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 7vw, 7rem);
+            font-weight: 300;
+            line-height: 1.0;
+            color: var(--dark);
+        }
+        .page-title em { font-style: italic; color: var(--mid); }
+
+        /* ── CONTACT GRID ────────────────────────── */
+        .contact-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 60vh;
+        }
+
+        .contact-info {
+            padding: 5rem 4.5rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .contact-block {
+            margin-bottom: 3.5rem;
+        }
+        .contact-block:last-child { margin-bottom: 0; }
+
+        .contact-label {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-value {
+            font-family: var(--font-display);
+            font-size: clamp(1.4rem, 2.5vw, 2rem);
+            font-weight: 300;
+            color: var(--dark);
+            text-decoration: none;
+            display: block;
+            transition: color 0.2s;
+            line-height: 1.3;
+        }
+        a.contact-value:hover { color: var(--mid); }
+
+        .contact-note {
+            font-size: var(--wp--preset--font-size--xs);
+            color: var(--mid);
+            margin-top: 0.4rem;
+            font-weight: 300;
+        }
+
+        /* ── CTA EMAIL BUTTON ────────────────────── */
+        .btn-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--dark);
+            padding: 1.1rem 2.5rem;
+            text-decoration: none;
+            border: 1px solid var(--dark);
+            transition: background 0.25s, color 0.25s;
+            margin-top: 1rem;
+        }
+        .btn-contact:hover { background: transparent; color: var(--dark); }
+        .btn-contact .icon {
+            width: 1rem; height: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* ── CONTACT FORM SIDE ───────────────────── */
+        .contact-form-side {
+            padding: 5rem 4.5rem;
+            background: var(--wp--preset--color--base);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-weight: 300;
+            line-height: 1.2;
+            color: var(--white);
+            margin-bottom: 2.5rem;
+        }
+        .form-title em { font-style: italic; color: var(--accent); }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 0.85rem 1.1rem;
+            font-family: var(--font-body);
+            font-size: var(--wp--preset--font-size--s);
+            color: var(--white);
+            transition: border-color 0.2s, background 0.2s;
+            appearance: none;
+        }
+        .form-input::placeholder,
+        .form-textarea::placeholder { color: rgba(255,255,255,0.25); }
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.09);
+            outline: none;
+        }
+        .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23707070' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            cursor: pointer;
+        }
+        .form-select option { background: #191919; color: #fff; }
+        .form-textarea { resize: vertical; min-height: 110px; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--accent);
+            border: none;
+            color: var(--dark);
+            padding: 1.1rem;
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .btn-submit:hover { background: #d4b892; }
+        .btn-submit:active { transform: scale(0.99); }
+
+        .form-privacy {
+            font-size: 0.68rem;
+            color: rgba(255,255,255,0.3);
+            margin-top: 1rem;
+            line-height: 1.5;
+        }
+        .form-privacy a { color: rgba(255,255,255,0.5); text-decoration: underline; }
+
+        /* ── FOOTER ──────────────────────────────── */
+        footer {
+            background: var(--dark-2);
+            color: var(--white);
+            padding: 4rem 4.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            line-height: 1;
+        }
+        .footer-logo .logo-name {
+            font-size: 2rem;
+            color: var(--white);
+        }
+        .footer-logo .logo-rule {
+            background: var(--white);
+            opacity: 0.2;
+        }
+        .footer-logo .logo-sub {
+            color: var(--accent);
+        }
+        .footer-tagline {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 1.25rem;
+        }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-links a {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--white); }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-copy {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 0.04em;
+        }
+
+        /* ── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 900px) {
+            nav { padding: 1.2rem 1.5rem; }
+            .nav-links { display: none; }
+            .page-header { padding: 100px 1.5rem 3rem; }
+            .contact-section { grid-template-columns: 1fr; }
+            .contact-info { padding: 3rem 1.5rem; border-right: none; border-bottom: 1px solid var(--border); }
+            .contact-form-side { padding: 3rem 1.5rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            footer { padding: 3rem 1.5rem; }
+        }
+
+        /* ── ANIMATION ───────────────────────────── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .page-eyebrow  { animation: fadeInUp 0.7s ease forwards; }
+        .page-title    { animation: fadeInUp 0.7s ease 0.12s both; }
+    </style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────────────── -->
+<nav>
+    <div class="nav-left">
+        <a href="landing-page.html" class="nav-logo">
+            <span class="logo-name">Broccolini</span>
+            <span class="logo-rule"></span>
+            <span class="logo-sub">Parquet</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="contatti.html" class="active">Contatti</a></li>
+            <li><a href="test-rendering.html">Rendering AI</a></li>
+        </ul>
+    </div>
+    <a href="contatti.html" class="nav-cta">Richiedi preventivo</a>
+</nav>
+
+<!-- ── PAGE HEADER ──────────────────────────────────────────── -->
+<div class="page-header">
+    <div class="page-header-inner">
+        <p class="page-eyebrow">Parliamo del tuo progetto</p>
+        <h1 class="page-title">
+            Contat<em>taci</em>
+        </h1>
+    </div>
+</div>
+
+<!-- ── CONTACT SECTION ──────────────────────────────────────── -->
+<div class="contact-section">
+
+    <!-- INFO -->
+    <div class="contact-info">
+
+        <div class="contact-block">
+            <p class="contact-label">Email</p>
+            <a href="mailto:broccoliniparquet@gmail.com" class="contact-value">broccoliniparquet@gmail.com</a>
+            <p class="contact-note">Risposta entro 24h lavorative</p>
+        </div>
+
+        <a href="mailto:broccoliniparquet@gmail.com" class="btn-contact">
+            <svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 4h16v12H2zM2 4l8 7 8-7"/>
+            </svg>
+            Scrivici una email
+        </a>
+
+    </div>
+
+    <!-- FORM -->
+    <div class="contact-form-side" id="form">
+        <h2 class="form-title">
+            Richiedi un<br><em>preventivo gratuito</em>
+        </h2>
+
+        <form onsubmit="handleSubmit(event)">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="nome">Nome</label>
+                    <input class="form-input" type="text" id="nome" placeholder="Mario" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="cognome">Cognome</label>
+                    <input class="form-input" type="text" id="cognome" placeholder="Rossi" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-input" type="email" id="email" placeholder="mario@esempio.it" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="telefono">Telefono</label>
+                <input class="form-input" type="tel" id="telefono" placeholder="+39 333 000 0000">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="servizio">Tipo di intervento</label>
+                <select class="form-select form-input" id="servizio" required>
+                    <option value="" disabled selected>Seleziona un servizio</option>
+                    <option value="parquet">Posa parquet interno</option>
+                    <option value="wpc">Decking WPC esterno</option>
+                    <option value="levigatura">Levigatura e restauro</option>
+                    <option value="fornitura-posa">Fornitura + Posa</option>
+                    <option value="altro">Altro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="messaggio">Messaggio</label>
+                <textarea class="form-textarea form-input" id="messaggio" placeholder="Descrivi brevemente il tuo progetto (mq, tipologia di locale, tempistiche…)"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+                Invia richiesta
+            </button>
+
+            <p class="form-privacy">
+                Inviando il modulo accetti la nostra Privacy Policy.
+                I tuoi dati non saranno ceduti a terzi.
+            </p>
+        </form>
+    </div>
+
+</div>
+
+<!-- ── FOOTER ───────────────────────────────────────────────── -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-logo">
+                <span class="logo-name">Broccolini</span>
+                <span class="logo-rule"></span>
+                <span class="logo-sub">Parquet</span>
+            </div>
+            <p class="footer-tagline">Fornitura e posa di parquet<br>e pavimenti WPC da esterno.</p>
+        </div>
+        <div>
+            <p class="footer-col-title">Contatti</p>
+            <ul class="footer-links">
+                <li><a href="mailto:broccoliniparquet@gmail.com">broccoliniparquet@gmail.com</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy">© 2024 Broccolini Srls · Privacy Policy · Cookie Policy</p>
+        <p class="footer-copy">Made with care · Italia</p>
+    </div>
+</footer>
+
+<script>
+    function handleSubmit(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const nome     = document.getElementById('nome').value;
+        const cognome  = document.getElementById('cognome').value;
+        const email    = document.getElementById('email').value;
+        const telefono = document.getElementById('telefono').value;
+        const servizio = document.getElementById('servizio').value;
+        const msg      = document.getElementById('messaggio').value;
+
+        const body = encodeURIComponent(
+            `Nome: ${nome} ${cognome}\nEmail: ${email}\nTelefono: ${telefono}\nServizio: ${servizio}\n\n${msg}`
+        );
+        const subject = encodeURIComponent(`Richiesta preventivo – ${nome} ${cognome}`);
+
+        window.location.href = `mailto:broccoliniparquet@gmail.com?subject=${subject}&body=${body}`;
+
+        btn.textContent = 'Richiesta inviata ✓';
+        btn.style.background = '#4a7c59';
+        btn.style.color = '#fff';
+        setTimeout(() => {
+            btn.textContent = 'Invia richiesta';
+            btn.style.background = '';
+            btn.style.color = '';
+        }, 3500);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broccolini Srls — L'Arte del Parquet Italiano</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Karla:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        * { outline: unset; }
+        :where(body) { margin: 0; }
+
+        /* ── WP PRESET SYSTEM (thombase / Berti) ─── */
+        :root {
+            --wp--style--block-gap: 1.2rem;
+            --wp--style--global--content-size: 1160px;
+            --wp--style--global--wide-size: 100vw;
+
+            /* colors */
+            --wp--preset--color--black:         #000000;
+            --wp--preset--color--white:         #ffffff;
+            --wp--preset--color--base:          #191919;
+            --wp--preset--color--base-2:        #111111;
+            --wp--preset--color--base-3:        #F4F4F4;
+            --wp--preset--color--contrast:      #F4F4F4;
+            --wp--preset--color--contrast-2:    #FFFFFF;
+            --wp--preset--color--contrast-3:    #191919;
+            --wp--preset--color--border-70:     #707070;
+            --wp--preset--color--gray-light:    #D1D1D1;
+
+            /* gradients */
+            --wp--preset--gradient--gradient-1: linear-gradient(to bottom, #cfcabe 0%, #F9F9F9 100%);
+            --wp--preset--gradient--gradient-2: linear-gradient(180deg, #19191900 0%, #191919 100%);
+
+            /* font sizes */
+            --wp--preset--font-size--xxs:    12px;
+            --wp--preset--font-size--xs:     14px;
+            --wp--preset--font-size--s:      clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.234), 17px);
+            --wp--preset--font-size--m:      clamp(15px, 0.938rem + ((1vw - 3.2px) * 0.391), 20px);
+            --wp--preset--font-size--m-22:   clamp(16px, 1rem + ((1vw - 3.2px) * 0.547), 23px);
+            --wp--preset--font-size--large:  clamp(22.041px, 1.378rem + ((1vw - 3.2px) * 1.091), 36px);
+            --wp--preset--font-size--x-large:clamp(25.014px, 1.563rem + ((1vw - 3.2px) * 1.327), 42px);
+            --wp--preset--font-size--small:  13px;
+            --wp--preset--font-size--normal: 16px;
+            --wp--preset--font-size--huge:   42px;
+
+            /* font families */
+            --wp--preset--font-family--body: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            /* animate */
+            --animate-duration: 1s;
+            --animate-delay:    1s;
+            --animate-repeat:   1;
+
+            /* ── bridge vars (used throughout) ── */
+            --bg:           var(--wp--preset--color--base-3);
+            --bg-2:         #E8E5DF;
+            --dark:         var(--wp--preset--color--base);
+            --dark-2:       var(--wp--preset--color--base-2);
+            --mid:          var(--wp--preset--color--border-70);
+            --accent:       #C4A882;
+            --border:       var(--wp--preset--color--gray-light);
+            --white:        var(--wp--preset--color--contrast-2);
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body:    var(--wp--preset--font-family--body);
+        }
+
+        html { scroll-behavior: smooth; cursor: default; }
+
+        body {
+            background-color: var(--wp--preset--color--base-3);
+            border-color: rgba(25, 25, 25, .07);
+            color: var(--wp--preset--color--contrast-3);
+            font-family: var(--wp--preset--font-family--body);
+            font-size: var(--wp--preset--font-size--s);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAV ─────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 3.5rem;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            transition: padding 0.3s ease;
+        }
+
+        .nav-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            gap: 0;
+            line-height: 1;
+        }
+        .logo-name {
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            font-weight: 400;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--dark);
+            display: block;
+        }
+        .logo-rule {
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: var(--dark);
+            opacity: 0.18;
+            margin: 0.28rem 0 0.22rem;
+        }
+        .logo-sub {
+            font-family: var(--font-body);
+            font-size: 0.5rem;
+            font-weight: 400;
+            letter-spacing: 0.48em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--mid); }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-cta {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--dark);
+            padding: 0.65rem 1.6rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .nav-cta:hover { background: var(--dark-2); }
+
+
+        /* ── HERO ────────────────────────────────── */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5rem 4.5rem;
+        }
+
+        .hero-right {
+            position: relative;
+            overflow: hidden;
+            clip-path: inset(0 100% 0 0);
+            animation: heroReveal 1.4s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
+        }
+
+        .hero-right::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to right,
+                var(--bg)               0%,
+                rgba(244,244,244,0.85) 12%,
+                rgba(244,244,244,0.40) 30%,
+                rgba(244,244,244,0.08) 52%,
+                transparent            70%
+            );
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-right video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transform: scale(1.08);
+            animation: heroImgScale 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
+        }
+
+        @keyframes heroReveal {
+            to { clip-path: inset(0 0% 0 0); }
+        }
+        @keyframes heroImgScale {
+            to { transform: scale(1); }
+        }
+
+        .hero-eyebrow {
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 2rem; height: 1px;
+            background: var(--mid);
+            flex-shrink: 0;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(4.5rem, 9vw, 9rem);
+            font-weight: 300;
+            line-height: 1.05;
+            color: var(--dark);
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-desc {
+            font-size: var(--wp--preset--font-size--m);
+            font-weight: 300;
+            line-height: 1.75;
+            color: var(--dark);
+            opacity: 0.7;
+            max-width: 480px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            animation: fadeInUp 0.8s ease 0.45s both;
+        }
+
+        .btn-primary {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--dark);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border: 1px solid var(--dark);
+            transition: background 0.25s, color 0.25s;
+            display: inline-block;
+        }
+        .btn-primary:hover { background: transparent; color: var(--dark); }
+
+        .btn-ghost {
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.2s;
+        }
+        .btn-ghost::after { content: '→'; display: block; }
+        .btn-ghost:hover { gap: 0.85rem; }
+
+        /* ── TICKER ──────────────────────────────── */
+        .ticker {
+            background: var(--dark);
+            padding: 0.95rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .ticker-inner {
+            display: inline-flex;
+            align-items: center;
+            animation: ticker 35s linear infinite;
+        }
+        .ticker-item {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(255,255,255,0.85);
+            margin-right: 2.5rem;
+        }
+        .ticker-sep {
+            font-size: 0.5rem;
+            color: var(--accent);
+            margin-right: 2.5rem;
+            flex-shrink: 0;
+        }
+        @keyframes ticker {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* ── TAGLINE / MARKER HIGHLIGHT ─────────── */
+        .tagline-section {
+            background: var(--wp--preset--color--base-3);
+            padding: 7rem 4.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--wp--preset--color--gray-light);
+        }
+
+        .tagline-section .section-label {
+            justify-content: center;
+        }
+        .tagline-section .section-label::before {
+            display: none;
+        }
+        .tagline-section .section-label::after {
+            content: '';
+            display: block;
+            width: 2rem;
+            height: 1px;
+            background: var(--mid);
+            opacity: 0.5;
+        }
+
+        .tagline-headline {
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 10vw, 9rem);
+            font-weight: 600;
+            color: var(--wp--preset--color--contrast-3);
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-top: 1.5rem;
+            user-select: none;
+        }
+
+        .tagline-line-1 {
+            display: block;
+            font-style: italic;
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .tagline-line-1.tl-in { opacity: 1; transform: translateY(0); }
+
+        .tagline-line-2 {
+            display: block;
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+        }
+        .tagline-line-2.tl-in { opacity: 1; transform: translateY(0); }
+
+        .tl-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tl-marker {
+            position: absolute;
+            top: 0.05em; bottom: 0.05em;
+            left: -0.06em; right: -0.06em;
+            background: var(--accent);
+            transform-origin: left center;
+            transform: scaleX(0);
+            z-index: 0;
+            transition: transform 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        opacity 0.6s ease;
+        }
+        .tl-marker.sweep { transform: scaleX(1); }
+        .tl-marker.hide  { opacity: 0; }
+
+        .tl-word {
+            position: relative;
+            z-index: 1;
+            color: var(--wp--preset--color--contrast-3);
+            transition: color 0.35s ease;
+        }
+        .tl-word.lit { color: var(--white); }
+
+        /* ── SHARED ──────────────────────────────── */
+        section { padding: 6rem 4.5rem; }
+
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 2rem;
+            height: 1px;
+            background: var(--mid);
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.8vw, 3.4rem);
+            font-weight: 300;
+            line-height: 1.15;
+            color: var(--dark);
+        }
+
+        /* ── COLLECTIONS ─────────────────────────── */
+        .collections { background: var(--bg); }
+
+        .collections-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3rem;
+        }
+
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .collection-card {
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .coll-img {
+            height: 430px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.65s ease;
+        }
+        .collection-card:hover .coll-img { transform: scale(1.04); }
+
+        .ci1 { background: linear-gradient(160deg, #E8D8C4 0%, #C4A882 30%, #8B6240 70%, #5C3E28 100%); }
+        .ci2 { background: linear-gradient(145deg, #D0C4B4 0%, #A89078 35%, #6E5040 75%, #3C2A1E 100%); }
+        .ci3 { background: linear-gradient(170deg, #C8C0B0 0%, #908070 40%, #60504A 80%, #302420 100%); }
+
+        .coll-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26,25,24,0.65) 0%, transparent 55%);
+            z-index: 1;
+            transition: opacity 0.3s;
+        }
+        .collection-card:hover .coll-img::before { opacity: 0.88; }
+
+        .coll-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+            z-index: 1;
+        }
+
+        .coll-arrow {
+            position: absolute;
+            top: 1.25rem; right: 1.25rem;
+            width: 2.25rem; height: 2.25rem;
+            border: 1px solid rgba(255,255,255,0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(-6px);
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 2;
+        }
+        .collection-card:hover .coll-arrow { opacity: 1; transform: translateY(0); }
+
+        .coll-info {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 1.5rem;
+            z-index: 2;
+            color: var(--white);
+        }
+        .coll-name {
+            font-family: var(--font-display);
+            font-size: 1.9rem;
+            font-weight: 300;
+            margin-bottom: 0.2rem;
+        }
+        .coll-sub {
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            opacity: 0.75;
+        }
+
+        /* ── STORY ───────────────────────────────── */
+        .story {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .story-content {
+            background: var(--bg-2);
+            padding: 7rem 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .story-ghost-num {
+            font-family: var(--font-display);
+            font-size: 9rem;
+            font-weight: 300;
+            line-height: 1;
+            color: var(--accent);
+            opacity: 0.22;
+            margin-bottom: -2.5rem;
+            user-select: none;
+        }
+
+        .story-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.2vw, 2.9rem);
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        .story-title em { font-style: italic; color: var(--mid); }
+
+        .story-text {
+            font-size: var(--wp--preset--font-size--m);
+            font-weight: 300;
+            line-height: 1.8;
+            opacity: 0.72;
+            margin-bottom: 2.5rem;
+            max-width: 440px;
+        }
+
+        .story-stats {
+            display: flex;
+            gap: 3rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+            margin-top: 1.5rem;
+        }
+        .stat-val {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            font-weight: 300;
+            line-height: 1;
+        }
+        .stat-lbl {
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-top: 0.4rem;
+        }
+
+        .story-image {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #D4C4B0 0%, #A89070 30%, #7A5840 65%, #4A3225 100%);
+            min-height: 580px;
+        }
+        .story-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+        .story-image::after {
+            content: 'Manifattura · Vicenza';
+            position: absolute;
+            bottom: 1.5rem; left: 1.5rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ── PROJECTS ────────────────────────────── */
+        .projects {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--dark);
+        }
+
+        .projects-content {
+            padding: 7rem 4.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .projects-content .section-label { color: var(--accent); }
+        .projects-content .section-label::before { background: var(--accent); }
+
+        .projects-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.2vw, 2.9rem);
+            font-weight: 300;
+            line-height: 1.2;
+            color: var(--white);
+            margin-bottom: 3rem;
+        }
+        .projects-title em { font-style: italic; color: var(--accent); }
+
+        .project-list { list-style: none; border-top: 1px solid rgba(255,255,255,0.1); }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: padding-left 0.25s ease;
+        }
+        .project-item:hover { padding-left: 0.75rem; }
+
+        .proj-name {
+            font-family: var(--font-display);
+            font-size: 1.7rem;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--white);
+        }
+        .proj-loc {
+            font-size: 0.68rem;
+            font-weight: 300;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .projects-image {
+            position: relative;
+            background: linear-gradient(160deg, #6A5848 0%, #3E2E24 50%, #1E1410 100%);
+            overflow: hidden;
+        }
+        .projects-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.42' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
+        }
+        .projects-image::after {
+            content: 'Grand Hotel de la Mer · Monaco';
+            position: absolute;
+            bottom: 1.5rem; left: 1.5rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+        }
+
+        /* ── PRODUCTS ────────────────────────────── */
+        .products { background: var(--bg); }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        .product-card { cursor: pointer; }
+
+        .prod-img {
+            height: 310px;
+            overflow: hidden;
+            margin-bottom: 1.3rem;
+            position: relative;
+        }
+        .prod-img-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.55s ease;
+            position: relative;
+        }
+        .prod-img-inner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+        }
+        .product-card:hover .prod-img-inner { transform: scale(1.06); }
+
+        .pi1 { background: linear-gradient(155deg, #E0D0B8 0%, #C8A870 40%, #8B6240 80%, #5A3C22 100%); }
+        .pi2 { background: linear-gradient(145deg, #D8CEC0 0%, #B0A090 40%, #786858 80%, #484038 100%); }
+        .pi3 { background: linear-gradient(165deg, #C8B8A0 0%, #987C60 40%, #6A5040 80%, #3C2E22 100%); }
+
+        .prod-category {
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 0.35rem;
+        }
+        .prod-name {
+            font-family: var(--font-display);
+            font-size: 1.7rem;
+            font-weight: 300;
+            color: var(--dark);
+            margin-bottom: 0.4rem;
+        }
+        .prod-detail {
+            font-size: var(--wp--preset--font-size--xs);
+            font-weight: 300;
+            color: var(--dark);
+            opacity: 0.55;
+        }
+
+        /* ── CTA DARK ────────────────────────────── */
+        .cta-section {
+            background: var(--dark);
+            text-align: center;
+            padding: 8rem 4.5rem;
+        }
+        .cta-section .section-label {
+            justify-content: center;
+            color: var(--accent);
+        }
+        .cta-section .section-label::before { background: var(--accent); }
+
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4.8rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--white);
+            max-width: 680px;
+            margin: 1.5rem auto 3rem;
+        }
+        .cta-title em { font-style: italic; color: var(--accent); }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--accent);
+            border: none;
+            color: var(--dark);
+            padding: 1.1rem 3rem;
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .cta-btn:hover { background: #d4b892; }
+
+        /* ── FOOTER ──────────────────────────────── */
+        footer {
+            background: var(--dark-2);
+            color: var(--white);
+            padding: 4.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            line-height: 1;
+        }
+        .footer-logo .logo-name {
+            font-size: 2rem;
+            color: var(--white);
+        }
+        .footer-logo .logo-rule {
+            background: var(--white);
+            opacity: 0.2;
+        }
+        .footer-logo .logo-sub {
+            color: var(--accent);
+        }
+        .footer-tagline {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 1.25rem;
+        }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-links a {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--white); }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-copy {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 0.04em;
+        }
+
+        /* ── ANIMATIONS ──────────────────────────── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(35px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
+        }
+        .reveal.in { opacity: 1; transform: translateY(0); }
+        .reveal:nth-child(2) { transition-delay: 0.12s; }
+        .reveal:nth-child(3) { transition-delay: 0.24s; }
+        .reveal:nth-child(4) { transition-delay: 0.36s; }
+
+        /* ── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 960px) {
+            nav { padding: 1.2rem 1.5rem; }
+            .nav-links { display: none; }
+
+            .hero { grid-template-columns: 1fr; }
+            .hero-left { padding: 3rem 1.5rem 2rem; }
+            .hero-right { height: 55vw; min-height: 260px; clip-path: inset(0 0% 0 0); animation: none; }
+            .hero-right video { transform: scale(1); animation: none; }
+            .hero-right::before { background: linear-gradient(to bottom, var(--bg) 0%, transparent 20%); }
+
+            section { padding: 4rem 1.5rem; }
+
+            .collections-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .collections-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .coll-img { height: 280px; }
+
+            .story { grid-template-columns: 1fr; }
+            .story-content { padding: 4rem 1.5rem; }
+            .story-image { min-height: 300px; }
+
+            .projects { grid-template-columns: 1fr; }
+            .projects-content { padding: 4rem 1.5rem; }
+            .projects-image { min-height: 280px; }
+
+            .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .products-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            footer { padding: 3rem 1.5rem; }
+            .footer-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ──────────────────────────────────────────── -->
+<nav id="navbar">
+    <div class="nav-left">
+        <a href="landing-page.html" class="nav-logo">
+            <span class="logo-name">Broccolini</span>
+            <span class="logo-rule"></span>
+            <span class="logo-sub">Parquet</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="contatti.html">Contatti</a></li>
+            <li><a href="test-rendering.html">Rendering AI</a></li>
+        </ul>
+    </div>
+    <a href="contatti.html" class="nav-cta">Richiedi preventivo</a>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────────────────── -->
+<div class="hero">
+    <div class="hero-left">
+        <p class="hero-eyebrow">Fornitura · Posa · Outdoor WPC</p>
+        <h1 class="hero-title">
+            <span class="tagline-line-1">Eleganza che</span>
+            <span class="tagline-line-2">
+                parte da
+                <span class="tl-wrap">
+                    <span class="tl-marker" id="tlMarker"></span>
+                    <span class="tl-word" id="tlWord">TERRA</span>
+                </span>
+            </span>
+        </h1>
+        <p class="hero-desc">Fornitura e installazione di parquet in legno e pavimenti WPC da esterno. Sopralluogo gratuito, materiali selezionati, posa a regola d'arte.</p>
+        <div class="hero-actions">
+            <a href="contatti.html" class="btn-primary">Richiedi preventivo</a>
+        </div>
+    </div>
+    <div class="hero-right">
+        <video autoplay muted loop playsinline>
+            <source src="Video Project final for landingpage.mp4" type="video/mp4">
+        </video>
+    </div>
+</div>
+
+<!-- ── TICKER ──────────────────────────────────────────────── -->
+<div class="ticker" aria-hidden="true">
+    <div class="ticker-inner">
+        <span class="ticker-item">Posa Parquet</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Decking WPC</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Pavimenti da Esterno</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Fornitura e Posa</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Levigatura e Restauro</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Sopralluogo Gratuito</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Preventivo su Misura</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Posa Parquet</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Decking WPC</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Pavimenti da Esterno</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Fornitura e Posa</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Levigatura e Restauro</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Sopralluogo Gratuito</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Preventivo su Misura</span><span class="ticker-sep">◆</span>
+    </div>
+</div>
+
+
+<!-- ── COLLECTIONS ─────────────────────────────────────────── -->
+<section class="collections">
+    <div class="collections-header">
+        <div>
+            <p class="section-label">I nostri servizi</p>
+            <h2 class="section-title">Tutto quello che<br>serve al tuo pavimento</h2>
+        </div>
+    </div>
+    <div class="collections-grid">
+        <div class="collection-card reveal">
+            <div class="coll-img ci1">
+                <div class="coll-arrow">↗</div>
+                <div class="coll-info">
+                    <h3 class="coll-name">Posa Parquet</h3>
+                    <p class="coll-sub">Posa a colla, flottante e chiodato · Interni</p>
+                </div>
+            </div>
+        </div>
+        <div class="collection-card reveal">
+            <div class="coll-img ci2">
+                <div class="coll-arrow">↗</div>
+                <div class="coll-info">
+                    <h3 class="coll-name">Outdoor WPC</h3>
+                    <p class="coll-sub">Decking da esterno · Terrazze e bordo piscina</p>
+                </div>
+            </div>
+        </div>
+        <div class="collection-card reveal">
+            <div class="coll-img ci3">
+                <div class="coll-arrow">↗</div>
+                <div class="coll-info">
+                    <h3 class="coll-name">Restauro</h3>
+                    <p class="coll-sub">Levigatura · Rifinitura · Ripristino</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── STORY ────────────────────────────────────────────────── -->
+<div class="story">
+    <div class="story-content">
+        <div class="story-ghost-num" aria-hidden="true">10</div>
+        <p class="section-label">Chi siamo</p>
+        <h2 class="story-title">Esperienza, cura<br>e <em>posa a regola d'arte</em></h2>
+        <p class="story-text">Broccolini Srls è un'azienda specializzata nella fornitura e posa di parquet in legno e pavimentazioni WPC da esterno. Ogni lavoro è seguito direttamente dai nostri posatori, con attenzione al dettaglio e materiali selezionati dai migliori produttori.</p>
+        <div class="story-stats">
+            <div>
+                <div class="stat-val">10+</div>
+                <div class="stat-lbl">Anni di esperienza</div>
+            </div>
+            <div>
+                <div class="stat-val">500+</div>
+                <div class="stat-lbl">Lavori completati</div>
+            </div>
+            <div>
+                <div class="stat-val">100%</div>
+                <div class="stat-lbl">Clienti soddisfatti</div>
+            </div>
+        </div>
+    </div>
+    <div class="story-image"></div>
+</div>
+
+<!-- ── PROJECTS ─────────────────────────────────────────────── -->
+<div class="projects">
+    <div class="projects-content">
+        <p class="section-label">Lavori eseguiti</p>
+        <h2 class="projects-title">Alcuni dei nostri<br><em>interventi recenti</em></h2>
+        <ul class="project-list">
+            <li class="project-item">
+                <span class="proj-name">Villa Privata</span>
+                <span class="proj-loc">Parquet Rovere · Roma</span>
+            </li>
+            <li class="project-item">
+                <span class="proj-name">Appartamento Centro</span>
+                <span class="proj-loc">Posa flottante · Milano</span>
+            </li>
+            <li class="project-item">
+                <span class="proj-name">Terrazza Condominiale</span>
+                <span class="proj-loc">Decking WPC · Firenze</span>
+            </li>
+            <li class="project-item">
+                <span class="proj-name">Uffici Direzionali</span>
+                <span class="proj-loc">Parquet a colla · Bologna</span>
+            </li>
+            <li class="project-item">
+                <span class="proj-name">Bordo Piscina</span>
+                <span class="proj-loc">WPC Outdoor · Napoli</span>
+            </li>
+        </ul>
+    </div>
+    <div class="projects-image"></div>
+</div>
+
+<!-- ── PRODUCTS ─────────────────────────────────────────────── -->
+<section class="products">
+    <div class="products-header">
+        <div>
+            <p class="section-label">Materiali in fornitura</p>
+            <h2 class="section-title">I materiali<br>più richiesti</h2>
+        </div>
+    </div>
+    <div class="products-grid">
+        <div class="product-card reveal">
+            <div class="prod-img">
+                <div class="prod-img-inner pi1"></div>
+            </div>
+            <p class="prod-category">Parquet Interno</p>
+            <h3 class="prod-name">Rovere Naturale</h3>
+            <p class="prod-detail">Spazzolato · Olio naturale · Larghezza 20 cm</p>
+        </div>
+        <div class="product-card reveal">
+            <div class="prod-img">
+                <div class="prod-img-inner pi2"></div>
+            </div>
+            <p class="prod-category">Parquet Interno</p>
+            <h3 class="prod-name">Noce Canaletto</h3>
+            <p class="prod-detail">Prefinito · Lacca opaca · Larghezza 15 cm</p>
+        </div>
+        <div class="product-card reveal">
+            <div class="prod-img">
+                <div class="prod-img-inner pi3"></div>
+            </div>
+            <p class="prod-category">WPC Outdoor</p>
+            <h3 class="prod-name">Decking Esterno</h3>
+            <p class="prod-detail">Composito legno-polimero · Antiscivolo · UV resist.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ── CTA ──────────────────────────────────────────────────── -->
+<section class="cta-section">
+    <h2 class="cta-title">Iniziamo a<br><em>lavorare insieme</em></h2>
+    <a href="contatti.html" class="cta-btn">Vai ai contatti</a>
+</section>
+
+<!-- ── FOOTER ───────────────────────────────────────────────── -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-logo">
+                <span class="logo-name">Broccolini</span>
+                <span class="logo-rule"></span>
+                <span class="logo-sub">Parquet</span>
+            </div>
+            <p class="footer-tagline">Fornitura e posa di parquet<br>e pavimenti WPC da esterno.</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy">© 2024 Broccolini Srls · Privacy Policy · Cookie Policy</p>
+        <p class="footer-copy">Designed with care · Made in Italy</p>
+    </div>
+</footer>
+
+<script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Marker highlight animation
+    const tlMarker = document.getElementById('tlMarker');
+    const tlWord   = document.getElementById('tlWord');
+    const tlLine1  = document.querySelector('.tagline-line-1');
+    const tlLine2  = document.querySelector('.tagline-line-2');
+    let tlLoopTimer = null;
+
+    function tlReset() {
+        tlLine1.classList.remove('tl-in');
+        tlLine2.classList.remove('tl-in');
+        tlMarker.classList.remove('sweep', 'hide');
+        tlWord.classList.remove('lit');
+    }
+
+    function tlPlay() {
+        tlReset();
+        setTimeout(() => tlLine1.classList.add('tl-in'), 80);
+        setTimeout(() => tlLine2.classList.add('tl-in'), 350);
+        setTimeout(() => tlMarker.classList.add('sweep'), 1100);
+        setTimeout(() => tlWord.classList.add('lit'), 1700);
+    }
+
+    // Start on page load after hero animations settle
+    setTimeout(tlPlay, 800);
+
+    // Navbar compact on scroll
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        nav.style.padding = window.scrollY > 60 ? '1rem 3.5rem' : '1.5rem 3.5rem';
+    }, { passive: true });
+</script>
+
+</body>
+</html>
