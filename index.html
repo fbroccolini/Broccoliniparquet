@@ -1043,7 +1043,7 @@
         </div>
     </div>
     <div class="hero-right">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline webkit-playsinline>
             <source src="Video Project final for landingpage.mp4" type="video/mp4">
         </video>
     </div>
@@ -1278,6 +1278,14 @@
             document.body.style.overflow = '';
         });
     });
+
+    // Force video autoplay on mobile
+    const heroVideo = document.querySelector('.hero-right video');
+    if (heroVideo) {
+        heroVideo.play().catch(() => {
+            document.addEventListener('touchstart', () => heroVideo.play(), { once: true });
+        });
+    }
 </script>
 
 </body>
