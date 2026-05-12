@@ -939,7 +939,7 @@
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <div class="hero">
     <div class="hero-video-wrap">
-        <iframe src="https://player.vimeo.com/video/1191572507?background=1&autoplay=1&loop=1&muted=1&playsinline=1"
+        <iframe id="vimeoHero" src="https://player.vimeo.com/video/1191572507?background=1&autoplay=1&loop=1&muted=1&playsinline=1&autopause=0&api=1"
                 allow="autoplay; fullscreen"
                 allowfullscreen
                 title="Video di presentazione"></iframe>
@@ -1111,6 +1111,21 @@
     }
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
+
+    // Vimeo: riprendi il video quando si torna sulla pagina (iOS pause on background)
+    const vimeoIframe = document.getElementById('vimeoHero');
+    function vimeoPlay() {
+        if (vimeoIframe) {
+            vimeoIframe.contentWindow.postMessage(
+                JSON.stringify({ method: 'play' }),
+                'https://player.vimeo.com'
+            );
+        }
+    }
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) vimeoPlay();
+    });
+    document.addEventListener('touchstart', vimeoPlay, { once: true });
 
     // Mobile hamburger menu
     const hamburger = document.getElementById('navHamburger');
