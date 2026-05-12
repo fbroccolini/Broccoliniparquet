@@ -191,26 +191,17 @@
             overflow: hidden;
         }
 
-        .hero-video-wrap {
+        .hero-video {
             position: absolute;
             inset: 0;
-            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
             z-index: 0;
-            pointer-events: none;
-        }
-        .hero-video-wrap iframe {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1.08);
-            width: 100vw;
-            height: 56.25vw;
-            min-height: 100vh;
-            min-width: 177.78vh;
-            border: none;
-            animation: heroImgScaleFull 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
-        }
-        @keyframes heroImgScaleFull {
-            to { transform: translate(-50%, -50%) scale(1); }
+            transform: scale(1.08);
+            animation: heroImgScale 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
         }
 
         .hero::before {
@@ -881,7 +872,7 @@
             .nav-mobile { display: flex; }
 
             .hero-left { padding: 3rem 1.5rem 4rem; max-width: 100%; min-height: 80vh; }
-            .hero-video-wrap iframe { transform: translate(-50%, -50%) scale(1); animation: none; }
+            .hero-video { transform: scale(1); animation: none; }
             .hero-right::before { background: linear-gradient(to bottom, var(--bg) 0%, transparent 20%); }
             .logo-sub { color: rgba(255,255,255,0.75); }
 
@@ -938,12 +929,9 @@
 
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <div class="hero">
-    <div class="hero-video-wrap">
-        <iframe id="vimeoHero" src="https://player.vimeo.com/video/1191572507?background=1&autoplay=1&loop=1&muted=1&playsinline=1&autopause=0&api=1"
-                allow="autoplay; fullscreen"
-                allowfullscreen
-                title="Video di presentazione"></iframe>
-    </div>
+    <video class="hero-video" autoplay muted loop playsinline webkit-playsinline>
+        <source src="Video Project final for landingpage.mp4" type="video/mp4">
+    </video>
     <div class="hero-left">
         <h1 class="hero-title">
             <span class="tagline-line-1">Eleganza che</span>
@@ -1112,20 +1100,16 @@
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
 
-    // Vimeo: riprendi il video quando si torna sulla pagina (iOS pause on background)
-    const vimeoIframe = document.getElementById('vimeoHero');
-    function vimeoPlay() {
-        if (vimeoIframe) {
-            vimeoIframe.contentWindow.postMessage(
-                JSON.stringify({ method: 'play' }),
-                'https://player.vimeo.com'
-            );
-        }
+    // Force video autoplay on mobile
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+        heroVideo.play().catch(() => {
+            document.addEventListener('touchstart', () => heroVideo.play(), { once: true });
+        });
     }
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) vimeoPlay();
+        if (!document.hidden && heroVideo) heroVideo.play().catch(() => {});
     });
-    document.addEventListener('touchstart', vimeoPlay, { once: true });
 
     // Mobile hamburger menu
     const hamburger = document.getElementById('navHamburger');

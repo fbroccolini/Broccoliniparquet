@@ -1,8 +1,5 @@
 .claude/
 node_modules/
-*.mp4
-*.mov
-*.avi
 temp_frames/
 temporary screenshots/
 test-hero-video.html
