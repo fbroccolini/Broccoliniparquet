@@ -90,9 +90,13 @@
             align-items: center;
             justify-content: space-between;
             padding: 1.5rem 3.5rem;
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: padding 0.35s ease, background 0.45s ease, border-color 0.45s ease;
+        }
+        nav.scrolled {
             background: var(--bg);
             border-bottom: 1px solid var(--border);
-            transition: padding 0.3s ease;
         }
 
         .nav-logo {
@@ -109,26 +113,33 @@
             font-weight: 400;
             letter-spacing: 0.32em;
             text-transform: uppercase;
-            color: var(--dark);
+            color: #ffffff;
             display: block;
+            transition: color 0.45s ease;
         }
+        nav.scrolled .logo-name { color: var(--dark); }
+
         .logo-rule {
             display: block;
             width: 100%;
             height: 1px;
-            background: var(--dark);
-            opacity: 0.18;
+            background: rgba(255,255,255,0.5);
             margin: 0.28rem 0 0.22rem;
+            transition: background 0.45s ease;
         }
+        nav.scrolled .logo-rule { background: var(--dark); opacity: 0.18; }
+
         .logo-sub {
             font-family: var(--font-body);
-            font-size: 0.5rem;
+            font-size: 0.65rem;
             font-weight: 400;
             letter-spacing: 0.48em;
             text-transform: uppercase;
             color: var(--accent);
             display: block;
+            transition: color 0.45s ease;
         }
+        nav.scrolled .logo-sub { color: var(--accent); }
 
         .nav-links {
             display: flex;
@@ -141,11 +152,13 @@
             font-weight: 400;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: var(--dark);
+            color: rgba(255,255,255,0.85);
             text-decoration: none;
             transition: color 0.2s;
         }
-        .nav-links a:hover { color: var(--mid); }
+        .nav-links a:hover { color: #ffffff; }
+        nav.scrolled .nav-links a { color: var(--dark); }
+        nav.scrolled .nav-links a:hover { color: var(--mid); }
 
         .nav-left {
             display: flex;
@@ -158,67 +171,61 @@
             font-weight: 500;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--white);
-            background: var(--dark);
+            color: #ffffff;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.5);
             padding: 0.65rem 1.6rem;
             text-decoration: none;
-            transition: background 0.2s;
+            transition: background 0.45s ease, border-color 0.45s ease, color 0.45s ease;
         }
-        .nav-cta:hover { background: var(--dark-2); }
+        .nav-cta:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.8); }
+        nav.scrolled .nav-cta { background: var(--dark); border-color: var(--dark); color: var(--white); }
+        nav.scrolled .nav-cta:hover { background: var(--dark-2); border-color: var(--dark-2); }
 
 
         /* ── HERO ────────────────────────────────── */
         .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            position: relative;
             min-height: 100vh;
             padding-top: 80px;
-            position: relative;
-        }
-
-        .hero-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 5rem 4.5rem;
-        }
-
-        .hero-right {
-            position: relative;
             overflow: hidden;
-            clip-path: inset(0 100% 0 0);
-            animation: heroReveal 1.4s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
         }
 
-        .hero-right::before {
-            content: '';
+        .hero-video {
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                to right,
-                var(--bg)               0%,
-                rgba(244,244,244,0.85) 12%,
-                rgba(244,244,244,0.40) 30%,
-                rgba(244,244,244,0.08) 52%,
-                transparent            70%
-            );
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .hero-right video {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;
             display: block;
+            z-index: 0;
             transform: scale(1.08);
             animation: heroImgScale 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
         }
 
-        @keyframes heroReveal {
-            to { clip-path: inset(0 0% 0 0); }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to top, rgba(10,7,5,0.75) 0%, rgba(10,7,5,0.2) 40%, transparent 70%),
+                linear-gradient(to right, rgba(10,7,5,0.55) 0%, transparent 60%);
+            z-index: 1;
+            pointer-events: none;
         }
+
+        .hero-left {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 5rem 4.5rem 7rem;
+            min-height: calc(100vh - 80px);
+            max-width: 55%;
+        }
+
         @keyframes heroImgScale {
             to { transform: scale(1); }
         }
@@ -248,8 +255,9 @@
             font-size: clamp(4.5rem, 9vw, 9rem);
             font-weight: 300;
             line-height: 1.05;
-            color: var(--dark);
-            margin-bottom: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 0;
+            text-shadow: 0 2px 40px rgba(0,0,0,0.35);
         }
 
         .hero-desc {
@@ -299,37 +307,6 @@
         }
         .btn-ghost::after { content: '→'; display: block; }
         .btn-ghost:hover { gap: 0.85rem; }
-
-        /* ── TICKER ──────────────────────────────── */
-        .ticker {
-            background: var(--dark);
-            padding: 0.95rem 0;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .ticker-inner {
-            display: inline-flex;
-            align-items: center;
-            animation: ticker 35s linear infinite;
-        }
-        .ticker-item {
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            font-weight: 300;
-            font-style: italic;
-            color: rgba(255,255,255,0.85);
-            margin-right: 2.5rem;
-        }
-        .ticker-sep {
-            font-size: 0.5rem;
-            color: var(--accent);
-            margin-right: 2.5rem;
-            flex-shrink: 0;
-        }
-        @keyframes ticker {
-            from { transform: translateX(0); }
-            to   { transform: translateX(-50%); }
-        }
 
         /* ── TAGLINE / MARKER HIGHLIGHT ─────────── */
         .tagline-section {
@@ -442,190 +419,91 @@
         }
 
         /* ── COLLECTIONS ─────────────────────────── */
-        .collections { background: var(--bg); }
+        .collections { background: var(--bg); padding-bottom: 0; }
 
         .collections-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 3rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(30,23,20,0.13);
         }
 
-        .collections-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
+        .services-list { margin-top: 0; }
 
-        .collection-card {
-            cursor: pointer;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .coll-img {
-            height: 430px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.65s ease;
-        }
-        .collection-card:hover .coll-img { transform: scale(1.04); }
-
-        .ci1 { background: linear-gradient(160deg, #E8D8C4 0%, #C4A882 30%, #8B6240 70%, #5C3E28 100%); }
-        .ci2 { background: linear-gradient(145deg, #D0C4B4 0%, #A89078 35%, #6E5040 75%, #3C2A1E 100%); }
-        .ci3 { background: linear-gradient(170deg, #C8C0B0 0%, #908070 40%, #60504A 80%, #302420 100%); }
-
-        .coll-img::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(26,25,24,0.65) 0%, transparent 55%);
-            z-index: 1;
-            transition: opacity 0.3s;
-        }
-        .collection-card:hover .coll-img::before { opacity: 0.88; }
-
-        .coll-img::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-            z-index: 1;
-        }
-
-        .coll-arrow {
-            position: absolute;
-            top: 1.25rem; right: 1.25rem;
-            width: 2.25rem; height: 2.25rem;
-            border: 1px solid rgba(255,255,255,0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 0.9rem;
-            opacity: 0;
-            transform: translateY(-6px);
-            transition: opacity 0.3s, transform 0.3s;
-            z-index: 2;
-        }
-        .collection-card:hover .coll-arrow { opacity: 1; transform: translateY(0); }
-
-        .coll-info {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 1.5rem;
-            z-index: 2;
-            color: var(--white);
-        }
-        .coll-name {
-            font-family: var(--font-display);
-            font-size: 1.9rem;
-            font-weight: 300;
-            margin-bottom: 0.2rem;
-        }
-        .coll-sub {
-            font-size: 0.7rem;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            opacity: 0.75;
-        }
-
-        /* ── STORY ───────────────────────────────── */
-        .story {
+        .service-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-        }
-
-        .story-content {
-            background: var(--bg-2);
-            padding: 7rem 5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .story-ghost-num {
-            font-family: var(--font-display);
-            font-size: 9rem;
-            font-weight: 300;
-            line-height: 1;
-            color: var(--accent);
-            opacity: 0.22;
-            margin-bottom: -2.5rem;
-            user-select: none;
-        }
-
-        .story-title {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 3.2vw, 2.9rem);
-            font-weight: 300;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-        }
-        .story-title em { font-style: italic; color: var(--mid); }
-
-        .story-text {
-            font-size: var(--wp--preset--font-size--m);
-            font-weight: 300;
-            line-height: 1.8;
-            opacity: 0.72;
-            margin-bottom: 2.5rem;
-            max-width: 440px;
-        }
-
-        .story-stats {
-            display: flex;
             gap: 3rem;
-            padding-top: 2.5rem;
-            border-top: 1px solid var(--border);
-            margin-top: 1.5rem;
+            padding: 2.8rem 0;
+            border-bottom: 1px solid rgba(30,23,20,0.13);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
         }
-        .stat-val {
+        .service-row.in { opacity: 1; transform: none; }
+        .service-row:nth-child(1) { transition-delay: 0s; }
+        .service-row:nth-child(2) { transition-delay: 0.22s; }
+        .service-row:nth-child(3) { transition-delay: 0.44s; }
+
+        .service-title {
             font-family: var(--font-display);
-            font-size: 2.4rem;
+            font-size: clamp(2.8rem, 5vw, 4.8rem);
             font-weight: 300;
-            line-height: 1;
+            line-height: 1.0;
+            color: var(--dark);
+            transition: color 0.35s;
         }
-        .stat-lbl {
+        .service-row:hover .service-title { color: var(--mid); }
+
+        .service-body { padding-top: 0.4rem; }
+
+        .service-sub {
             font-size: 0.68rem;
-            font-weight: 400;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--mid);
-            margin-top: 0.4rem;
+            color: var(--accent);
+            margin-bottom: 0.85rem;
         }
 
-        .story-image {
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(145deg, #D4C4B0 0%, #A89070 30%, #7A5840 65%, #4A3225 100%);
-            min-height: 580px;
+        .service-desc {
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.75;
+            color: var(--dark);
+            opacity: 0.72;
         }
-        .story-image::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+
+        .service-tags {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
         }
-        .story-image::after {
-            content: 'Manifattura · Vicenza';
-            position: absolute;
-            bottom: 1.5rem; left: 1.5rem;
-            font-size: 0.7rem;
-            letter-spacing: 0.12em;
+        .service-tags li {
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(30,23,20,0.2);
+            padding: 0.2rem 0.55rem;
+            color: var(--dark);
+            opacity: 0.55;
         }
 
         /* ── PROJECTS ────────────────────────────── */
         .projects {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.65fr;
             background: var(--dark);
+            position: relative;
         }
+        .projects::before { display: none; }
 
         .projects-content {
-            padding: 7rem 4.5rem;
+            position: relative;
+            z-index: 2;
+            padding: 6rem 3rem 6rem 2rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -635,30 +513,31 @@
 
         .projects-title {
             font-family: var(--font-display);
-            font-size: clamp(2rem, 3.2vw, 2.9rem);
+            font-size: clamp(2.8rem, 4.5vw, 4.5rem);
             font-weight: 300;
-            line-height: 1.2;
+            line-height: 1.1;
             color: var(--white);
             margin-bottom: 3rem;
         }
         .projects-title em { font-style: italic; color: var(--accent); }
 
-        .project-list { list-style: none; border-top: 1px solid rgba(255,255,255,0.1); }
+        .project-list { list-style: none; }
 
         .project-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1.4rem 0;
             cursor: pointer;
-            transition: padding-left 0.25s ease;
+            opacity: 0.85;
+            transition: padding-left 0.3s ease, opacity 0.3s ease;
         }
-        .project-item:hover { padding-left: 0.75rem; }
+        .project-item + .project-item { border-top: none; }
+        .project-item:hover { padding-left: 0.6rem; opacity: 1; }
 
         .proj-name {
             font-family: var(--font-display);
-            font-size: 1.7rem;
+            font-size: 2.1rem;
             font-weight: 300;
             font-style: italic;
             color: var(--white);
@@ -673,23 +552,18 @@
 
         .projects-image {
             position: relative;
-            background: linear-gradient(160deg, #6A5848 0%, #3E2E24 50%, #1E1410 100%);
+            min-height: 620px;
+            background: url('https://res.cloudinary.com/dyljv6wel/image/upload/v1778590671/interno_showroom_lgd5z4.jpg') center/cover no-repeat;
             overflow: hidden;
         }
-        .projects-image::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.42' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
-        }
         .projects-image::after {
-            content: 'Grand Hotel de la Mer · Monaco';
+            content: 'Showroom · Interno';
             position: absolute;
             bottom: 1.5rem; left: 1.5rem;
             font-size: 0.7rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.45);
+            color: rgba(255,255,255,0.4);
         }
 
         /* ── PRODUCTS ────────────────────────────── */
@@ -885,6 +759,55 @@
         .reveal:nth-child(4) { transition-delay: 0.36s; }
 
 
+        /* ── LIGHTBOX ───────────────────────────────── */
+        .project-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .project-modal.open { opacity: 1; pointer-events: all; }
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(10,7,5,0.92);
+            cursor: pointer;
+        }
+        .modal-img {
+            position: relative;
+            z-index: 1;
+            max-width: 88vw;
+            max-height: 85vh;
+            object-fit: contain;
+            transform: scale(0.96);
+            transition: transform 0.35s ease;
+        }
+        .project-modal.open .modal-img { transform: scale(1); }
+        .modal-close {
+            position: absolute;
+            top: 1.5rem; right: 2rem;
+            z-index: 2;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.7);
+            font-size: 1.2rem;
+            width: 2.5rem; height: 2.5rem;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .modal-close:hover { border-color: white; color: white; }
+        .proj-arrow {
+            opacity: 0;
+            transition: opacity 0.25s;
+            margin-left: 0.3rem;
+        }
+        .project-item:hover .proj-arrow { opacity: 1; }
+
         /* ── HAMBURGER & MOBILE MENU ─────────────────── */
         .nav-hamburger {
             display: none;
@@ -902,13 +825,14 @@
         .nav-hamburger span {
             display: block;
             height: 1px;
-            background: var(--dark);
-            transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+            background: #ffffff;
+            transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease, background 0.45s ease;
             transform-origin: center;
         }
         .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
         .nav-hamburger.open span:nth-child(2) { opacity: 0; }
         .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+        nav.scrolled .nav-hamburger span { background: var(--dark); }
 
         .nav-mobile {
             display: none;
@@ -964,25 +888,20 @@
             .nav-cta { display: none; }
             .nav-mobile { display: flex; }
 
-            .hero { grid-template-columns: 1fr; }
-            .hero-left { padding: 3rem 1.5rem 2rem; }
-            .hero-right { height: 55vw; min-height: 260px; clip-path: inset(0 0% 0 0); animation: none; }
-            .hero-right video { transform: scale(1); animation: none; }
+            .hero-left { padding: 3rem 1.5rem 4rem; max-width: 100%; min-height: 80vh; }
+            .hero-video { transform: scale(1); animation: none; }
             .hero-right::before { background: linear-gradient(to bottom, var(--bg) 0%, transparent 20%); }
 
             section { padding: 4rem 1.5rem; }
 
             .collections-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-            .collections-grid { grid-template-columns: 1fr; gap: 1rem; }
-            .coll-img { height: 280px; }
-
-            .story { grid-template-columns: 1fr; }
-            .story-content { padding: 4rem 1.5rem; }
-            .story-image { min-height: 300px; }
+            .service-row { grid-template-columns: 1fr; gap: 0.5rem; }
+            .service-title { font-size: 2.2rem; }
 
             .projects { grid-template-columns: 1fr; }
-            .projects-content { padding: 4rem 1.5rem; }
-            .projects-image { min-height: 280px; }
+            .projects::before { height: 100px; }
+            .projects-content { padding: 3rem 1.5rem; }
+            .projects-image { min-height: 55vw; order: -1; }
 
             .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
             .products-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -1025,8 +944,10 @@
 
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <div class="hero">
+    <video class="hero-video" autoplay muted loop playsinline webkit-playsinline>
+        <source src="Video Project final for landingpage.mp4" type="video/mp4">
+    </video>
     <div class="hero-left">
-        <p class="hero-eyebrow">Fornitura · Posa · Outdoor WPC</p>
         <h1 class="hero-title">
             <span class="tagline-line-1">Eleganza che</span>
             <span class="tagline-line-2">
@@ -1037,37 +958,9 @@
                 </span>
             </span>
         </h1>
-        <p class="hero-desc">Fornitura e installazione di parquet in legno e pavimenti WPC da esterno. Sopralluogo gratuito, materiali selezionati, posa a regola d'arte.</p>
-        <div class="hero-actions">
-            <a href="contatti.html" class="btn-primary">Richiedi preventivo</a>
-        </div>
-    </div>
-    <div class="hero-right">
-        <video autoplay muted loop playsinline webkit-playsinline>
-            <source src="Video Project final for landingpage.mp4" type="video/mp4">
-        </video>
     </div>
 </div>
 
-<!-- ── TICKER ──────────────────────────────────────────────── -->
-<div class="ticker" aria-hidden="true">
-    <div class="ticker-inner">
-        <span class="ticker-item">Posa Parquet</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Decking WPC</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Pavimenti da Esterno</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Fornitura e Posa</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Levigatura e Restauro</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Sopralluogo Gratuito</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Preventivo su Misura</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Posa Parquet</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Decking WPC</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Pavimenti da Esterno</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Fornitura e Posa</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Levigatura e Restauro</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Sopralluogo Gratuito</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Preventivo su Misura</span><span class="ticker-sep">◆</span>
-    </div>
-</div>
 
 
 <!-- ── COLLECTIONS ─────────────────────────────────────────── -->
@@ -1078,61 +971,31 @@
             <h2 class="section-title">Tutto quello che<br>serve al tuo pavimento</h2>
         </div>
     </div>
-    <div class="collections-grid">
-        <div class="collection-card reveal">
-            <div class="coll-img ci1">
-                <div class="coll-arrow">↗</div>
-                <div class="coll-info">
-                    <h3 class="coll-name">Posa Parquet</h3>
-                    <p class="coll-sub">Posa a colla, flottante e chiodato · Interni</p>
-                </div>
+    <div class="services-list">
+        <div class="service-row">
+            <h3 class="service-title">Posa Parquet</h3>
+            <div class="service-body">
+                <p class="service-sub">Interni</p>
+                <p class="service-desc">Posa di parquet in legno su ogni tipo di superficie. Sopralluogo gratuito, materiali selezionati, esecuzione diretta.</p>
             </div>
         </div>
-        <div class="collection-card reveal">
-            <div class="coll-img ci2">
-                <div class="coll-arrow">↗</div>
-                <div class="coll-info">
-                    <h3 class="coll-name">Outdoor WPC</h3>
-                    <p class="coll-sub">Decking da esterno · Terrazze e bordo piscina</p>
-                </div>
+        <div class="service-row">
+            <h3 class="service-title">Outdoor WPC</h3>
+            <div class="service-body">
+                <p class="service-sub">Esterni</p>
+                <p class="service-desc">Pavimentazioni WPC per terrazze, giardini e bordi piscina. Resistenti alle intemperie, durevoli nel tempo.</p>
             </div>
         </div>
-        <div class="collection-card reveal">
-            <div class="coll-img ci3">
-                <div class="coll-arrow">↗</div>
-                <div class="coll-info">
-                    <h3 class="coll-name">Restauro</h3>
-                    <p class="coll-sub">Levigatura · Rifinitura · Ripristino</p>
-                </div>
+        <div class="service-row">
+            <h3 class="service-title">Restauro</h3>
+            <div class="service-body">
+                <p class="service-sub">Ripristino</p>
+                <p class="service-desc">Riportiamo il parquet al suo splendore originale con levigatura, olatura e rifinitura. Risultato come nuovo, senza sostituzione.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ── STORY ────────────────────────────────────────────────── -->
-<div class="story">
-    <div class="story-content">
-        <div class="story-ghost-num" aria-hidden="true">10</div>
-        <p class="section-label">Chi siamo</p>
-        <h2 class="story-title">Esperienza, cura<br>e <em>posa a regola d'arte</em></h2>
-        <p class="story-text">Broccolini Srls è un'azienda specializzata nella fornitura e posa di parquet in legno e pavimentazioni WPC da esterno. Ogni lavoro è seguito direttamente dai nostri posatori, con attenzione al dettaglio e materiali selezionati dai migliori produttori.</p>
-        <div class="story-stats">
-            <div>
-                <div class="stat-val">10+</div>
-                <div class="stat-lbl">Anni di esperienza</div>
-            </div>
-            <div>
-                <div class="stat-val">500+</div>
-                <div class="stat-lbl">Lavori completati</div>
-            </div>
-            <div>
-                <div class="stat-val">100%</div>
-                <div class="stat-lbl">Clienti soddisfatti</div>
-            </div>
-        </div>
-    </div>
-    <div class="story-image"></div>
-</div>
 
 <!-- ── PROJECTS ─────────────────────────────────────────────── -->
 <div class="projects">
@@ -1140,72 +1003,44 @@
         <p class="section-label">Lavori eseguiti</p>
         <h2 class="projects-title">Alcuni dei nostri<br><em>interventi recenti</em></h2>
         <ul class="project-list">
-            <li class="project-item">
-                <span class="proj-name">Villa Privata</span>
-                <span class="proj-loc">Parquet Rovere · Roma</span>
+            <li class="project-item" data-img="https://res.cloudinary.com/dyljv6wel/image/upload/v1778590671/interno_showroom_lgd5z4.jpg">
+                <span class="proj-name">Showroom di Lusso</span>
+                <span class="proj-loc">Parquet Rovere pregiato · Arabia Saudita <span class="proj-arrow">↗</span></span>
             </li>
-            <li class="project-item">
+            <li class="project-item" data-img="">
                 <span class="proj-name">Appartamento Centro</span>
-                <span class="proj-loc">Posa flottante · Milano</span>
+                <span class="proj-loc">Posa flottante · Milano <span class="proj-arrow">↗</span></span>
             </li>
-            <li class="project-item">
+            <li class="project-item" data-img="">
                 <span class="proj-name">Terrazza Condominiale</span>
-                <span class="proj-loc">Decking WPC · Firenze</span>
+                <span class="proj-loc">Decking WPC · Firenze <span class="proj-arrow">↗</span></span>
             </li>
-            <li class="project-item">
+            <li class="project-item" data-img="">
                 <span class="proj-name">Uffici Direzionali</span>
-                <span class="proj-loc">Parquet a colla · Bologna</span>
+                <span class="proj-loc">Parquet a colla · Bologna <span class="proj-arrow">↗</span></span>
             </li>
-            <li class="project-item">
+            <li class="project-item" data-img="">
                 <span class="proj-name">Bordo Piscina</span>
-                <span class="proj-loc">WPC Outdoor · Napoli</span>
+                <span class="proj-loc">WPC Outdoor · Napoli <span class="proj-arrow">↗</span></span>
             </li>
         </ul>
     </div>
     <div class="projects-image"></div>
 </div>
 
-<!-- ── PRODUCTS ─────────────────────────────────────────────── -->
-<section class="products">
-    <div class="products-header">
-        <div>
-            <p class="section-label">Materiali in fornitura</p>
-            <h2 class="section-title">I materiali<br>più richiesti</h2>
-        </div>
-    </div>
-    <div class="products-grid">
-        <div class="product-card reveal">
-            <div class="prod-img">
-                <div class="prod-img-inner pi1"></div>
-            </div>
-            <p class="prod-category">Parquet Interno</p>
-            <h3 class="prod-name">Rovere Naturale</h3>
-            <p class="prod-detail">Spazzolato · Olio naturale · Larghezza 20 cm</p>
-        </div>
-        <div class="product-card reveal">
-            <div class="prod-img">
-                <div class="prod-img-inner pi2"></div>
-            </div>
-            <p class="prod-category">Parquet Interno</p>
-            <h3 class="prod-name">Noce Canaletto</h3>
-            <p class="prod-detail">Prefinito · Lacca opaca · Larghezza 15 cm</p>
-        </div>
-        <div class="product-card reveal">
-            <div class="prod-img">
-                <div class="prod-img-inner pi3"></div>
-            </div>
-            <p class="prod-category">WPC Outdoor</p>
-            <h3 class="prod-name">Decking Esterno</h3>
-            <p class="prod-detail">Composito legno-polimero · Antiscivolo · UV resist.</p>
-        </div>
-    </div>
-</section>
 
 <!-- ── CTA ──────────────────────────────────────────────────── -->
 <section class="cta-section">
     <h2 class="cta-title">Iniziamo a<br><em>lavorare insieme</em></h2>
     <a href="contatti.html" class="cta-btn">Vai ai contatti</a>
 </section>
+
+<!-- ── LIGHTBOX ─────────────────────────────────────────────── -->
+<div id="projectModal" class="project-modal" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <button class="modal-close" aria-label="Chiudi">×</button>
+    <img class="modal-img" src="" alt="Intervento">
+</div>
 
 <!-- ── FOOTER ───────────────────────────────────────────────── -->
 <footer>
@@ -1226,11 +1061,23 @@
 </footer>
 
 <script>
-    // Scroll reveal
+    // Scroll reveal (prodotti e altri elementi generici)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Animazione sequenziale servizi
+    const servicesObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.querySelectorAll('.service-row').forEach(row => row.classList.add('in'));
+                servicesObserver.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    const servicesList = document.querySelector('.services-list');
+    if (servicesList) servicesObserver.observe(servicesList);
 
     // Marker highlight animation
     const tlMarker = document.getElementById('tlMarker');
@@ -1257,11 +1104,16 @@
     // Start on page load after hero animations settle
     setTimeout(tlPlay, 800);
 
-    // Navbar compact on scroll
+    // Navbar: trasparente → solida allo scroll
     const nav = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.innerWidth > 960) nav.style.padding = window.scrollY > 60 ? '1rem 3.5rem' : '1.5rem 3.5rem';
-    }, { passive: true });
+    const heroThreshold = window.innerHeight * 0.75;
+    function updateNav() {
+        const y = window.scrollY;
+        nav.classList.toggle('scrolled', y > heroThreshold);
+        if (window.innerWidth > 960) nav.style.padding = y > 60 ? '1rem 3.5rem' : '1.5rem 3.5rem';
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
 
     // Mobile hamburger menu
     const hamburger = document.getElementById('navHamburger');
@@ -1280,12 +1132,37 @@
     });
 
     // Force video autoplay on mobile
-    const heroVideo = document.querySelector('.hero-right video');
+    const heroVideo = document.querySelector('.hero-video');
     if (heroVideo) {
         heroVideo.play().catch(() => {
             document.addEventListener('touchstart', () => heroVideo.play(), { once: true });
         });
     }
+
+    // Lightbox progetti
+    const modal = document.getElementById('projectModal');
+    const modalImg = modal.querySelector('.modal-img');
+    const modalBackdrop = modal.querySelector('.modal-backdrop');
+    const modalClose = modal.querySelector('.modal-close');
+
+    document.querySelectorAll('.project-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const src = item.dataset.img;
+            if (src) {
+                modalImg.src = src;
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    modalBackdrop.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 
 </body>
