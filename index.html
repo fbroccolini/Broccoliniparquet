@@ -553,18 +553,38 @@
         .projects-image {
             position: relative;
             min-height: 620px;
-            background: url('https://res.cloudinary.com/dyljv6wel/image/upload/v1778590671/interno_showroom_lgd5z4.jpg') center/cover no-repeat;
+            background: var(--dark);
             overflow: hidden;
         }
-        .projects-image::after {
-            content: 'Showroom · Interno';
-            position: absolute;
-            bottom: 1.5rem; left: 1.5rem;
-            font-size: 0.7rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
+        .proj-photo {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
+        .proj-photo.visible { opacity: 1; }
+        .proj-caption {
+            position: absolute; bottom: 1.5rem; left: 1.5rem;
+            font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+            color: rgba(255,255,255,0.4); z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+        .proj-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            z-index: 3;
+            background: rgba(10,7,5,0.45); border: 1px solid rgba(255,255,255,0.18);
+            color: #fff; width: 2.8rem; height: 2.8rem; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; cursor: pointer;
+            transition: background 0.25s, border-color 0.25s, opacity 0.25s;
+            opacity: 0.7;
+        }
+        .proj-nav:hover { background: rgba(10,7,5,0.75); border-color: rgba(255,255,255,0.5); opacity: 1; }
+        .proj-nav.prev { left: 1rem; }
+        .proj-nav.next { right: 1rem; }
+        .project-item.active { opacity: 1; padding-left: 0.6rem; }
+        .project-item.active .proj-arrow { opacity: 1; }
 
         /* ── PRODUCTS ────────────────────────────── */
         .products { background: var(--bg); }
@@ -759,48 +779,6 @@
         .reveal:nth-child(4) { transition-delay: 0.36s; }
 
 
-        /* ── LIGHTBOX ───────────────────────────────── */
-        .project-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 300;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .project-modal.open { opacity: 1; pointer-events: all; }
-        .modal-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(10,7,5,0.92);
-            cursor: pointer;
-        }
-        .modal-img {
-            position: relative;
-            z-index: 1;
-            max-width: 88vw;
-            max-height: 85vh;
-            object-fit: contain;
-            transform: scale(0.96);
-            transition: transform 0.35s ease;
-        }
-        .project-modal.open .modal-img { transform: scale(1); }
-        .modal-close {
-            position: absolute;
-            top: 1.5rem; right: 2rem;
-            z-index: 2;
-            background: none;
-            border: 1px solid rgba(255,255,255,0.25);
-            color: rgba(255,255,255,0.7);
-            font-size: 1.2rem;
-            width: 2.5rem; height: 2.5rem;
-            cursor: pointer;
-            transition: border-color 0.2s, color 0.2s;
-        }
-        .modal-close:hover { border-color: white; color: white; }
         .proj-arrow {
             opacity: 0;
             transition: opacity 0.25s;
@@ -1025,7 +1003,12 @@
             </li>
         </ul>
     </div>
-    <div class="projects-image"></div>
+    <div class="projects-image">
+        <img class="proj-photo" src="" alt="">
+        <button class="proj-nav prev" aria-label="Precedente">&#8249;</button>
+        <button class="proj-nav next" aria-label="Successivo">&#8250;</button>
+        <p class="proj-caption"></p>
+    </div>
 </div>
 
 
@@ -1034,13 +1017,6 @@
     <h2 class="cta-title">Iniziamo a<br><em>lavorare insieme</em></h2>
     <a href="contatti.html" class="cta-btn">Vai ai contatti</a>
 </section>
-
-<!-- ── LIGHTBOX ─────────────────────────────────────────────── -->
-<div id="projectModal" class="project-modal" role="dialog" aria-modal="true">
-    <div class="modal-backdrop"></div>
-    <button class="modal-close" aria-label="Chiudi">×</button>
-    <img class="modal-img" src="" alt="Intervento">
-</div>
 
 <!-- ── FOOTER ───────────────────────────────────────────────── -->
 <footer>
@@ -1139,30 +1115,49 @@
         });
     }
 
-    // Lightbox progetti
-    const modal = document.getElementById('projectModal');
-    const modalImg = modal.querySelector('.modal-img');
-    const modalBackdrop = modal.querySelector('.modal-backdrop');
-    const modalClose = modal.querySelector('.modal-close');
+    // Gallery progetti interattiva
+    const projectItems = Array.from(document.querySelectorAll('.project-item'));
+    const projPhoto = document.querySelector('.proj-photo');
+    const projCaption = document.querySelector('.proj-caption');
+    const btnPrev = document.querySelector('.proj-nav.prev');
+    const btnNext = document.querySelector('.proj-nav.next');
+    let currentIdx = 0;
 
-    document.querySelectorAll('.project-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const src = item.dataset.img;
-            if (src) {
-                modalImg.src = src;
-                modal.classList.add('open');
-                document.body.style.overflow = 'hidden';
-            }
-        });
-    });
+    function showProject(idx) {
+        const item = projectItems[idx];
+        const src = item.dataset.img || '';
+        const name = item.querySelector('.proj-name').textContent;
+        const loc = item.querySelector('.proj-loc').textContent.replace('↗', '').trim();
 
-    function closeModal() {
-        modal.classList.remove('open');
-        document.body.style.overflow = '';
+        projectItems.forEach(p => p.classList.remove('active'));
+        item.classList.add('active');
+        currentIdx = idx;
+
+        if (src) {
+            projPhoto.classList.remove('visible');
+            setTimeout(() => {
+                projPhoto.src = src;
+                projPhoto.alt = name;
+                if (projPhoto.complete) {
+                    projPhoto.classList.add('visible');
+                } else {
+                    projPhoto.onload = () => projPhoto.classList.add('visible');
+                }
+            }, 300);
+            projCaption.textContent = name + ' · ' + loc;
+            projCaption.style.opacity = '1';
+        } else {
+            projPhoto.classList.remove('visible');
+            projPhoto.src = '';
+            projCaption.textContent = '';
+        }
     }
-    modalBackdrop.addEventListener('click', closeModal);
-    modalClose.addEventListener('click', closeModal);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    projectItems.forEach((item, i) => item.addEventListener('click', () => showProject(i)));
+    btnPrev.addEventListener('click', () => showProject((currentIdx - 1 + projectItems.length) % projectItems.length));
+    btnNext.addEventListener('click', () => showProject((currentIdx + 1) % projectItems.length));
+
+    showProject(0);
 </script>
 
 </body>
