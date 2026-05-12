@@ -1100,16 +1100,20 @@
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
 
-    // Force video autoplay on mobile
+    // Video autoplay + resume on any touch (iOS)
     const heroVideo = document.querySelector('.hero-video');
     if (heroVideo) {
-        heroVideo.play().catch(() => {
-            document.addEventListener('touchstart', () => heroVideo.play(), { once: true });
+        heroVideo.play().catch(() => {});
+        document.addEventListener('touchstart', () => {
+            if (heroVideo.paused) heroVideo.play().catch(() => {});
+        }, { passive: true });
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && heroVideo.paused) heroVideo.play().catch(() => {});
+        });
+        window.addEventListener('pageshow', () => {
+            if (heroVideo.paused) heroVideo.play().catch(() => {});
         });
     }
-    document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && heroVideo) heroVideo.play().catch(() => {});
-    });
 
     // Mobile hamburger menu
     const hamburger = document.getElementById('navHamburger');
