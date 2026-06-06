@@ -74,7 +74,7 @@
             padding: 1.5rem 3.5rem;
             background: transparent;
             border-bottom: 1px solid transparent;
-            transition: padding 0.35s ease, background 0.45s ease, border-color 0.45s ease;
+            transition: background 0.45s ease, border-color 0.45s ease;
         }
         nav.scrolled {
             background: var(--bg);
@@ -522,10 +522,10 @@
             padding: 1.4rem 0;
             cursor: pointer;
             opacity: 0.85;
-            transition: padding-left 0.3s ease, opacity 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
         .project-item + .project-item { border-top: none; }
-        .project-item:hover { padding-left: 0.6rem; opacity: 1; }
+        .project-item:hover { transform: translateX(0.6rem); opacity: 1; }
 
         .proj-name {
             font-family: var(--f);
@@ -563,6 +563,26 @@
             color: rgba(255,255,255,0.4); z-index: 2;
             transition: opacity 0.3s ease;
         }
+        .proj-empty {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 1rem; opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none; z-index: 1;
+        }
+        .proj-empty.visible { opacity: 1; }
+        .proj-empty-name {
+            font-family: var(--f);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700; letter-spacing: -0.03em;
+            color: rgba(255,255,255,0.1);
+            text-align: center; padding: 0 2rem;
+        }
+        .proj-empty-loc {
+            font-size: 0.65rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: rgba(255,255,255,0.18);
+        }
         .proj-nav {
             position: absolute; top: 50%; transform: translateY(-50%);
             z-index: 3;
@@ -576,7 +596,7 @@
         .proj-nav:hover { background: rgba(10,7,5,0.75); border-color: rgba(255,255,255,0.5); opacity: 1; }
         .proj-nav.prev { left: 1rem; }
         .proj-nav.next { right: 1rem; }
-        .project-item.active { opacity: 1; padding-left: 0.6rem; }
+        .project-item.active { opacity: 1; transform: translateX(0.6rem); }
         .project-item.active .proj-arrow { opacity: 1; }
 
         /* ── PRODUCTS ────────────────────────────── */
@@ -798,7 +818,7 @@
             display: block;
             height: 1px;
             background: #ffffff;
-            transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease, background 0.45s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease, background 0.45s ease;
             transform-origin: center;
         }
         .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
@@ -898,7 +918,6 @@
         </a>
         <ul class="nav-links">
             <li><a href="contatti.html">Contatti</a></li>
-            <li><a href="test-rendering.html">Rendering AI</a></li>
         </ul>
     </div>
     <a href="contatti.html" class="nav-cta">Richiedi preventivo</a>
@@ -911,7 +930,6 @@
 <div class="nav-mobile" id="navMobile">
     <ul>
         <li><a href="contatti.html">Contatti</a></li>
-        <li><a href="test-rendering.html">Rendering AI</a></li>
     </ul>
     <a href="contatti.html" class="mobile-cta">Richiedi preventivo</a>
 </div>
@@ -1003,6 +1021,10 @@
     </div>
     <div class="projects-image">
         <img class="proj-photo" src="" alt="">
+        <div class="proj-empty" id="projEmpty">
+            <span class="proj-empty-name" id="projEmptyName"></span>
+            <span class="proj-empty-loc" id="projEmptyLoc"></span>
+        </div>
         <button class="proj-nav prev" aria-label="Precedente">&#8249;</button>
         <button class="proj-nav next" aria-label="Successivo">&#8250;</button>
         <p class="proj-caption"></p>
@@ -1029,7 +1051,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p class="footer-copy">© 2024 Broccolini Srls · Privacy Policy · Cookie Policy</p>
+        <p class="footer-copy">© 2025 Broccolini Srls · Privacy Policy · Cookie Policy</p>
         <p class="footer-copy">Designed with care · Made in Italy</p>
     </div>
 </footer>
@@ -1125,6 +1147,9 @@
     const projectItems = Array.from(document.querySelectorAll('.project-item'));
     const projPhoto = document.querySelector('.proj-photo');
     const projCaption = document.querySelector('.proj-caption');
+    const projEmpty = document.getElementById('projEmpty');
+    const projEmptyName = document.getElementById('projEmptyName');
+    const projEmptyLoc = document.getElementById('projEmptyLoc');
     const btnPrev = document.querySelector('.proj-nav.prev');
     const btnNext = document.querySelector('.proj-nav.next');
     let currentIdx = 0;
@@ -1140,6 +1165,7 @@
         currentIdx = idx;
 
         if (src) {
+            projEmpty.classList.remove('visible');
             projPhoto.classList.remove('visible');
             setTimeout(() => {
                 projPhoto.src = src;
@@ -1156,6 +1182,10 @@
             projPhoto.classList.remove('visible');
             projPhoto.src = '';
             projCaption.textContent = '';
+            projCaption.style.opacity = '0';
+            projEmptyName.textContent = name;
+            projEmptyLoc.textContent = loc;
+            projEmpty.classList.add('visible');
         }
     }
 
