@@ -6,42 +6,48 @@
     <title>Contatti — Broccolini Srls</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Karla:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         * { outline: unset; }
         :where(body) { margin: 0; }
 
         :root {
-            --wp--preset--color--base:          #191919;
-            --wp--preset--color--base-2:        #111111;
-            --wp--preset--color--base-3:        #F4F4F4;
-            --wp--preset--color--contrast-2:    #FFFFFF;
-            --wp--preset--color--contrast-3:    #191919;
-            --wp--preset--color--border-70:     #707070;
-            --wp--preset--color--gray-light:    #D1D1D1;
+            /* ── PWS unified palette ── */
+            --dark:    #111111;
+            --mid:     #888888;
+            --light:   #f2f2f2;
+            --white:   #ffffff;
+            --bg:      #f7f6f3;
+            --border:  rgba(0,0,0,0.09);
+            --accent:  #C4A882;
+            --f: 'Outfit', sans-serif;
+
+            /* legacy bridge vars */
+            --dark-2:       #0a0a0a;
+            --font-display: var(--f);
+            --font-body:    var(--f);
+
+            /* WP preset aliases */
+            --wp--preset--color--base:          var(--dark);
+            --wp--preset--color--base-2:        var(--dark-2);
+            --wp--preset--color--base-3:        var(--bg);
+            --wp--preset--color--contrast-2:    var(--white);
+            --wp--preset--color--contrast-3:    var(--dark);
+            --wp--preset--color--border-70:     var(--mid);
+            --wp--preset--color--gray-light:    rgba(0,0,0,0.1);
+            --wp--preset--font-family--body:    var(--f);
             --wp--preset--font-size--xs:        14px;
             --wp--preset--font-size--s:         clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.234), 17px);
             --wp--preset--font-size--m:         clamp(15px, 0.938rem + ((1vw - 3.2px) * 0.391), 20px);
-            --wp--preset--font-family--body:    'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
-
-            --bg:           var(--wp--preset--color--base-3);
-            --dark:         var(--wp--preset--color--base);
-            --dark-2:       var(--wp--preset--color--base-2);
-            --mid:          var(--wp--preset--color--border-70);
-            --accent:       #C4A882;
-            --border:       var(--wp--preset--color--gray-light);
-            --white:        var(--wp--preset--color--contrast-2);
-            --font-display: 'Cormorant Garamond', Georgia, serif;
-            --font-body:    var(--wp--preset--font-family--body);
         }
 
         html { scroll-behavior: smooth; cursor: default; }
 
         body {
-            background-color: var(--wp--preset--color--base-3);
-            color: var(--wp--preset--color--contrast-3);
-            font-family: var(--wp--preset--font-family--body);
+            background-color: var(--bg);
+            color: var(--dark);
+            font-family: var(--f);
             font-size: var(--wp--preset--font-size--s);
             font-weight: 400;
             line-height: 1.6;
@@ -70,10 +76,10 @@
             line-height: 1;
         }
         .logo-name {
-            font-family: var(--font-display);
-            font-size: 1.55rem;
-            font-weight: 400;
-            letter-spacing: 0.32em;
+            font-family: var(--f);
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
             text-transform: uppercase;
             color: var(--dark);
             display: block;
@@ -177,10 +183,12 @@
         }
 
         .page-title {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: clamp(3.5rem, 7vw, 7rem);
-            font-weight: 300;
-            line-height: 1.0;
+            font-weight: 700;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
             color: var(--dark);
         }
         .page-title em { font-style: normal; color: var(--dark); }
@@ -212,9 +220,10 @@
         }
 
         .contact-value {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: clamp(1.4rem, 2.5vw, 2rem);
-            font-weight: 300;
+            font-weight: 600;
+            letter-spacing: -0.02em;
             color: var(--dark);
             text-decoration: none;
             display: block;
@@ -264,14 +273,15 @@
         }
 
         .form-title {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: clamp(1.8rem, 3vw, 2.8rem);
-            font-weight: 300;
-            line-height: 1.2;
+            font-weight: 700;
+            line-height: 1.0;
+            letter-spacing: -0.03em;
             color: var(--white);
             margin-bottom: 2.5rem;
         }
-        .form-title em { font-style: italic; color: var(--accent); }
+        .form-title em { font-style: normal; color: var(--accent); }
 
         .form-group {
             margin-bottom: 1.25rem;
@@ -381,10 +391,9 @@
             color: var(--accent);
         }
         .footer-tagline {
-            font-family: var(--font-display);
-            font-size: 1.05rem;
+            font-family: var(--f);
+            font-size: 1rem;
             font-weight: 300;
-            font-style: italic;
             color: rgba(255,255,255,0.4);
             line-height: 1.6;
         }

@@ -6,7 +6,7 @@
     <title>Broccolini Srls — L'Arte del Parquet Italiano</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Karla:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         * { outline: unset; }
@@ -14,68 +14,50 @@
 
         /* ── WP PRESET SYSTEM (thombase / Berti) ─── */
         :root {
-            --wp--style--block-gap: 1.2rem;
-            --wp--style--global--content-size: 1160px;
-            --wp--style--global--wide-size: 100vw;
+            /* ── PWS unified palette ── */
+            --dark:    #111111;
+            --mid:     #888888;
+            --light:   #f2f2f2;
+            --white:   #ffffff;
+            --bg:      #f7f6f3;
+            --border:  rgba(0,0,0,0.09);
+            --accent:  #C4A882;
+            --f: 'Outfit', sans-serif;
 
-            /* colors */
-            --wp--preset--color--black:         #000000;
-            --wp--preset--color--white:         #ffffff;
-            --wp--preset--color--base:          #191919;
-            --wp--preset--color--base-2:        #111111;
-            --wp--preset--color--base-3:        #F4F4F4;
-            --wp--preset--color--contrast:      #F4F4F4;
-            --wp--preset--color--contrast-2:    #FFFFFF;
-            --wp--preset--color--contrast-3:    #191919;
-            --wp--preset--color--border-70:     #707070;
-            --wp--preset--color--gray-light:    #D1D1D1;
+            /* legacy bridge vars */
+            --dark-2:       #0a0a0a;
+            --bg-2:         #e8e5df;
+            --font-display: var(--f);
+            --font-body:    var(--f);
 
-            /* gradients */
-            --wp--preset--gradient--gradient-1: linear-gradient(to bottom, #cfcabe 0%, #F9F9F9 100%);
-            --wp--preset--gradient--gradient-2: linear-gradient(180deg, #19191900 0%, #191919 100%);
-
-            /* font sizes */
-            --wp--preset--font-size--xxs:    12px;
-            --wp--preset--font-size--xs:     14px;
-            --wp--preset--font-size--s:      clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.234), 17px);
-            --wp--preset--font-size--m:      clamp(15px, 0.938rem + ((1vw - 3.2px) * 0.391), 20px);
-            --wp--preset--font-size--m-22:   clamp(16px, 1rem + ((1vw - 3.2px) * 0.547), 23px);
-            --wp--preset--font-size--large:  clamp(22.041px, 1.378rem + ((1vw - 3.2px) * 1.091), 36px);
-            --wp--preset--font-size--x-large:clamp(25.014px, 1.563rem + ((1vw - 3.2px) * 1.327), 42px);
-            --wp--preset--font-size--small:  13px;
-            --wp--preset--font-size--normal: 16px;
-            --wp--preset--font-size--huge:   42px;
-
-            /* font families */
-            --wp--preset--font-family--body: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
-
-            /* animate */
-            --animate-duration: 1s;
-            --animate-delay:    1s;
-            --animate-repeat:   1;
-
-            /* ── bridge vars (used throughout) ── */
-            --bg:           var(--wp--preset--color--base-3);
-            --bg-2:         #E8E5DF;
-            --dark:         var(--wp--preset--color--base);
-            --dark-2:       var(--wp--preset--color--base-2);
-            --mid:          var(--wp--preset--color--border-70);
-            --accent:       #C4A882;
-            --border:       var(--wp--preset--color--gray-light);
-            --white:        var(--wp--preset--color--contrast-2);
-            --font-display: 'Cormorant Garamond', Georgia, serif;
-            --font-body:    var(--wp--preset--font-family--body);
+            /* WP preset aliases referenced in CSS */
+            --wp--preset--color--base:          var(--dark);
+            --wp--preset--color--base-2:        var(--dark-2);
+            --wp--preset--color--base-3:        var(--bg);
+            --wp--preset--color--contrast-2:    var(--white);
+            --wp--preset--color--contrast-3:    var(--dark);
+            --wp--preset--color--border-70:     var(--mid);
+            --wp--preset--color--gray-light:    rgba(0,0,0,0.1);
+            --wp--preset--font-family--body:    var(--f);
+            --wp--preset--font-size--xxs:       12px;
+            --wp--preset--font-size--xs:        14px;
+            --wp--preset--font-size--s:         clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.234), 17px);
+            --wp--preset--font-size--m:         clamp(15px, 0.938rem + ((1vw - 3.2px) * 0.391), 20px);
+            --wp--preset--font-size--m-22:      clamp(16px, 1rem + ((1vw - 3.2px) * 0.547), 23px);
+            --wp--preset--font-size--large:     clamp(22px, 1.378rem + ((1vw - 3.2px) * 1.091), 36px);
+            --wp--preset--font-size--x-large:   clamp(25px, 1.563rem + ((1vw - 3.2px) * 1.327), 42px);
+            --wp--preset--font-size--small:     13px;
+            --wp--preset--font-size--normal:    16px;
+            --wp--preset--font-size--huge:      42px;
         }
 
         html { scroll-behavior: smooth; cursor: default; }
 
         body {
-            background-color: var(--wp--preset--color--base-3);
-            border-color: rgba(25, 25, 25, .07);
-            color: var(--wp--preset--color--contrast-3);
-            font-family: var(--wp--preset--font-family--body);
+            background-color: var(--bg);
+            color: var(--dark);
+            font-family: var(--f);
             font-size: var(--wp--preset--font-size--s);
-            font-style: normal;
             font-weight: 400;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
@@ -108,10 +90,10 @@
             line-height: 1;
         }
         .logo-name {
-            font-family: var(--font-display);
-            font-size: 1.55rem;
-            font-weight: 400;
-            letter-spacing: 0.32em;
+            font-family: var(--f);
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
             text-transform: uppercase;
             color: #ffffff;
             display: block;
@@ -251,10 +233,12 @@
         }
 
         .hero-title {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: clamp(4.5rem, 9vw, 9rem);
-            font-weight: 300;
-            line-height: 1.05;
+            font-weight: 700;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
             color: #ffffff;
             margin-bottom: 0;
             text-shadow: 0 2px 40px rgba(0,0,0,0.35);
@@ -332,20 +316,20 @@
         }
 
         .tagline-headline {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: clamp(4rem, 10vw, 9rem);
-            font-weight: 600;
-            color: var(--wp--preset--color--contrast-3);
+            font-weight: 700;
+            color: var(--dark);
             letter-spacing: -0.03em;
-            line-height: 1.05;
+            line-height: 0.95;
             margin-top: 1.5rem;
             user-select: none;
         }
 
         .tagline-line-1 {
             display: block;
-            font-style: italic;
-            font-weight: 300;
+            font-style: normal;
+            font-weight: 700;
             opacity: 0;
             transform: translateY(22px);
             transition: opacity 0.8s ease, transform 0.8s ease;
@@ -354,6 +338,7 @@
 
         .tagline-line-2 {
             display: block;
+            font-weight: 700;
             opacity: 0;
             transform: translateY(22px);
             transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
@@ -411,10 +396,11 @@
         }
 
         .section-title {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: clamp(2rem, 3.8vw, 3.4rem);
-            font-weight: 300;
-            line-height: 1.15;
+            font-weight: 700;
+            line-height: 1.0;
+            letter-spacing: -0.03em;
             color: var(--dark);
         }
 
@@ -448,10 +434,11 @@
         .service-row:nth-child(3) { transition-delay: 0.44s; }
 
         .service-title {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: clamp(2.8rem, 5vw, 4.8rem);
-            font-weight: 300;
-            line-height: 1.0;
+            font-weight: 700;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
             color: var(--dark);
             transition: color 0.35s;
         }
@@ -516,14 +503,15 @@
         }
 
         .projects-title {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: clamp(2.8rem, 4.5vw, 4.5rem);
-            font-weight: 300;
-            line-height: 1.1;
+            font-weight: 700;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
             color: var(--white);
             margin-bottom: 3rem;
         }
-        .projects-title em { font-style: italic; color: var(--accent); }
+        .projects-title em { font-style: normal; color: var(--accent); }
 
         .project-list { list-style: none; }
 
@@ -540,10 +528,10 @@
         .project-item:hover { padding-left: 0.6rem; opacity: 1; }
 
         .proj-name {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: 2.1rem;
-            font-weight: 300;
-            font-style: italic;
+            font-weight: 600;
+            letter-spacing: -0.02em;
             color: var(--white);
         }
         .proj-loc {
@@ -642,9 +630,10 @@
             margin-bottom: 0.35rem;
         }
         .prod-name {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: 1.7rem;
-            font-weight: 300;
+            font-weight: 700;
+            letter-spacing: -0.02em;
             color: var(--dark);
             margin-bottom: 0.4rem;
         }
@@ -668,15 +657,16 @@
         .cta-section .section-label::before { background: var(--accent); }
 
         .cta-title {
-            font-family: var(--font-display);
+            font-family: var(--f);
             font-size: clamp(2.5rem, 5vw, 4.8rem);
-            font-weight: 300;
-            line-height: 1.1;
+            font-weight: 700;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
             color: var(--white);
             max-width: 680px;
             margin: 1.5rem auto 3rem;
         }
-        .cta-title em { font-style: italic; color: var(--accent); }
+        .cta-title em { font-style: normal; color: var(--accent); }
 
         .cta-btn {
             display: inline-block;
@@ -730,10 +720,9 @@
             color: var(--accent);
         }
         .footer-tagline {
-            font-family: var(--font-display);
-            font-size: 1.1rem;
+            font-family: var(--f);
+            font-size: 1rem;
             font-weight: 300;
-            font-style: italic;
             color: rgba(255,255,255,0.4);
             line-height: 1.6;
         }
