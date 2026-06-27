@@ -64,105 +64,127 @@
         }
 
         /* ── NAV ─────────────────────────────────── */
-        nav {
+        nav#navbar {
             position: fixed;
             top: 0; left: 0; right: 0;
-            z-index: 100;
+            z-index: 200;
+        }
+        .nav-bar {
+            height: 68px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1.5rem 3.5rem;
+            padding: 0 3.5rem;
             background: transparent;
             border-bottom: 1px solid transparent;
             transition: background 0.45s ease, border-color 0.45s ease;
+            position: relative;
+            z-index: 2;
         }
-        nav.scrolled {
+        nav#navbar.scrolled .nav-bar,
+        nav#navbar.nav-open .nav-bar {
             background: var(--bg);
-            border-bottom: 1px solid var(--border);
+            border-color: var(--border);
         }
 
-        .nav-logo {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            gap: 0;
-            line-height: 1;
-        }
-        .logo-name {
-            font-family: var(--f);
-            font-size: 1.35rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-            color: #ffffff;
-            display: block;
-            transition: color 0.45s ease;
-        }
-        nav.scrolled .logo-name { color: var(--dark); }
+        .nav-logo { display: flex; flex-direction: column; align-items: center; text-decoration: none; gap: 0; line-height: 1; }
+        .logo-name { font-family: var(--f); font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; text-transform: uppercase; color: #ffffff; display: block; transition: color 0.45s ease; }
+        .logo-rule { display: block; width: 100%; height: 1px; background: rgba(255,255,255,0.5); margin: 0.28rem 0 0.22rem; transition: background 0.45s ease, opacity 0.45s ease; }
+        .logo-sub { font-family: var(--font-body); font-size: 0.65rem; font-weight: 400; letter-spacing: 0.48em; text-transform: uppercase; color: var(--accent); display: block; }
+        nav#navbar.scrolled .logo-name,
+        nav#navbar.nav-open .logo-name { color: var(--dark); }
+        nav#navbar.scrolled .logo-rule,
+        nav#navbar.nav-open .logo-rule { background: var(--dark); opacity: 0.18; }
 
-        .logo-rule {
-            display: block;
-            width: 100%;
-            height: 1px;
-            background: rgba(255,255,255,0.5);
-            margin: 0.28rem 0 0.22rem;
-            transition: background 0.45s ease;
-        }
-        nav.scrolled .logo-rule { background: var(--dark); opacity: 0.18; }
+        .nav-left { display: flex; align-items: center; gap: 2.5rem; }
 
-        .logo-sub {
-            font-family: var(--font-body);
-            font-size: 0.65rem;
-            font-weight: 400;
-            letter-spacing: 0.48em;
-            text-transform: uppercase;
-            color: var(--accent);
-            display: block;
-            transition: color 0.45s ease;
-        }
-        nav.scrolled .logo-sub { color: var(--accent); }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-size: 0.72rem;
-            font-weight: 400;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.85);
-            text-decoration: none;
+        .nav-triggers { display: flex; gap: 2.5rem; }
+        .nav-trigger {
+            font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
+            color: rgba(255,255,255,0.75); background: none; border: none; cursor: pointer; padding: 0;
             transition: color 0.2s;
         }
-        .nav-links a:hover { color: #ffffff; }
-        nav.scrolled .nav-links a { color: var(--dark); }
-        nav.scrolled .nav-links a:hover { color: var(--mid); }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 2.5rem;
-        }
+        .nav-trigger:hover { color: #ffffff; }
+        nav#navbar.scrolled .nav-trigger,
+        nav#navbar.nav-open .nav-trigger { color: rgba(17,17,17,0.4); }
+        nav#navbar.scrolled .nav-trigger:hover,
+        nav#navbar.nav-open .nav-trigger.is-active { color: var(--dark); }
 
         .nav-cta {
-            font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #ffffff;
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.5);
-            padding: 0.65rem 1.6rem;
-            text-decoration: none;
+            font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+            color: #ffffff; background: transparent; border: 1px solid rgba(255,255,255,0.5);
+            padding: 0.65rem 1.6rem; text-decoration: none;
             transition: background 0.45s ease, border-color 0.45s ease, color 0.45s ease;
         }
         .nav-cta:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.8); }
-        nav.scrolled .nav-cta { background: var(--dark); border-color: var(--dark); color: var(--white); }
-        nav.scrolled .nav-cta:hover { background: var(--dark-2); border-color: var(--dark-2); }
+        nav#navbar.scrolled .nav-cta,
+        nav#navbar.nav-open .nav-cta { background: var(--dark); border-color: var(--dark); color: var(--white); }
+        nav#navbar.scrolled .nav-cta:hover,
+        nav#navbar.nav-open .nav-cta:hover { background: var(--dark-2); border-color: var(--dark-2); }
+
+        /* ── MEGA NAV PANEL ── */
+        .nav-panel {
+            position: absolute;
+            top: 68px; left: 0; right: 0;
+            background: var(--white);
+            clip-path: inset(0 0 100% 0);
+            transition: clip-path 0.52s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.07);
+            z-index: 1;
+            border-top: 1px solid var(--border);
+        }
+        nav#navbar.nav-open .nav-panel { clip-path: inset(0 0 -2% 0); }
+
+        .nav-panel-inner {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 3.5rem;
+        }
+        .nav-col-left {
+            padding: 48px 48px 48px 0;
+            border-right: 1px solid var(--border);
+        }
+        .nav-main-list { list-style: none; }
+        .nav-main-btn {
+            font-family: var(--f);
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            color: rgba(17,17,17,0.16);
+            background: none; border: none; cursor: pointer;
+            padding: 5px 0; width: 100%; text-align: left;
+            transition: color 0.18s;
+            display: block;
+        }
+        .nav-main-btn:hover { color: rgba(17,17,17,0.45); }
+        .nav-main-btn.is-selected { color: var(--dark); }
+
+        .nav-col-right { padding: 48px 0 48px 48px; position: relative; }
+        .nav-close-row { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+        .nav-close-btn {
+            font-size: 0.68rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--mid); background: none; border: none; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; padding: 4px 0; transition: color 0.2s;
+        }
+        .nav-close-btn::after { content: '✕'; font-size: 12px; font-family: Arial; }
+        .nav-close-btn:hover { color: var(--dark); }
+
+        .nav-sub-list { list-style: none; display: none; }
+        .nav-sub-list.is-visible { display: block; }
+        .nav-sub-link {
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
+            font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--dark); text-decoration: none;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: color 0.15s;
+        }
+        .nav-sub-list li:first-child .nav-sub-link { border-top: 1px solid var(--border); }
+        .nav-sub-link:hover { color: var(--accent); }
+        .nav-sub-link svg { width: 15px; height: 11px; flex-shrink: 0; }
 
 
         /* ── HERO ────────────────────────────────── */
@@ -824,7 +846,8 @@
         .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
         .nav-hamburger.open span:nth-child(2) { opacity: 0; }
         .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-        nav.scrolled .nav-hamburger span { background: var(--dark); }
+        nav#navbar.scrolled .nav-hamburger span,
+        nav#navbar.nav-open .nav-hamburger span { background: var(--dark); }
 
         .nav-mobile {
             display: none;
@@ -874,11 +897,11 @@
         }
         /* ── RESPONSIVE ──────────────────────────── */
         @media (max-width: 960px) {
-            nav { padding: 1.2rem 1.5rem; }
-            .nav-links { display: none; }
+            .nav-bar { padding: 0 1.5rem; }
+            .nav-triggers, .nav-cta { display: none; }
             .nav-hamburger { display: flex; }
-            .nav-cta { display: none; }
             .nav-mobile { display: flex; }
+            .nav-panel { display: none; }
 
             .hero-left { padding: 3rem 1.5rem 4rem; max-width: 100%; min-height: 80vh; }
             .hero-video { transform: scale(1); animation: none; }
@@ -910,25 +933,64 @@
 
 <!-- ── NAVIGATION ──────────────────────────────────────────── -->
 <nav id="navbar">
-    <div class="nav-left">
-        <a href="index.html" class="nav-logo">
-            <span class="logo-name">Broccolini</span>
-            <span class="logo-rule"></span>
-            <span class="logo-sub">Parquet</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="contatti.html">Contatti</a></li>
-        </ul>
+    <div class="nav-bar">
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-name">Broccolini</span>
+                <span class="logo-rule"></span>
+                <span class="logo-sub">Parquet</span>
+            </a>
+            <div class="nav-triggers">
+                <button class="nav-trigger" data-nav-idx="0">Servizi</button>
+                <button class="nav-trigger" data-nav-idx="1">Portfolio</button>
+                <button class="nav-trigger" data-nav-idx="2">Contatti</button>
+            </div>
+        </div>
+        <a href="contatti.html" class="nav-cta">Richiedi preventivo</a>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu">
+            <span></span><span></span><span></span>
+        </button>
     </div>
-    <a href="contatti.html" class="nav-cta">Richiedi preventivo</a>
-    <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu">
-        <span></span><span></span><span></span>
-    </button>
+
+    <!-- Mega panel -->
+    <div class="nav-panel" id="navPanel" aria-hidden="true">
+        <div class="nav-panel-inner">
+            <div class="nav-col-left">
+                <ul class="nav-main-list">
+                    <li><button class="nav-main-btn is-selected" data-idx="0">Servizi</button></li>
+                    <li><button class="nav-main-btn" data-idx="1">Portfolio</button></li>
+                    <li><button class="nav-main-btn" data-idx="2">Contatti</button></li>
+                </ul>
+            </div>
+            <div class="nav-col-right">
+                <div class="nav-close-row">
+                    <button class="nav-close-btn" id="navClose">Chiudi</button>
+                </div>
+                <ul class="nav-sub-list is-visible" data-sub="0">
+                    <li><a href="#servizi" class="nav-sub-link"><span>Posa Parquet</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
+                    <li><a href="#servizi" class="nav-sub-link"><span>Outdoor WPC</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
+                    <li><a href="#servizi" class="nav-sub-link"><span>Restauro e Levigatura</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
+                </ul>
+                <ul class="nav-sub-list" data-sub="1">
+                    <li><a href="#portfolio" class="nav-sub-link"><span>Lavori recenti</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
+                    <li><a href="#portfolio" class="nav-sub-link"><span>Residenziale</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
+                    <li><a href="#portfolio" class="nav-sub-link"><span>Commerciale e contract</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
+                </ul>
+                <ul class="nav-sub-list" data-sub="2">
+                    <li><a href="contatti.html" class="nav-sub-link"><span>Richiedi un preventivo</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
+                    <li><a href="contatti.html" class="nav-sub-link"><span>Sopralluogo gratuito</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
+                    <li><a href="contatti.html" class="nav-sub-link"><span>Dove siamo</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </nav>
 
 <!-- ── MOBILE MENU ─────────────────────────────────────────── -->
 <div class="nav-mobile" id="navMobile">
     <ul>
+        <li><a href="#servizi">Servizi</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="contatti.html">Contatti</a></li>
     </ul>
     <a href="contatti.html" class="mobile-cta">Richiedi preventivo</a>
@@ -956,7 +1018,7 @@
 
 
 <!-- ── COLLECTIONS ─────────────────────────────────────────── -->
-<section class="collections">
+<section class="collections" id="servizi">
     <div class="collections-header">
         <div>
             <p class="section-label">I nostri servizi</p>
@@ -990,7 +1052,7 @@
 
 
 <!-- ── PROJECTS ─────────────────────────────────────────────── -->
-<div class="projects">
+<div class="projects" id="portfolio">
     <div class="projects-header">
         <p class="section-label">Lavori eseguiti</p>
         <h2 class="projects-title">Alcuni dei nostri<br><em>interventi recenti</em></h2>
@@ -1104,12 +1166,58 @@
     const nav = document.getElementById('navbar');
     const heroThreshold = window.innerHeight * 0.75;
     function updateNav() {
-        const y = window.scrollY;
-        nav.classList.toggle('scrolled', y > heroThreshold);
-        if (window.innerWidth > 960) nav.style.padding = y > 60 ? '1rem 3.5rem' : '1.5rem 3.5rem';
+        if (nav.classList.contains('nav-open')) return;
+        nav.classList.toggle('scrolled', window.scrollY > heroThreshold);
     }
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
+
+    // Mega nav
+    (function() {
+        const triggers = document.querySelectorAll('.nav-trigger');
+        const mainBtns = document.querySelectorAll('.nav-main-btn');
+        const subLists = document.querySelectorAll('.nav-sub-list');
+        const closeBtn = document.getElementById('navClose');
+        const panel = document.getElementById('navPanel');
+        let megaIdx = 0;
+
+        function selectSection(idx) {
+            megaIdx = idx;
+            mainBtns.forEach(b => b.classList.toggle('is-selected', parseInt(b.dataset.idx) === idx));
+            subLists.forEach(l => l.classList.toggle('is-visible', parseInt(l.dataset.sub) === idx));
+            triggers.forEach(t => t.classList.toggle('is-active', parseInt(t.dataset.navIdx) === idx));
+        }
+
+        function openNav(idx) {
+            selectSection(idx);
+            nav.classList.remove('scrolled');
+            nav.classList.add('nav-open');
+            panel.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeNav() {
+            nav.classList.remove('nav-open');
+            panel.setAttribute('aria-hidden', 'true');
+            triggers.forEach(t => t.classList.remove('is-active'));
+            nav.classList.toggle('scrolled', window.scrollY > heroThreshold);
+        }
+
+        triggers.forEach(t => {
+            t.addEventListener('click', () => {
+                const idx = parseInt(t.dataset.navIdx);
+                if (nav.classList.contains('nav-open') && megaIdx === idx) closeNav();
+                else openNav(idx);
+            });
+        });
+
+        mainBtns.forEach(b => b.addEventListener('click', () => selectSection(parseInt(b.dataset.idx))));
+        if (closeBtn) closeBtn.addEventListener('click', closeNav);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+        document.querySelectorAll('.nav-sub-link').forEach(a => a.addEventListener('click', closeNav));
+        document.addEventListener('click', e => {
+            if (nav.classList.contains('nav-open') && !nav.contains(e.target)) closeNav();
+        });
+    }());
 
     // Video autoplay + resume on any touch (iOS)
     const heroVideo = document.querySelector('.hero-video');
