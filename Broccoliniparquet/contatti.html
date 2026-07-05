@@ -604,31 +604,38 @@
             Richiedi un<br><em>preventivo gratuito</em>
         </h2>
 
-        <form onsubmit="handleSubmit(event)">
+        <form id="contactForm" onsubmit="handleSubmit(event)">
+            <!-- Web3Forms: inserisci qui la tua access key da web3forms.com -->
+            <input type="hidden" name="access_key" value="INSERISCI_QUI_LA_TUA_KEY">
+            <input type="hidden" name="subject" value="Nuova richiesta preventivo — Broccolini Parquet">
+            <input type="hidden" name="from_name" value="Broccolini Parquet Website">
+            <input type="hidden" name="redirect" value="false">
+            <input type="checkbox" name="botcheck" style="display:none">
+
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-label" for="nome">Nome</label>
-                    <input class="form-input" type="text" id="nome" placeholder="Mario" required>
+                    <input class="form-input" type="text" id="nome" name="nome" placeholder="Mario" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="cognome">Cognome</label>
-                    <input class="form-input" type="text" id="cognome" placeholder="Rossi" required>
+                    <input class="form-input" type="text" id="cognome" name="cognome" placeholder="Rossi" required>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="form-label" for="email">Email</label>
-                <input class="form-input" type="email" id="email" placeholder="mario@esempio.it" required>
+                <input class="form-input" type="email" id="email" name="email" placeholder="mario@esempio.it" required>
             </div>
 
             <div class="form-group">
                 <label class="form-label" for="telefono">Telefono</label>
-                <input class="form-input" type="tel" id="telefono" placeholder="+39 333 000 0000">
+                <input class="form-input" type="tel" id="telefono" name="telefono" placeholder="+39 333 000 0000">
             </div>
 
             <div class="form-group">
                 <label class="form-label" for="servizio">Tipo di intervento</label>
-                <select class="form-select form-input" id="servizio" required>
+                <select class="form-select form-input" id="servizio" name="servizio" required>
                     <option value="" disabled selected>Seleziona un servizio</option>
                     <option value="parquet">Posa parquet interno</option>
                     <option value="wpc">Decking WPC esterno</option>
@@ -640,7 +647,7 @@
 
             <div class="form-group">
                 <label class="form-label" for="messaggio">Messaggio</label>
-                <textarea class="form-textarea form-input" id="messaggio" placeholder="Descrivi brevemente il tuo progetto (mq, tipologia di locale, tempistiche…)"></textarea>
+                <textarea class="form-textarea form-input" id="messaggio" name="messaggio" placeholder="Descrivi brevemente il tuo progetto (mq, tipologia di locale, tempistiche…)"></textarea>
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">
@@ -652,6 +659,12 @@
                 I tuoi dati non saranno ceduti a terzi.
             </p>
         </form>
+
+        <!-- Messaggio di conferma (nascosto di default) -->
+        <div id="formSuccess" style="display:none; text-align:center; padding: 3rem 0;">
+            <p style="font-size:1.8rem; font-weight:700; color:var(--white); letter-spacing:-0.02em; margin-bottom:0.75rem;">Richiesta inviata ✓</p>
+            <p style="color:rgba(255,255,255,0.5); font-size:0.9rem; font-weight:300;">Ti risponderemo entro 24 ore lavorative.</p>
+        </div>
     </div>
 
 </div>
@@ -681,31 +694,40 @@
 </footer>
 
 <script>
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
-        const nome     = document.getElementById('nome').value;
-        const cognome  = document.getElementById('cognome').value;
-        const email    = document.getElementById('email').value;
-        const telefono = document.getElementById('telefono').value;
-        const servizio = document.getElementById('servizio').value;
-        const msg      = document.getElementById('messaggio').value;
+        const form = document.getElementById('contactForm');
+        const successEl = document.getElementById('formSuccess');
 
-        const body = encodeURIComponent(
-            `Nome: ${nome} ${cognome}\nEmail: ${email}\nTelefono: ${telefono}\nServizio: ${servizio}\n\n${msg}`
-        );
-        const subject = encodeURIComponent(`Richiesta preventivo – ${nome} ${cognome}`);
+        btn.textContent = 'Invio in corso…';
+        btn.disabled = true;
 
-        window.location.href = `mailto:broccoliniparquet@gmail.com?subject=${subject}&body=${body}`;
+        try {
+            const data = new FormData(form);
+            const res = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: data
+            });
+            const json = await res.json();
 
-        btn.textContent = 'Richiesta inviata ✓';
-        btn.style.background = '#4a7c59';
-        btn.style.color = '#fff';
-        setTimeout(() => {
-            btn.textContent = 'Invia richiesta';
-            btn.style.background = '';
-            btn.style.color = '';
-        }, 3500);
+            if (json.success) {
+                form.style.display = 'none';
+                successEl.style.display = 'block';
+            } else {
+                throw new Error(json.message || 'Errore invio');
+            }
+        } catch (err) {
+            btn.textContent = 'Errore — riprova';
+            btn.style.background = '#8b2e2e';
+            btn.style.color = '#fff';
+            btn.disabled = false;
+            setTimeout(() => {
+                btn.textContent = 'Invia richiesta';
+                btn.style.background = '';
+                btn.style.color = '';
+            }, 4000);
+        }
     }
 
     // Mega nav
