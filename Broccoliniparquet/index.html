@@ -561,6 +561,7 @@
             height: 100%;
             object-fit: contain;
             display: block;
+            filter: contrast(1.07) saturate(1.15) brightness(1.04);
         }
 
         .slider-overlay {
@@ -1062,25 +1063,27 @@
     </div>
     <div class="slider-container" id="sliderContainer">
 
-        <!-- ── FOTO: aggiungi le tue foto come nuovi div .slide ── -->
+        <!-- ── LAVORI REALI ── aggiungi nuove foto con lo stesso schema ── -->
         <div class="slide active">
+            <div class="slide-blur" style="background-image: url('lavoro-jacuzzi.jpg')"></div>
+            <img class="slide-img" src="lavoro-jacuzzi.jpg" alt="Terrazza WPC con jacuzzi">
+        </div>
+        <div class="slide">
+            <div class="slide-blur" style="background-image: url('lavoro-terrazza-mare.jpg')"></div>
+            <img class="slide-img" src="lavoro-terrazza-mare.jpg" alt="Terrazza WPC vista mare">
+        </div>
+        <div class="slide">
+            <div class="slide-blur" style="background-image: url('lavoro-antracite.jpg')"></div>
+            <img class="slide-img" src="lavoro-antracite.jpg" alt="Decking antracite bordo piscina">
+        </div>
+        <div class="slide">
+            <div class="slide-blur" style="background-image: url('lavoro-piscina.jpg')"></div>
+            <img class="slide-img" src="lavoro-piscina.jpg" alt="Decking WPC bordo piscina">
+        </div>
+        <div class="slide">
             <div class="slide-blur" style="background-image: url('https://res.cloudinary.com/dyljv6wel/image/upload/v1778590671/interno_showroom_lgd5z4.jpg')"></div>
-            <img class="slide-img" src="https://res.cloudinary.com/dyljv6wel/image/upload/v1778590671/interno_showroom_lgd5z4.jpg" alt="Showroom parquet" loading="lazy">
+            <img class="slide-img" src="https://res.cloudinary.com/dyljv6wel/image/upload/v1778590671/interno_showroom_lgd5z4.jpg" alt="Showroom parquet interno" loading="lazy">
         </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('hero-wpc.jpg')"></div>
-            <img class="slide-img" src="hero-wpc.jpg" alt="Terrazza WPC" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('parete-legno.jpg')"></div>
-            <img class="slide-img" src="parete-legno.jpg" alt="Parete in legno" loading="lazy">
-        </div>
-        <!-- Aggiungi altre foto qui sotto — esempio:
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('NOME_FOTO.jpg')"></div>
-            <img class="slide-img" src="NOME_FOTO.jpg" alt="Descrizione">
-        </div>
-        -->
 
         <div class="slider-overlay"></div>
         <button class="slide-btn prev" id="slidePrev" aria-label="Foto precedente">&#8249;</button>
