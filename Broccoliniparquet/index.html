@@ -526,8 +526,8 @@
 
         .slider-container {
             position: relative;
-            height: 65vh;
-            min-height: 400px;
+            height: 88vh;
+            min-height: 500px;
             overflow: hidden;
             background: #0a0804;
         }
@@ -537,10 +537,31 @@
             inset: 0;
             opacity: 0;
             transition: opacity 0.9s ease;
-            background-size: cover;
-            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .slide.active { opacity: 1; }
+
+        .slide-blur {
+            position: absolute;
+            inset: -30px;
+            background-size: cover;
+            background-position: center;
+            filter: blur(28px) brightness(0.45) saturate(0.7);
+            transform: scale(1.05);
+        }
+
+        .slide-img {
+            position: relative;
+            z-index: 1;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
 
         .slider-overlay {
             position: absolute;
@@ -899,7 +920,7 @@
             .service-title { font-size: 2.2rem; }
 
             .portfolio-inner { padding: 0 1.5rem 2.5rem; }
-            .slider-container { height: 72vw; min-height: 300px; }
+            .slider-container { height: 90vw; min-height: 400px; }
             .slide-btn { width: 2.4rem; height: 2.4rem; font-size: 1.1rem; }
 
             .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
@@ -1042,11 +1063,23 @@
     <div class="slider-container" id="sliderContainer">
 
         <!-- ── FOTO: aggiungi le tue foto come nuovi div .slide ── -->
-        <div class="slide active" style="background-image: url('https://res.cloudinary.com/dyljv6wel/image/upload/v1778590671/interno_showroom_lgd5z4.jpg')"></div>
-        <div class="slide" style="background-image: url('hero-wpc.jpg'); background-position: center 40%"></div>
-        <div class="slide" style="background-image: url('parete-legno.jpg'); background-position: center center"></div>
+        <div class="slide active">
+            <div class="slide-blur" style="background-image: url('https://res.cloudinary.com/dyljv6wel/image/upload/v1778590671/interno_showroom_lgd5z4.jpg')"></div>
+            <img class="slide-img" src="https://res.cloudinary.com/dyljv6wel/image/upload/v1778590671/interno_showroom_lgd5z4.jpg" alt="Showroom parquet" loading="lazy">
+        </div>
+        <div class="slide">
+            <div class="slide-blur" style="background-image: url('hero-wpc.jpg')"></div>
+            <img class="slide-img" src="hero-wpc.jpg" alt="Terrazza WPC" loading="lazy">
+        </div>
+        <div class="slide">
+            <div class="slide-blur" style="background-image: url('parete-legno.jpg')"></div>
+            <img class="slide-img" src="parete-legno.jpg" alt="Parete in legno" loading="lazy">
+        </div>
         <!-- Aggiungi altre foto qui sotto — esempio:
-        <div class="slide" style="background-image: url('URL_FOTO_4')"></div>
+        <div class="slide">
+            <div class="slide-blur" style="background-image: url('NOME_FOTO.jpg')"></div>
+            <img class="slide-img" src="NOME_FOTO.jpg" alt="Descrizione">
+        </div>
         -->
 
         <div class="slider-overlay"></div>
