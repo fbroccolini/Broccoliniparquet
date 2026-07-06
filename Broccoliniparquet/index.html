@@ -503,11 +503,23 @@
         /* ── PORTFOLIO SLIDER ────────────────────── */
         .portfolio-section {
             background: var(--dark);
-            padding: 6rem 0 0;
+            padding: 3rem 0 5rem;
+        }
+
+        .portfolio-split {
+            display: flex;
+            align-items: stretch;
+            min-height: 68vh;
         }
 
         .portfolio-inner {
-            padding: 0 4.5rem 3rem;
+            width: 36%;
+            min-width: 320px;
+            flex-shrink: 0;
+            padding: 0 2rem 0 4.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .portfolio-inner .section-label { color: var(--accent); }
@@ -526,10 +538,10 @@
 
         .slider-container {
             position: relative;
-            height: 88vh;
+            flex: 1;
             min-height: 500px;
             overflow: hidden;
-            background: #0a0804;
+            background: var(--dark);
         }
 
         .slide {
@@ -543,14 +555,7 @@
         }
         .slide.active { opacity: 1; }
 
-        .slide-blur {
-            position: absolute;
-            inset: -30px;
-            background-size: cover;
-            background-position: center;
-            filter: blur(28px) brightness(0.45) saturate(0.7);
-            transform: scale(1.05);
-        }
+        .slide-blur { display: none; }
 
         .slide-img {
             position: relative;
@@ -558,19 +563,13 @@
             max-width: 100%;
             max-height: 100%;
             width: auto;
-            height: 100%;
+            height: auto;
             object-fit: contain;
             display: block;
             filter: contrast(1.07) saturate(1.15) brightness(1.04);
         }
 
-        .slider-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 50%);
-            z-index: 1;
-            pointer-events: none;
-        }
+        .slider-overlay { display: none; }
 
         .slide-counter {
             position: absolute;
@@ -920,8 +919,9 @@
             .service-row { grid-template-columns: 1fr; gap: 0.5rem; }
             .service-title { font-size: 2.2rem; }
 
-            .portfolio-inner { padding: 0 1.5rem 2.5rem; }
-            .slider-container { height: 90vw; min-height: 400px; }
+            .portfolio-split { flex-direction: column; min-height: 0; }
+            .portfolio-inner { width: 100%; min-width: 0; padding: 0 1.5rem 2rem; }
+            .slider-container { flex: none; height: 90vw; min-height: 400px; }
             .slide-btn { width: 2.4rem; height: 2.4rem; font-size: 1.1rem; }
 
             .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
@@ -1057,6 +1057,7 @@
 
 <!-- ── PORTFOLIO SLIDER ──────────────────────────────────────── -->
 <section class="portfolio-section" id="portfolio">
+  <div class="portfolio-split">
     <div class="portfolio-inner">
         <p class="section-label">Lavori eseguiti</p>
         <h2 class="portfolio-title">Alcuni dei nostri<br><em>interventi recenti</em></h2>
@@ -1123,6 +1124,7 @@
         <div class="slide-indicators" id="slideIndicators"></div>
         <span class="slide-counter" id="slideCounter"></span>
     </div>
+  </div>
 </section>
 
 
