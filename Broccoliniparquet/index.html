@@ -16,7 +16,7 @@
         :root {
             /* ── PWS unified palette ── */
             --dark:    #111111;
-            --mid:     #888888;
+            --mid:     #666666;
             --light:   #f2f2f2;
             --white:   #ffffff;
             --bg:      #f7f6f3;
@@ -106,7 +106,7 @@
         }
         .nav-trigger:hover { color: #ffffff; }
         nav#navbar.scrolled .nav-trigger,
-        nav#navbar.nav-open .nav-trigger { color: rgba(17,17,17,0.4); }
+        nav#navbar.nav-open .nav-trigger { color: rgba(17,17,17,0.6); }
         nav#navbar.scrolled .nav-trigger:hover,
         nav#navbar.nav-open .nav-trigger.is-active { color: var(--dark); }
 
@@ -500,9 +500,61 @@
             opacity: 0.55;
         }
 
+        /* ── STATS / NUMERI ──────────────────────── */
+        .stats { background: var(--dark); }
+        .stats .section-label { color: var(--accent); }
+        .stats .section-label::before { background: var(--accent); }
+
+        .stats-header { margin-bottom: 3.5rem; }
+        .stats-header .section-title { color: var(--white); }
+        .stats-header .section-title em { font-style: normal; color: var(--accent); }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem 2rem;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.7rem;
+            padding-top: 1.6rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .stat-num {
+            font-family: var(--f);
+            font-size: clamp(2.6rem, 4.5vw, 4rem);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            color: var(--white);
+            display: flex;
+            align-items: baseline;
+            gap: 0.15em;
+        }
+        .stat-suffix {
+            font-size: 0.32em;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.78);
+            line-height: 1.4;
+        }
+
         /* ── PORTFOLIO SLIDER ────────────────────── */
         .portfolio-section {
-            background: var(--dark);
+            background: var(--bg);
             padding: 3rem 0 5rem;
         }
 
@@ -531,7 +583,7 @@
             font-weight: 700;
             line-height: 0.95;
             letter-spacing: -0.03em;
-            color: var(--white);
+            color: var(--dark);
             margin-top: 0.6rem;
         }
         .portfolio-title em { font-style: normal; color: var(--accent); }
@@ -541,7 +593,7 @@
             flex: 1;
             min-height: 500px;
             overflow: hidden;
-            background: var(--dark);
+            background: var(--bg);
         }
 
         .slide {
@@ -577,7 +629,8 @@
             right: 1.8rem;
             font-size: 0.65rem;
             letter-spacing: 0.18em;
-            color: rgba(255,255,255,0.45);
+            color: rgba(17,17,17,0.6);
+            text-shadow: 0 0 6px rgba(255,255,255,0.85);
             z-index: 3;
             font-weight: 400;
         }
@@ -615,14 +668,15 @@
         .slide-dot {
             height: 2px;
             width: 24px;
-            background: rgba(255,255,255,0.3);
+            background: rgba(17,17,17,0.35);
+            box-shadow: 0 0 4px rgba(255,255,255,0.6);
             cursor: pointer;
             border: none;
             padding: 0;
             transition: background 0.35s, width 0.35s;
         }
         .slide-dot.active {
-            background: rgba(255,255,255,0.85);
+            background: rgba(17,17,17,0.9);
             width: 44px;
         }
 
@@ -919,6 +973,7 @@
             .service-row { grid-template-columns: 1fr; gap: 0.5rem; }
             .service-title { font-size: 2.2rem; }
 
+            .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
             .portfolio-split { flex-direction: column; min-height: 0; }
             .portfolio-inner { width: 100%; min-width: 0; padding: 0 1.5rem 2rem; }
             .slider-container { flex: none; height: 90vw; min-height: 400px; }
@@ -1025,7 +1080,6 @@
 <section class="collections" id="servizi">
     <div class="collections-header">
         <div>
-            <p class="section-label">I nostri servizi</p>
             <h2 class="section-title">Tutto quello che<br>serve al tuo pavimento</h2>
         </div>
     </div>
@@ -1055,11 +1109,32 @@
 </section>
 
 
+<!-- ── STATS / NUMERI ──────── NUMERI SEGNAPOSTO: sostituire con dati reali ── -->
+<section class="stats" id="numeri">
+    <div class="stats-header">
+        <h2 class="section-title">Esperienza che<br><em>parla da sé</em></h2>
+    </div>
+    <div class="stats-grid">
+        <div class="stat">
+            <div class="stat-num"><span class="stat-value" data-target="25">25</span><span class="stat-suffix">+</span></div>
+            <p class="stat-label">anni di esperienza del posatore</p>
+        </div>
+        <div class="stat">
+            <div class="stat-num"><span class="stat-value" data-target="50000">50.000</span><span class="stat-suffix">+ m²</span></div>
+            <p class="stat-label">di superfici posate</p>
+        </div>
+        <div class="stat">
+            <div class="stat-num"><span class="stat-value" data-target="300">300</span><span class="stat-suffix">+</span></div>
+            <p class="stat-label">cantieri completati</p>
+        </div>
+    </div>
+</section>
+
+
 <!-- ── PORTFOLIO SLIDER ──────────────────────────────────────── -->
 <section class="portfolio-section" id="portfolio">
   <div class="portfolio-split">
     <div class="portfolio-inner">
-        <p class="section-label">Lavori eseguiti</p>
         <h2 class="portfolio-title">Alcuni dei nostri<br><em>interventi recenti</em></h2>
     </div>
     <div class="slider-container" id="sliderContainer">
@@ -1170,6 +1245,30 @@
     }, { threshold: 0.1 });
     const servicesList = document.querySelector('.services-list');
     if (servicesList) servicesObserver.observe(servicesList);
+
+    // Count-up numeri al primo ingresso in viewport
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            statsObserver.unobserve(e.target);
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            e.target.querySelectorAll('.stat-value').forEach(el => {
+                const target = parseInt(el.dataset.target, 10) || 0;
+                if (reduceMotion) { el.textContent = target.toLocaleString('it-IT'); return; }
+                const duration = 1400;
+                const start = performance.now();
+                function tick(now) {
+                    const p = Math.min((now - start) / duration, 1);
+                    const eased = 1 - Math.pow(1 - p, 3);
+                    el.textContent = Math.round(target * eased).toLocaleString('it-IT');
+                    if (p < 1) requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            });
+        });
+    }, { threshold: 0.35 });
+    const statsGrid = document.querySelector('.stats-grid');
+    if (statsGrid) statsObserver.observe(statsGrid);
 
     // Marker highlight animation
     const tlMarker = document.getElementById('tlMarker');
