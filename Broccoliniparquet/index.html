@@ -110,6 +110,16 @@
         nav#navbar.scrolled .nav-trigger:hover,
         nav#navbar.nav-open .nav-trigger.is-active { color: var(--dark); }
 
+        .nav-link-page {
+            font-family: var(--f); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s;
+        }
+        .nav-link-page:hover { color: #ffffff; }
+        nav#navbar.scrolled .nav-link-page,
+        nav#navbar.nav-open .nav-link-page { color: rgba(17,17,17,0.6); }
+        nav#navbar.scrolled .nav-link-page:hover,
+        nav#navbar.nav-open .nav-link-page:hover { color: var(--dark); }
+
         .nav-cta {
             font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
             color: #ffffff; background: transparent; border: 1px solid rgba(255,255,255,0.5);
@@ -1062,6 +1072,7 @@
                 <button class="nav-trigger" data-nav-idx="0">Servizi</button>
                 <button class="nav-trigger" data-nav-idx="1">Portfolio</button>
                 <button class="nav-trigger" data-nav-idx="2">Contatti</button>
+                <a href="faq.html" class="nav-link-page">FAQ</a>
             </div>
         </div>
         <a href="contatti.html" class="nav-cta">Richiedi preventivo</a>
@@ -1109,6 +1120,7 @@
     <ul>
         <li><a href="#servizi">Servizi</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="faq.html">FAQ</a></li>
         <li><a href="contatti.html">Contatti</a></li>
     </ul>
     <a href="contatti.html" class="mobile-cta">Richiedi preventivo</a>
