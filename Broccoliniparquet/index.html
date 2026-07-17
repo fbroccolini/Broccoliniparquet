@@ -424,6 +424,7 @@
             line-height: 1.0;
             letter-spacing: -0.03em;
             color: var(--dark);
+            text-wrap: balance;
         }
 
         /* ── COLLECTIONS ─────────────────────────── */
@@ -431,7 +432,8 @@
 
         .collections-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            text-align: center;
             align-items: flex-end;
             padding-bottom: 2.5rem;
             border-bottom: 1px solid rgba(30,23,20,0.13);
@@ -505,7 +507,7 @@
         .stats .section-label { color: var(--accent); }
         .stats .section-label::before { background: var(--accent); }
 
-        .stats-header { margin-bottom: 3.5rem; }
+        .stats-header { margin-bottom: 3.5rem; text-align: center; }
         .stats-header .section-title { color: var(--white); }
         .stats-header .section-title em { font-style: normal; color: var(--accent); }
 
@@ -745,11 +747,67 @@
             opacity: 0.55;
         }
 
+        /* ── COME LAVORIAMO ──────────────────────── */
+        .process { background: var(--dark); }
+
+        .process-header { margin-bottom: 3.5rem; }
+        .process-title {
+            font-family: var(--f);
+            font-size: clamp(2rem, 3.8vw, 3.4rem);
+            font-weight: 700;
+            line-height: 1.0;
+            letter-spacing: -0.03em;
+            color: var(--white);
+        }
+        .process-title em { font-style: normal; color: var(--accent); }
+        .process-intro {
+            margin-top: 1.1rem;
+            max-width: 56ch;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem 2rem;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+        .step-num {
+            font-family: var(--f);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+        }
+        .step-title {
+            font-family: var(--f);
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            color: var(--white);
+        }
+        .step-desc {
+            font-size: 0.9rem;
+            font-weight: 400;
+            line-height: 1.55;
+            color: rgba(255,255,255,0.62);
+        }
+
         /* ── CTA DARK ────────────────────────────── */
         .cta-section {
             background: var(--dark);
             text-align: center;
             padding: 8rem 4.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
         }
         .cta-section .section-label {
             justify-content: center;
@@ -974,6 +1032,7 @@
             .service-title { font-size: 2.2rem; }
 
             .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .process-grid { grid-template-columns: 1fr; gap: 1.75rem; }
             .portfolio-split { flex-direction: column; min-height: 0; }
             .portfolio-inner { width: 100%; min-width: 0; padding: 0 1.5rem 2rem; }
             .slider-container { flex: none; height: 90vw; min-height: 400px; }
@@ -1080,7 +1139,7 @@
 <section class="collections" id="servizi">
     <div class="collections-header">
         <div>
-            <h2 class="section-title">Tutto quello che<br>serve al tuo pavimento</h2>
+            <h2 class="section-title">Tutto quello che serve al tuo pavimento</h2>
         </div>
     </div>
     <div class="services-list">
@@ -1112,7 +1171,7 @@
 <!-- ── STATS / NUMERI ──────── NUMERI SEGNAPOSTO: sostituire con dati reali ── -->
 <section class="stats" id="numeri">
     <div class="stats-header">
-        <h2 class="section-title">Esperienza che<br><em>parla da sé</em></h2>
+        <h2 class="section-title">Esperienza che <em>parla da sé</em></h2>
     </div>
     <div class="stats-grid">
         <div class="stat">
@@ -1203,10 +1262,40 @@
 </section>
 
 
+<!-- ── COME LAVORIAMO ───────────────────────────────────────── -->
+<section class="process" id="processo">
+    <div class="process-header">
+        <h2 class="process-title">Dal sopralluogo<br>alla <em>consegna</em></h2>
+        <p class="process-intro">Un percorso chiaro, senza sorprese in corso d'opera. Ci occupiamo di tutto: materiale e posa, un solo referente dall'inizio alla fine.</p>
+    </div>
+    <div class="process-grid">
+        <div class="step">
+            <span class="step-num">01</span>
+            <h3 class="step-title">Sopralluogo gratuito</h3>
+            <p class="step-desc">Veniamo da te, misuriamo gli spazi e valutiamo il supporto. Senza impegno.</p>
+        </div>
+        <div class="step">
+            <span class="step-num">02</span>
+            <h3 class="step-title">Preventivo chiaro</h3>
+            <p class="step-desc">Materiali e costi definiti in anticipo, per iscritto. Nessuna sorpresa dopo.</p>
+        </div>
+        <div class="step">
+            <span class="step-num">03</span>
+            <h3 class="step-title">Posa</h3>
+            <p class="step-desc">Esecuzione diretta dei nostri posatori. Cantiere ordinato e tempi rispettati.</p>
+        </div>
+        <div class="step">
+            <span class="step-num">04</span>
+            <h3 class="step-title">Consegna e garanzia</h3>
+            <p class="step-desc">Ti consegniamo il pavimento pronto e pulito, con garanzia sul lavoro eseguito.</p>
+        </div>
+    </div>
+</section>
+
 <!-- ── CTA ──────────────────────────────────────────────────── -->
 <section class="cta-section">
     <h2 class="cta-title">Iniziamo a<br><em>lavorare insieme</em></h2>
-    <a href="contatti.html" class="cta-btn">Vai ai contatti</a>
+    <a href="contatti.html" class="cta-btn">Richiedi il sopralluogo gratuito</a>
 </section>
 
 <!-- ── FOOTER ───────────────────────────────────────────────── -->
