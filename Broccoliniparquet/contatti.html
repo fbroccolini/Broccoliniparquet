@@ -464,7 +464,7 @@
         }
         /* ── HAMBURGER & MOBILE MENU ─────────────────── */
         .nav-hamburger {
-            display: none;
+            display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 5px;
@@ -487,19 +487,20 @@
         .nav-hamburger.open span:nth-child(2) { opacity: 0; }
         .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
         .nav-mobile {
-            display: none;
+            display: flex;
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 99;
             background: var(--bg);
             border-bottom: 1px solid var(--border);
-            padding: 5rem 2rem 2rem;
+            padding: 6rem 3.5rem 2.5rem;
             flex-direction: column;
             gap: 0;
             transform: translateY(-100%);
             transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .nav-mobile.open { transform: translateY(0); }
+        .nav-mobile-inner { width: 100%; max-width: 520px; margin: 0 auto; }
         .nav-mobile ul { list-style: none; display: flex; flex-direction: column; border-top: 1px solid var(--border); }
         .nav-mobile ul li { border-bottom: 1px solid var(--border); }
         .nav-mobile ul li a { display: block; padding: 1.1rem 0; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dark); text-decoration: none; }
@@ -509,10 +510,7 @@
         /* ── RESPONSIVE ──────────────────────────── */
         @media (max-width: 960px) {
             .nav-bar { padding: 0 1.5rem; }
-            .nav-triggers, .nav-cta { display: none; }
-            .nav-hamburger { display: flex; }
-            .nav-mobile { display: flex; }
-            .nav-panel { display: none; }
+            .nav-mobile { padding: 5rem 1.5rem 2rem; }
             .page-header { padding: 100px 1.5rem 3rem; }
             .contact-section { grid-template-columns: 1fr; }
             .contact-info { padding: 3rem 1.5rem; border-right: none; border-bottom: 1px solid var(--border); }
@@ -536,67 +534,28 @@
 <!-- ── NAV ─────────────────────────────────────────────────── -->
 <nav id="navbar">
     <div class="nav-bar">
-        <div class="nav-left">
-            <a href="index.html" class="nav-logo">
-                <span class="logo-name">Broccolini</span>
-                <span class="logo-rule"></span>
-                <span class="logo-sub">Parquet</span>
-            </a>
-            <div class="nav-triggers">
-                <button class="nav-trigger" data-nav-idx="0">Servizi</button>
-                <button class="nav-trigger" data-nav-idx="1">Portfolio</button>
-                <button class="nav-trigger" data-nav-idx="2">Contatti</button>
-                <a href="faq.html" class="nav-link-page">FAQ</a>
-            </div>
-        </div>
-        <a href="#form" class="nav-cta">Richiedi preventivo</a>
-        <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu">
+        <a href="index.html" class="nav-logo">
+            <span class="logo-name">Broccolini</span>
+            <span class="logo-rule"></span>
+            <span class="logo-sub">Parquet</span>
+        </a>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu" aria-expanded="false" aria-controls="navMobile">
             <span></span><span></span><span></span>
         </button>
-    </div>
-
-    <div class="nav-panel" id="navPanel" aria-hidden="true">
-        <div class="nav-panel-inner">
-            <div class="nav-col-left">
-                <ul class="nav-main-list">
-                    <li><button class="nav-main-btn is-selected" data-idx="0">Servizi</button></li>
-                    <li><button class="nav-main-btn" data-idx="1">Portfolio</button></li>
-                    <li><button class="nav-main-btn" data-idx="2">Contatti</button></li>
-                </ul>
-            </div>
-            <div class="nav-col-right">
-                <div class="nav-close-row">
-                    <button class="nav-close-btn" id="navClose">Chiudi</button>
-                </div>
-                <ul class="nav-sub-list is-visible" data-sub="0">
-                    <li><a href="index.html#servizi" class="nav-sub-link"><span>Posa Parquet</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
-                    <li><a href="index.html#servizi" class="nav-sub-link"><span>Outdoor WPC</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
-                    <li><a href="index.html#servizi" class="nav-sub-link"><span>Restauro e Levigatura</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
-                </ul>
-                <ul class="nav-sub-list" data-sub="1">
-                    <li><a href="index.html#portfolio" class="nav-sub-link"><span>Lavori recenti</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
-                    <li><a href="index.html#portfolio" class="nav-sub-link"><span>Residenziale</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
-                    <li><a href="index.html#portfolio" class="nav-sub-link"><span>Commerciale e contract</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
-                </ul>
-                <ul class="nav-sub-list" data-sub="2">
-                    <li><a href="#form" class="nav-sub-link"><span>Richiedi un preventivo</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
-                    <li><a href="#form" class="nav-sub-link"><span>Sopralluogo gratuito</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
-                    <li><a href="#form" class="nav-sub-link"><span>Dove siamo</span><svg viewBox="0 0 15 11" xmlns="http://www.w3.org/2000/svg"><path d="M9.042.493l4.631 4.658H0v.698h13.673l-4.63 4.658.49.493L15 5.5 9.532 0z" fill="currentColor"/></svg></a></li>
-                </ul>
-            </div>
-        </div>
     </div>
 </nav>
 
 <div class="nav-mobile" id="navMobile">
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html#servizi">Servizi</a></li>
-        <li><a href="index.html#portfolio">Portfolio</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="#form">Contatti</a></li>
-    </ul>
-    <a href="#form" class="mobile-cta">Richiedi preventivo</a>
+    <div class="nav-mobile-inner">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#servizi">Servizi</a></li>
+            <li><a href="index.html#portfolio">Portfolio</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="#form">Contatti</a></li>
+        </ul>
+        <a href="#form" class="mobile-cta">Richiedi preventivo</a>
+    </div>
 </div>
 
 <!-- ── PAGE HEADER ──────────────────────────────────────────── -->
@@ -762,51 +721,20 @@
         }
     }
 
-    // Mega nav
-    (function() {
-        const nav = document.getElementById('navbar');
-        const triggers = document.querySelectorAll('.nav-trigger');
-        const mainBtns = document.querySelectorAll('.nav-main-btn');
-        const subLists = document.querySelectorAll('.nav-sub-list');
-        const closeBtn = document.getElementById('navClose');
-        const panel = document.getElementById('navPanel');
-        let megaIdx = 0;
-        function selectSection(idx) {
-            megaIdx = idx;
-            mainBtns.forEach(b => b.classList.toggle('is-selected', parseInt(b.dataset.idx) === idx));
-            subLists.forEach(l => l.classList.toggle('is-visible', parseInt(l.dataset.sub) === idx));
-            triggers.forEach(t => t.classList.toggle('is-active', parseInt(t.dataset.navIdx) === idx));
-        }
-        function openNav(idx) { selectSection(idx); nav.classList.add('nav-open'); panel.setAttribute('aria-hidden', 'false'); }
-        function closeNav() { nav.classList.remove('nav-open'); panel.setAttribute('aria-hidden', 'true'); triggers.forEach(t => t.classList.remove('is-active')); }
-        triggers.forEach(t => {
-            t.addEventListener('click', () => {
-                const idx = parseInt(t.dataset.navIdx);
-                if (nav.classList.contains('nav-open') && megaIdx === idx) closeNav(); else openNav(idx);
-            });
-        });
-        mainBtns.forEach(b => b.addEventListener('click', () => selectSection(parseInt(b.dataset.idx))));
-        if (closeBtn) closeBtn.addEventListener('click', closeNav);
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
-        document.querySelectorAll('.nav-sub-link').forEach(a => a.addEventListener('click', closeNav));
-        document.addEventListener('click', e => { if (nav.classList.contains('nav-open') && !nav.contains(e.target)) closeNav(); });
-    }());
-
-    // Mobile hamburger menu
+    // Hamburger menu (unico su tutte le viewport)
+    const nav = document.getElementById('navbar');
     const hamburger = document.getElementById('navHamburger');
     const mobileMenu = document.getElementById('navMobile');
-    hamburger.addEventListener('click', () => {
-        const isOpen = hamburger.classList.toggle('open');
-        mobileMenu.classList.toggle('open', isOpen);
-        document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-    mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('open');
-            mobileMenu.classList.remove('open');
-            document.body.style.overflow = '';
-        });
-    });
+    function setMenu(open) {
+        hamburger.classList.toggle('open', open);
+        mobileMenu.classList.toggle('open', open);
+        nav.classList.toggle('nav-open', open);
+        hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        document.body.style.overflow = open ? 'hidden' : '';
+    }
+    hamburger.addEventListener('click', () => setMenu(!hamburger.classList.contains('open')));
+    mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 </script>
 
 </body>
