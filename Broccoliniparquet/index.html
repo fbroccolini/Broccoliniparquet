@@ -489,53 +489,6 @@
             line-height: 1.4;
         }
 
-        /* ── CHI SIAMO ───────────────────────────── */
-        .about { background: var(--bg); }
-        .about-grid {
-            display: grid;
-            grid-template-columns: 0.85fr 1.15fr;
-            gap: 4rem;
-            align-items: start;
-        }
-        .about-title {
-            font-family: var(--f);
-            font-size: clamp(2rem, 3.8vw, 3.4rem);
-            font-weight: 700;
-            line-height: 1.0;
-            letter-spacing: -0.03em;
-            color: var(--dark);
-            margin-top: 0.4rem;
-        }
-        .about-title em { font-style: normal; color: var(--accent); }
-        .about-body { max-width: 60ch; }
-        .about-p { font-size: 1.02rem; line-height: 1.7; color: var(--mid); }
-        .about-p + .about-p { margin-top: 1.1rem; }
-        .about-p strong { color: var(--dark); font-weight: 600; }
-        .about-mark {
-            display: flex;
-            align-items: center;
-            gap: 1.3rem;
-            margin-top: 2.6rem;
-            padding-top: 2.2rem;
-            border-top: 1px solid var(--border);
-        }
-        .about-mark-num {
-            font-family: var(--f);
-            font-size: clamp(2.6rem, 5vw, 3.8rem);
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            color: var(--dark);
-            line-height: 1;
-        }
-        .about-mark-label {
-            font-size: 0.78rem;
-            font-weight: 600;
-            line-height: 1.4;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--mid);
-        }
-
         /* ── PORTFOLIO SLIDER ────────────────────── */
         .portfolio-section {
             background: var(--bg);
@@ -1038,7 +991,6 @@
             .service-title { font-size: 2.2rem; }
 
             .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .about-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .process-grid { grid-template-columns: 1fr; gap: 1.75rem; }
             .portfolio-split { flex-direction: column; min-height: 0; }
             .portfolio-inner { width: 100%; min-width: 0; padding: 0 1.5rem 2rem; }
@@ -1076,7 +1028,7 @@
         <ul>
             <li><a href="#servizi">Servizi</a></li>
             <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#chi-siamo">Chi siamo</a></li>
+            <li><a href="chi-siamo.html">Chi siamo</a></li>
             <li><a href="faq.html">FAQ</a></li>
             <li><a href="contatti.html">Contatti</a></li>
         </ul>
@@ -1159,24 +1111,6 @@
     </div>
 </section>
 
-
-<!-- ── CHI SIAMO ─────────────────────────────────────────────── -->
-<section class="about" id="chi-siamo">
-    <div class="about-grid">
-        <div class="about-lead">
-            <span class="section-label">Chi siamo</span>
-            <h2 class="about-title">Un mestiere,<br><em>le stesse mani</em></h2>
-        </div>
-        <div class="about-body">
-            <p class="about-p">Broccolini non è un'azienda con squadre intercambiabili. È un posatore, uno solo, che posa pavimenti <strong>dal 1990</strong>. Chi viene a fare il sopralluogo è la stessa persona che stende l'ultima tavola: nessun passaggio di consegne, nessuna responsabilità diluita.</p>
-            <p class="about-p">Un mestiere nato in famiglia e portato avanti con la stessa cura di allora — oggi con l'esperienza di oltre trent'anni di cantieri, tra parquet d'interni e pavimentazioni per esterni.</p>
-            <div class="about-mark">
-                <span class="about-mark-num">1990</span>
-                <span class="about-mark-label">l'anno in cui<br>è iniziato tutto</span>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- ── PORTFOLIO SLIDER ──────────────────────────────────────── -->
 <section class="portfolio-section" id="portfolio">
