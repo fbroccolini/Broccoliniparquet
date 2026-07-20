@@ -681,6 +681,57 @@
             opacity: 0.55;
         }
 
+        /* ── FASCIA VIDEO ────────────────────────── */
+        .video-band {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            max-height: 760px;
+            min-height: 440px;
+            overflow: hidden;
+            background: var(--dark);
+        }
+        .video-band-media {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        .video-band::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,7,5,0.6) 0%, transparent 45%);
+            pointer-events: none;
+        }
+        .video-band-caption {
+            position: absolute;
+            left: 4.5rem;
+            bottom: 3rem;
+            z-index: 2;
+        }
+        .video-band-eyebrow {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+        .video-band-title {
+            font-family: var(--f);
+            font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #fff;
+            text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+        }
+
         /* ── COME LAVORIAMO ──────────────────────── */
         .process { background: var(--dark); }
 
@@ -991,6 +1042,8 @@
 
             .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
             .process-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+            .video-band { height: 62vh; min-height: 360px; }
+            .video-band-caption { left: 1.5rem; bottom: 2rem; }
             .portfolio-split { flex-direction: column; min-height: 0; }
             .portfolio-inner { width: 100%; min-width: 0; padding: 0 1.5rem 2rem; }
             .slider-container { flex: none; height: 90vw; min-height: 400px; }
@@ -1215,6 +1268,17 @@
 </section>
 
 
+<!-- ── FASCIA VIDEO ─────────────────────────────────────────── -->
+<section class="video-band">
+    <video class="video-band-media" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="img/video-lavoro-poster.jpg">
+        <source src="img/video-lavoro.mp4" type="video/mp4">
+    </video>
+    <div class="video-band-caption">
+        <span class="video-band-eyebrow">Un lavoro in movimento</span>
+        <p class="video-band-title">Terrazza in WPC<br>con vasca idromassaggio</p>
+    </div>
+</section>
+
 <!-- ── COME LAVORIAMO ───────────────────────────────────────── -->
 <section class="process" id="processo">
     <div class="process-header">
@@ -1347,19 +1411,14 @@
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
 
-    // Video autoplay + resume on any touch (iOS)
-    const heroVideo = document.querySelector('.hero-video');
-    if (heroVideo) {
-        heroVideo.play().catch(() => {});
-        document.addEventListener('touchstart', () => {
-            if (heroVideo.paused) heroVideo.play().catch(() => {});
-        }, { passive: true });
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && heroVideo.paused) heroVideo.play().catch(() => {});
-        });
-        window.addEventListener('pageshow', () => {
-            if (heroVideo.paused) heroVideo.play().catch(() => {});
-        });
+    // Video autoplay + resume on any touch (iOS) — hero e fascia video
+    const autoVideos = Array.from(document.querySelectorAll('.hero-video, .video-band-media'));
+    if (autoVideos.length) {
+        const resume = () => autoVideos.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+        resume();
+        document.addEventListener('touchstart', resume, { passive: true });
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) resume(); });
+        window.addEventListener('pageshow', resume);
     }
 
     // Hamburger menu (unico su tutte le viewport)
