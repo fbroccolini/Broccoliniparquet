@@ -168,16 +168,16 @@
             transform: scale(1.08);
             animation: heroImgScale 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
         }
-        /* piscina scurita per tenere logo/testo leggibili */
-        .hero-video--dim { filter: brightness(0.85) contrast(1.03); }
+        /* piscina a luminosità piena (solo un filo di contrasto) */
+        .hero-video--dim { filter: brightness(1) contrast(1.02); }
 
         .hero::before {
             content: '';
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(to top, rgba(10,7,5,0.75) 0%, rgba(10,7,5,0.2) 40%, transparent 70%),
-                linear-gradient(to right, rgba(10,7,5,0.55) 0%, transparent 60%);
+                linear-gradient(to top, rgba(10,7,5,0.6) 0%, rgba(10,7,5,0.12) 45%, transparent 70%),
+                linear-gradient(to right, rgba(10,7,5,0.42) 0%, transparent 60%);
             z-index: 2;
             pointer-events: none;
         }
@@ -226,7 +226,7 @@
             text-transform: uppercase;
             color: #ffffff;
             margin-bottom: 0;
-            text-shadow: 0 2px 40px rgba(0,0,0,0.35);
+            text-shadow: 0 2px 12px rgba(0,0,0,0.45), 0 2px 40px rgba(0,0,0,0.3);
         }
 
         .hero-usp {
@@ -1042,6 +1042,8 @@
             .nav-bar { padding: 0 1.5rem; }
 
             .hero-left { padding: 3rem 1.5rem 4rem; max-width: 100%; min-height: 80vh; }
+            /* su schermi stretti "parte da TERRA" può andare a capo (TERRA sulla sua riga) invece di sforare */
+            .tagline-line-2 { white-space: normal; }
             .hero-video { transform: scale(1); animation: none; }
             .hero-right::before { background: linear-gradient(to bottom, var(--bg) 0%, transparent 20%); }
             .logo-sub { color: rgba(255,255,255,0.75); }
@@ -1104,8 +1106,8 @@
 
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <div class="hero">
-    <video class="hero-video hero-video--dim" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="img/video-lavoro-poster.jpg">
-        <source src="img/video-lavoro.mp4" type="video/mp4">
+    <video class="hero-video hero-video--dim" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="img/hero-piscina-poster.jpg">
+        <source src="img/hero-piscina.mp4" type="video/mp4">
     </video>
     <div class="hero-left">
         <h1 class="hero-title">
