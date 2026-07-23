@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://broccoliniparquet.vercel.app/sitemap.xml
+Sitemap: https://www.broccoliniparquet.it/sitemap.xml
