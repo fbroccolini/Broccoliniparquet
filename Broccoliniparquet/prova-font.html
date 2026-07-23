@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Prova font — Broccolini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{--dark:#111;--accent:#C4A882;--bg:#f7f6f3;--mid:#666;--f:'Outfit',sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--f);background:var(--bg)}
+  .panel{padding:3.5rem 1.5rem}
+  @media(min-width:800px){.panel{padding:4rem 4.5rem}}
+  .dark{background:var(--dark)}
+  .tag{font-family:var(--f);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.3rem;font-weight:600}
+  .htitle{font-size:clamp(2.4rem,8vw,6rem);line-height:.98;letter-spacing:-.02em;text-transform:uppercase;color:#fff;font-weight:700}
+  .htitle .acc{color:var(--accent)}
+  .usp{font-family:var(--f);font-weight:300;color:rgba(255,255,255,.82);font-size:clamp(1rem,3vw,1.3rem);margin-top:1.4rem}
+  .usp strong{font-weight:600;color:#fff}
+  .sec{margin-top:2.2rem;font-size:clamp(1.7rem,5vw,3rem);line-height:1;letter-spacing:-.02em;color:var(--dark);font-weight:700}
+  .sec .acc{color:var(--accent);font-style:italic}
+  .fraunces .htitle,.fraunces .sec{font-family:'Fraunces',serif;}
+  .playfair .htitle,.playfair .sec{font-family:'Playfair Display',serif;}
+  .outfit .htitle,.outfit .sec{font-family:var(--f);}
+  .lightsec{background:var(--bg);padding:2.5rem 1.5rem}
+  @media(min-width:800px){.lightsec{padding:3rem 4.5rem}}
+  .note{font-family:var(--f);color:var(--mid);font-size:.85rem;margin-top:.6rem}
+</style></head>
+<body>
+
+  <div class="panel dark outfit">
+    <div class="tag">Attuale — Outfit (sans geometrico)</div>
+    <div class="htitle">Eleganza che<br>parte da <span class="acc">TERRA</span></div>
+    <div class="usp"><strong>Qualità senza compromessi.</strong> Un solo referente, dalla fornitura alla posa.</div>
+  </div>
+  <div class="lightsec outfit"><div class="sec">Dal sopralluogo<br>alla <span class="acc">consegna</span></div></div>
+
+  <div class="panel dark fraunces">
+    <div class="tag">Opzione A1 — Fraunces (serif caldo, artigianale)</div>
+    <div class="htitle">Eleganza che<br>parte da <span class="acc">TERRA</span></div>
+    <div class="usp"><strong>Qualità senza compromessi.</strong> Un solo referente, dalla fornitura alla posa.</div>
+  </div>
+  <div class="lightsec fraunces"><div class="sec">Dal sopralluogo<br>alla <span class="acc">consegna</span></div><div class="note">(titoli Fraunces · testo resta Outfit)</div></div>
+
+  <div class="panel dark playfair">
+    <div class="tag">Opzione A2 — Playfair Display (serif classico, lusso)</div>
+    <div class="htitle">Eleganza che<br>parte da <span class="acc">TERRA</span></div>
+    <div class="usp"><strong>Qualità senza compromessi.</strong> Un solo referente, dalla fornitura alla posa.</div>
+  </div>
+  <div class="lightsec playfair"><div class="sec">Dal sopralluogo<br>alla <span class="acc">consegna</span></div><div class="note">(titoli Playfair · testo resta Outfit)</div></div>
+
+</body></html>
