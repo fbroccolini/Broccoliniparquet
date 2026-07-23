@@ -168,6 +168,8 @@
             transform: scale(1.08);
             animation: heroImgScale 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
         }
+        /* piscina scurita per tenere logo/testo leggibili */
+        .hero-video--dim { filter: brightness(0.85) contrast(1.03); }
 
         .hero::before {
             content: '';
@@ -176,17 +178,17 @@
             background:
                 linear-gradient(to top, rgba(10,7,5,0.75) 0%, rgba(10,7,5,0.2) 40%, transparent 70%),
                 linear-gradient(to right, rgba(10,7,5,0.55) 0%, transparent 60%);
-            z-index: 1;
+            z-index: 2;
             pointer-events: none;
         }
 
         .hero-left {
             position: relative;
-            z-index: 2;
+            z-index: 3;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 5rem 4.5rem 7rem;
+            padding: 5rem 4.5rem 3rem;
             min-height: calc(100vh - 80px);
             max-width: 55%;
         }
@@ -217,9 +219,9 @@
 
         .hero-title {
             font-family: var(--f);
-            font-size: clamp(4.5rem, 9vw, 9rem);
+            font-size: clamp(3rem, 6.2vw, 5.6rem);
             font-weight: 700;
-            line-height: 0.95;
+            line-height: 0.98;
             letter-spacing: -0.03em;
             text-transform: uppercase;
             color: #ffffff;
@@ -335,6 +337,7 @@
 
         .tagline-line-2 {
             display: block;
+            white-space: nowrap;
             font-weight: 700;
             opacity: 0;
             transform: translateY(22px);
@@ -1101,12 +1104,12 @@
 
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <div class="hero">
-    <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="img/hero-poster.jpg">
-        <source src="img/hero.mp4" type="video/mp4">
+    <video class="hero-video hero-video--dim" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="img/video-lavoro-poster.jpg">
+        <source src="img/video-lavoro.mp4" type="video/mp4">
     </video>
     <div class="hero-left">
         <h1 class="hero-title">
-            <span class="tagline-line-1">Eleganza che</span>
+            <span class="tagline-line-1">L'eleganza</span>
             <span class="tagline-line-2">
                 parte da
                 <span class="tl-wrap">
@@ -1417,7 +1420,7 @@
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
 
-    // Video autoplay + resume on any touch (iOS) — hero e fascia video
+    // Video autoplay + resume on any touch (iOS) — hero e fascia video CTA
     const autoVideos = Array.from(document.querySelectorAll('.hero-video, .cta-video'));
     if (autoVideos.length) {
         const resume = () => autoVideos.forEach(v => { if (v.paused) v.play().catch(() => {}); });
