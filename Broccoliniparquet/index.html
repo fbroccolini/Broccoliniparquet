@@ -56,7 +56,8 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="image" href="img/hero-piscina-foto.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="img/hero-piscina-foto-m.webp" media="(max-width:768px)" fetchpriority="high">
+    <link rel="preload" as="image" href="img/hero-piscina-foto.webp" media="(min-width:769px)" fetchpriority="high">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet"></noscript>
     <style>
@@ -1113,6 +1114,7 @@
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <div class="hero">
     <picture>
+        <source media="(max-width:768px)" srcset="img/hero-piscina-foto-m.webp" type="image/webp">
         <source srcset="img/hero-piscina-foto.webp" type="image/webp">
         <img class="hero-video hero-video--dim" src="img/hero-piscina-foto.jpg" alt="Bordo piscina con decking WPC" fetchpriority="high" width="1254" height="1254">
     </picture>
