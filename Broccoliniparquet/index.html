@@ -138,6 +138,10 @@
         }
 
         .nav-logo { display: flex; flex-direction: column; align-items: center; text-decoration: none; gap: 0; line-height: 1; }
+        /* ombra leggera su logo e hamburger quando la nav è trasparente sul video (rimossa allo scroll) */
+        .nav-logo, .nav-hamburger { filter: drop-shadow(0 1px 6px rgba(0,0,0,0.45)); transition: filter 0.45s ease; }
+        nav#navbar.scrolled .nav-logo, nav#navbar.scrolled .nav-hamburger,
+        nav#navbar.nav-open .nav-logo, nav#navbar.nav-open .nav-hamburger { filter: none; }
         .logo-name { font-family: var(--f); font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; text-transform: uppercase; color: #ffffff; display: block; transition: color 0.45s ease; }
         .logo-rule { display: block; width: 100%; height: 1px; background: rgba(255,255,255,0.5); margin: 0.28rem 0 0.22rem; transition: background 0.45s ease, opacity 0.45s ease; }
         .logo-sub { font-family: var(--font-body); font-size: 0.65rem; font-weight: 400; letter-spacing: 0.48em; text-transform: uppercase; color: var(--accent); display: block; }
@@ -162,22 +166,22 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
+            object-position: center 92%;
             display: block;
             z-index: 0;
             transform: scale(1.08);
             animation: heroImgScale 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
         }
         /* piscina a luminosità piena (solo un filo di contrasto) */
-        .hero-video--dim { filter: brightness(1) contrast(1.02); }
+        .hero-video--dim { filter: brightness(0.92) contrast(1.03); }
 
         .hero::before {
             content: '';
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(to top, rgba(10,7,5,0.6) 0%, rgba(10,7,5,0.12) 45%, transparent 70%),
-                linear-gradient(to right, rgba(10,7,5,0.42) 0%, transparent 60%);
+                linear-gradient(to top, rgba(10,7,5,0.45) 0%, rgba(10,7,5,0.06) 44%, transparent 66%),
+                linear-gradient(to right, rgba(10,7,5,0.3) 0%, transparent 50%);
             z-index: 2;
             pointer-events: none;
         }
@@ -1106,9 +1110,8 @@
 
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <div class="hero">
-    <video class="hero-video hero-video--dim" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="img/hero-piscina-poster.jpg">
-        <source src="img/hero-piscina.mp4" type="video/mp4">
-    </video>
+    <img class="hero-video hero-video--dim" src="img/hero-piscina-foto.jpg" alt="Bordo piscina con decking WPC">
+
     <div class="hero-left">
         <h1 class="hero-title">
             <span class="tagline-line-1">L'eleganza</span>
@@ -1423,7 +1426,7 @@
     updateNav();
 
     // Video autoplay + resume on any touch (iOS) — hero e fascia video CTA
-    const autoVideos = Array.from(document.querySelectorAll('.hero-video, .cta-video'));
+    const autoVideos = Array.from(document.querySelectorAll('.cta-video'));
     if (autoVideos.length) {
         const resume = () => autoVideos.forEach(v => { if (v.paused) v.play().catch(() => {}); });
         resume();
