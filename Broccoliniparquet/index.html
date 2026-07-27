@@ -1097,7 +1097,11 @@
                 aspect-ratio: 16 / 9;
                 container-type: inline-size;
             }
-            .hero::before { display: none; }                 /* niente velo nero */
+            .hero::before {                                  /* velo nero leggero: aiuta il bianco senza spegnere l'azzurro */
+                background:
+                    linear-gradient(to bottom, rgba(10,7,5,0.12) 0%, transparent 25%, transparent 60%, rgba(10,7,5,0.20) 100%),
+                    linear-gradient(115deg, rgba(10,7,5,0.09) 0%, transparent 42%);
+            }
             .hero-video { transform: none; animation: none; } /* niente zoom: le parole non si scollano */
             .hero-video--dim { filter: none; }               /* piena luminosità, come nel prototipo */
             .hero-left { display: none; }                    /* via titolo impilato + USP su desktop */
