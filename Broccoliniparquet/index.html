@@ -433,14 +433,10 @@
             padding: 2.8rem 0;
             border-bottom: 1px solid rgba(30,23,20,0.13);
             cursor: pointer;
-            opacity: 0;
-            transform: translateY(36px);
-            transition: opacity 0.75s ease, transform 0.75s ease;
+            --d: 0s;
         }
-        .service-row.in { opacity: 1; transform: none; }
-        .service-row:nth-child(1) { transition-delay: 0s; }
-        .service-row:nth-child(2) { transition-delay: 0.22s; }
-        .service-row:nth-child(3) { transition-delay: 0.44s; }
+        .service-row:nth-child(2) { --d: 0.16s; }
+        .service-row:nth-child(3) { --d: 0.32s; }
 
         .service-title {
             font-family: var(--f);
@@ -455,19 +451,34 @@
 
         .service-body { padding-top: 0.4rem; }
 
-        .service-sub {
-            font-size: 0.72rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 0.85rem;
-        }
-
         .service-desc {
             font-size: 1.15rem;
             font-weight: 400;
             line-height: 1.7;
             color: #4a4a4a;
+        }
+
+        /* ── Intro servizi: titolo che sale mascherato + desc in dissolvenza.
+           Default visibile; nascosto solo con .has-js → niente blank senza JS. ── */
+        .st-mask { display: block; overflow: hidden; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+        .st-in { display: block; will-change: transform; }
+        .service-title .st-in { transition: transform .95s cubic-bezier(.22,1,.36,1); }
+        .service-desc { transition: opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1); }
+        .has-js .service-title .st-in { transform: translateY(112%); }
+        .has-js .service-desc { opacity: 0; transform: translateY(1rem); }
+        .service-row.in .service-title .st-in { transform: translateY(0); transition-delay: var(--d); }
+        .service-row.in .service-desc { opacity: 1; transform: none; transition-delay: calc(var(--d) + 0.12s); }
+
+        /* Titolo di sezione: rivelazione mascherata all'ingresso */
+        .section-title .st-in { transition: transform 1s cubic-bezier(.22,1,.36,1); }
+        .has-js .collections-header .section-title .st-in { transform: translateY(115%); }
+        .collections-header.in .section-title .st-in { transform: translateY(0); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .has-js .service-title .st-in,
+            .has-js .collections-header .section-title .st-in { transform: none; }
+            .has-js .service-desc { opacity: 1; transform: none; }
+            .st-in, .service-desc { transition: none; }
         }
 
         .service-tags {
@@ -1148,6 +1159,114 @@
         @media (prefers-reduced-motion: reduce) {
             .hd-eleganza, .hd-terra, .hd-pd-in { animation: none; }
         }
+
+        /* ── SEZIONE DETTAGLIO (sotto i Servizi, non in navbar) ────
+           Foto full-bleed con testo e annotazioni agganciate ai materiali
+           (palco aspect-locked). Reveal ispirato ad acor-moe: wipe clip-path
+           + zoom + titolo mascherato, via IntersectionObserver + CSS.
+           Default già visibile → niente blank se il JS non parte. */
+        .det {
+            --det-ink: #1a1a1a;
+            --det-cream: #f4f1ea;
+            --det-ewipe: cubic-bezier(.65,0,.35,1);
+            --det-eout: cubic-bezier(.22,1,.36,1);
+            position: relative;
+            padding: 0;
+            background: var(--bg);
+        }
+        .det-stage {
+            position: relative;
+            width: 100%;
+            max-width: 1728px;
+            margin-inline: auto;
+            aspect-ratio: 1493 / 1053;
+            overflow: hidden;
+            container-type: inline-size;
+        }
+        .det-photo-wrap { position: absolute; inset: 0; overflow: hidden; }
+        .det-photo-wrap picture { display: contents; }
+        .det-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .det-copy { position: absolute; top: 11.5%; left: 5%; z-index: 3; max-width: 42%; }
+        .det-title {
+            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 5.2cqw;
+            line-height: 1.02; letter-spacing: -0.02em; color: var(--det-ink); margin: 0;
+        }
+        .det-tline { display: block; overflow: hidden; }
+        .det-tline > span { display: block; will-change: transform; }
+        .det-intro {
+            margin-top: 1.9cqw; max-width: 30cqw; font-size: 1.5cqw;
+            font-weight: 400; line-height: 1.5; color: var(--det-ink); opacity: 0.8;
+        }
+
+        .anno-dot {
+            position: absolute; z-index: 4; width: 0.75cqw; height: 0.75cqw; border-radius: 50%;
+            background: var(--accent); transform: translate(-50%,-50%) scale(1);
+            box-shadow: 0 0 0 0.35cqw rgba(196,168,130,0.28);
+        }
+        .anno-line { position: absolute; z-index: 4; background: var(--accent); }
+        .anno-label { position: absolute; z-index: 4; font-family: var(--f); font-size: 1.05cqw; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
+        .dot-a  { top: 57.5%; left: 70%; }
+        .line-a { top: 57.5%; left: 52%; width: 18%; height: 1.5px; transform-origin: right center; }
+        .lab-a  { top: 55.9%; left: 52%; transform: translateX(-100%); padding-right: 1cqw; color: var(--det-ink); text-align: right; }
+        .dot-b  { top: 88%; left: 26.5%; }
+        .line-b { top: 74%; left: 26.5%; width: 1.5px; height: 14%; transform-origin: bottom center; }
+        .lab-b  { top: 70%; left: 26.5%; transform: translateX(-50%); color: var(--det-cream); text-shadow: 0 0.1cqw 0.6cqw rgba(0,0,0,0.5); }
+
+        /* reveal — transizioni */
+        .det-photo-wrap { transition: clip-path 1.25s var(--det-ewipe); }
+        .det-photo { transition: transform 1.5s var(--det-ewipe); }
+        .det-tline > span { transition: transform 1s var(--det-eout); }
+        .det-intro { transition: opacity .85s ease, transform .85s var(--det-eout); }
+        .anno-dot { transition: transform .55s cubic-bezier(.34,1.45,.7,1), opacity .4s ease; }
+        .anno-line { transition: transform .75s var(--det-ewipe); }
+        .anno-label { transition: opacity .6s ease; }
+        /* stato iniziale nascosto SOLO con JS */
+        .has-js .det-photo-wrap { clip-path: inset(0 100% 0 0); }
+        .has-js .det-photo { transform: scale(1.14); }
+        .has-js .det-tline > span { transform: translateY(112%); }
+        .has-js .det-intro { opacity: 0; transform: translateY(1.6cqw); }
+        .has-js .anno-dot { opacity: 0; transform: translate(-50%,-50%) scale(0); }
+        .has-js .line-a { transform: scaleX(0); }
+        .has-js .line-b { transform: scaleY(0); }
+        .has-js .anno-label { opacity: 0; }
+        /* reveal — stato attivo */
+        .det.is-inview .det-photo-wrap { clip-path: inset(0 0 0 0); }
+        .det.is-inview .det-photo { transform: scale(1); }
+        .det.is-inview .det-tline:nth-child(1) > span { transform: translateY(0); transition-delay: .45s; }
+        .det.is-inview .det-tline:nth-child(2) > span { transform: translateY(0); transition-delay: .57s; }
+        .det.is-inview .det-intro { opacity: 1; transform: none; transition-delay: .82s; }
+        .det.is-inview .dot-a  { opacity: 1; transform: translate(-50%,-50%) scale(1); transition-delay: 1.05s; }
+        .det.is-inview .line-a { transform: scaleX(1); transition-delay: 1.2s; }
+        .det.is-inview .lab-a  { opacity: 1; transition-delay: 1.5s; }
+        .det.is-inview .dot-b  { opacity: 1; transform: translate(-50%,-50%) scale(1); transition-delay: 1.35s; }
+        .det.is-inview .line-b { transform: scaleY(1); transition-delay: 1.5s; }
+        .det.is-inview .lab-b  { opacity: 1; transition-delay: 1.8s; }
+
+        /* MOBILE/TABLET (≤960px): testo sopra, foto sotto, niente annotazioni */
+        @media (max-width: 960px) {
+            .det { padding: 4rem 1.5rem; }
+            .det-stage {
+                aspect-ratio: auto; container-type: normal; overflow: visible; max-width: 100%;
+                display: flex; flex-direction: column; gap: 2rem;
+            }
+            .det-copy { position: static; order: -1; max-width: 100%; top: auto; left: auto; }
+            .det-title { font-size: clamp(2.2rem, 8.5vw, 3.4rem); }
+            .det-intro { margin-top: 1rem; font-size: 1.05rem; max-width: 60ch; }
+            .det-photo-wrap { position: relative; inset: auto; aspect-ratio: 1493 / 1053; border-radius: 3px; }
+            .anno-dot, .anno-line, .anno-label { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .has-js .det-photo-wrap { clip-path: none; }
+            .has-js .det-photo { transform: none; }
+            .has-js .det-tline > span { transform: none; }
+            .has-js .det-intro { opacity: 1; transform: none; }
+            .has-js .anno-dot { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+            .has-js .line-a { transform: scaleX(1); }
+            .has-js .line-b { transform: scaleY(1); }
+            .has-js .anno-label { opacity: 1; }
+            .det, .det * { transition: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -1217,31 +1336,58 @@
 <section class="collections" id="servizi">
     <div class="collections-header">
         <div>
-            <h2 class="section-title">Tutto quello che serve al tuo pavimento</h2>
+            <h2 class="section-title"><span class="st-mask"><span class="st-in">Tutto quello che serve al tuo pavimento</span></span></h2>
         </div>
     </div>
     <div class="services-list">
         <div class="service-row">
-            <h3 class="service-title">Posa Parquet</h3>
+            <h3 class="service-title"><span class="st-mask"><span class="st-in">Posa Parquet</span></span></h3>
             <div class="service-body">
-                <p class="service-sub">Interni</p>
                 <p class="service-desc">Posa di parquet in legno su ogni tipo di superficie. Sopralluogo gratuito, materiali selezionati, esecuzione diretta.</p>
             </div>
         </div>
         <div class="service-row">
-            <h3 class="service-title">Outdoor WPC</h3>
+            <h3 class="service-title"><span class="st-mask"><span class="st-in">Outdoor WPC</span></span></h3>
             <div class="service-body">
-                <p class="service-sub">Esterni</p>
                 <p class="service-desc">Pavimentazioni WPC per terrazze, giardini e bordi piscina. Resistenti alle intemperie, durevoli nel tempo.</p>
             </div>
         </div>
         <div class="service-row">
-            <h3 class="service-title">Restauro</h3>
+            <h3 class="service-title"><span class="st-mask"><span class="st-in">Restauro</span></span></h3>
             <div class="service-body">
-                <p class="service-sub">Ripristino</p>
                 <p class="service-desc">Riportiamo il parquet al suo splendore originale con levigatura, olatura e rifinitura. Risultato come nuovo, senza sostituzione.</p>
             </div>
         </div>
+    </div>
+</section>
+
+
+<!-- ── DETTAGLIO — sezione interna (non in navbar) ─────────────── -->
+<section class="det" aria-label="Attenzione al dettaglio">
+    <div class="det-stage">
+        <div class="det-photo-wrap">
+            <picture>
+                <source media="(max-width:960px)" srcset="img/dettaglio-bordo-piscina-m.webp" type="image/webp">
+                <source srcset="img/dettaglio-bordo-piscina.webp" type="image/webp">
+                <img class="det-photo" src="img/dettaglio-bordo-piscina.webp" alt="Dettaglio del bordo piscina: decking in teak sagomato che segue la curva della vasca" loading="lazy" width="1493" height="1053">
+            </picture>
+        </div>
+
+        <div class="det-copy">
+            <h2 class="det-title">
+                <span class="det-tline"><span>Il bordo</span></span>
+                <span class="det-tline"><span>racconta tutto</span></span>
+            </h2>
+            <p class="det-intro">È la prova più difficile di una posa. Qui non si bara: ogni pezzo è lavorato a mano perché sparisca nell'insieme. Guardate da vicino.</p>
+        </div>
+
+        <span class="anno-dot dot-a"></span>
+        <span class="anno-line line-a"></span>
+        <span class="anno-label lab-a">doga sagomata sulla vasca</span>
+
+        <span class="anno-dot dot-b"></span>
+        <span class="anno-line line-b"></span>
+        <span class="anno-label lab-b">fuga costante al millimetro</span>
     </div>
 </section>
 
@@ -1300,10 +1446,6 @@
         <div class="slide">
             <div class="slide-blur" style="background-image: url('img/lavoro-doccia-esterna.jpg')"></div>
             <img class="slide-img" src="img/lavoro-doccia-esterna.jpg" alt="Doccia da esterno rivestita in WPC" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-bordo-piscina-dettaglio.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-bordo-piscina-dettaglio.jpg" alt="Dettaglio di rivestimento in legno a bordo piscina" loading="lazy">
         </div>
         <div class="slide">
             <div class="slide-blur" style="background-image: url('img/lavoro-piscina-sfioro.jpg')"></div>
@@ -1432,6 +1574,17 @@
 </footer>
 
 <script>
+    document.documentElement.classList.add('has-js');
+
+    // Reveal sezione dettaglio: wipe clip-path + titolo mascherato + annotazioni
+    const detailSection = document.querySelector('.det');
+    if (detailSection) {
+        const detailObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { detailSection.classList.add('is-inview'); detailObserver.unobserve(e.target); } });
+        }, { threshold: 0.2 });
+        detailObserver.observe(detailSection);
+    }
+
     // Scroll reveal (prodotti e altri elementi generici)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
@@ -1449,6 +1602,15 @@
     }, { threshold: 0.1 });
     const servicesList = document.querySelector('.services-list');
     if (servicesList) servicesObserver.observe(servicesList);
+
+    // Titolo sezione servizi: reveal mascherato quando l'intestazione entra
+    const collectionsHeader = document.querySelector('.collections-header');
+    if (collectionsHeader) {
+        const chObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { collectionsHeader.classList.add('in'); chObserver.unobserve(e.target); } });
+        }, { threshold: 0.5 });
+        chObserver.observe(collectionsHeader);
+    }
 
     // Count-up numeri al primo ingresso in viewport
     const statsObserver = new IntersectionObserver((entries) => {
