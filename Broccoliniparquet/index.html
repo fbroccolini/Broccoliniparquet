@@ -338,7 +338,7 @@
             font-weight: 700;
             opacity: 0;
             transform: translateY(22px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .tagline-line-1.tl-in { opacity: 1; transform: translateY(0); }
 
@@ -348,7 +348,7 @@
             font-weight: 700;
             opacity: 0;
             transform: translateY(22px);
-            transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+            transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
         }
         .tagline-line-2.tl-in { opacity: 1; transform: translateY(0); }
 
@@ -1413,14 +1413,14 @@
 
     function tlPlay() {
         tlReset();
-        setTimeout(() => tlLine1.classList.add('tl-in'), 80);
-        setTimeout(() => tlLine2.classList.add('tl-in'), 350);
-        setTimeout(() => tlMarker.classList.add('sweep'), 1100);
-        setTimeout(() => tlWord.classList.add('lit'), 1700);
+        setTimeout(() => tlLine1.classList.add('tl-in'), 30);
+        setTimeout(() => tlLine2.classList.add('tl-in'), 120);
+        setTimeout(() => tlMarker.classList.add('sweep'), 430);
+        setTimeout(() => tlWord.classList.add('lit'), 630);
     }
 
-    // Start on page load after hero animations settle
-    setTimeout(tlPlay, 800);
+    // Avvio quasi immediato: il titolo è l'elemento LCP, non va ritardato
+    setTimeout(tlPlay, 60);
 
     // Navbar: trasparente → solida allo scroll
     const nav = document.getElementById('navbar');
