@@ -1079,6 +1079,71 @@
         /* Titoli in Playfair Display (corpo resta Outfit) */
         .hero-title, .section-title, .service-title, .process-title, .portfolio-title, .cta-title { font-family: 'Playfair Display', serif; }
         .section-title em, .process-title em, .portfolio-title em, .cta-title em { font-style: italic; }
+
+        /* ── HERO DISTRIBUITO — solo desktop (≥961px) ─────────────
+           Palco ad aspect-ratio bloccato: font in cqw + posizioni in %
+           → le parole restano incollate ai materiali della foto a ogni
+           larghezza. Nessun JS, nessun velo nero. Mobile/tablet (≤960px)
+           restano col titolo impilato attuale, invariati. */
+        .hero-dist { display: none; }
+        @keyframes hdRise {
+            from { opacity: 0; transform: translate3d(0, 28px, 0); }
+            to   { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+        @media (min-width: 961px) {
+            .hero {
+                min-height: 0;
+                padding-top: 0;
+                aspect-ratio: 16 / 9;
+                container-type: inline-size;
+            }
+            .hero::before { display: none; }                 /* niente velo nero */
+            .hero-video { transform: none; animation: none; } /* niente zoom: le parole non si scollano */
+            .hero-video--dim { filter: none; }               /* piena luminosità, come nel prototipo */
+            .hero-left { display: none; }                    /* via titolo impilato + USP su desktop */
+
+            .hero-dist { display: block; position: absolute; inset: 0; z-index: 3; }
+            .hd-word {
+                position: absolute;
+                font-family: 'Playfair Display', serif;
+                font-weight: 700;
+                text-transform: uppercase;
+                line-height: 0.9;
+                letter-spacing: -0.02em;
+                color: #fff;
+                white-space: nowrap;
+            }
+            .hd-eleganza {
+                top: 12%; left: 6%;
+                font-size: 7cqw;
+                text-shadow: 0 0.3cqw 2.4cqw rgba(0,0,0,0.45), 0 0.1cqw 0.6cqw rgba(0,0,0,0.35);
+                will-change: transform, opacity;
+                animation: hdRise 0.85s cubic-bezier(.22,.61,.36,1) 0.25s both;
+            }
+            .hd-parteda {
+                top: 51%; left: 48%;
+                transform: translateX(-50%);   /* centraggio statico, mai animato */
+                font-size: 3cqw;
+                font-weight: 600; font-style: italic; text-transform: none; letter-spacing: 0;
+                color: rgba(255,255,255,0.95);
+                text-shadow: 0 0.2cqw 1.4cqw rgba(0,0,0,0.4);
+            }
+            .hd-pd-in {
+                display: inline-block;
+                will-change: transform, opacity;
+                animation: hdRise 0.85s cubic-bezier(.22,.61,.36,1) 0.75s both;
+            }
+            .hd-terra {
+                top: 71.25%; left: 68%;
+                font-size: 7.2cqw;   /* copre esattamente 3 doghe: cap-top e base sulle fughe */
+                text-shadow: 0 0.3cqw 2.4cqw rgba(0,0,0,0.4), 0 0.1cqw 0.6cqw rgba(0,0,0,0.3);
+                will-change: transform, opacity;
+                animation: hdRise 0.85s cubic-bezier(.22,.61,.36,1) 1.25s both;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hd-eleganza, .hd-terra, .hd-pd-in { animation: none; }
+        }
     </style>
 </head>
 <body>
@@ -1118,6 +1183,14 @@
         <source srcset="img/hero-piscina-foto.webp" type="image/webp">
         <img class="hero-video hero-video--dim" src="img/hero-piscina-foto.jpg" alt="Bordo piscina con decking WPC" fetchpriority="high" width="1254" height="1254">
     </picture>
+
+    <!-- Hero distribuito: solo desktop (≥961px). La versione accessibile/SEO
+         resta l'<h1> in .hero-left qui sotto (letto anche quando è display:none). -->
+    <div class="hero-dist">
+        <span class="hd-word hd-eleganza">L'eleganza</span>
+        <span class="hd-word hd-parteda"><span class="hd-pd-in">parte da</span></span>
+        <span class="hd-word hd-terra">Terra</span>
+    </div>
 
     <div class="hero-left">
         <h1 class="hero-title">
