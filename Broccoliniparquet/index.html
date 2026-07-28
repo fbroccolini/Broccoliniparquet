@@ -497,56 +497,85 @@
             opacity: 0.55;
         }
 
-        /* ── STATS / NUMERI ──────────────────────── */
-        .stats { background: var(--dark); }
-        .stats .section-label { color: var(--accent); }
-        .stats .section-label::before { background: var(--accent); }
-
-        .stats-header { margin-bottom: 3.5rem; text-align: center; }
-        .stats-header .section-title { color: var(--white); }
-        .stats-header .section-title em { font-style: normal; color: var(--accent); }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2.5rem 2rem;
+        /* ── ESPERIENZA / NUMERI ──────────────────── */
+        .stats { background: var(--bg); padding: clamp(4rem, 8vw, 7rem) 1.5rem; }
+        .stats-inner { max-width: 1080px; margin: 0 auto; }
+        .stats-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            color: var(--dark);
+            text-align: center;
+            text-wrap: balance;
+            margin: 0 auto clamp(2.6rem, 5vw, 4.2rem);
+            max-width: 20ch;
         }
-
-        .stat {
+        .stats-figures {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: center;
+            gap: clamp(1.8rem, 4vw, 3.4rem);
+        }
+        .figure {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            gap: 0.7rem;
-            padding-top: 1.6rem;
-            border-top: 1px solid rgba(255,255,255,0.15);
+            flex: 0 1 15rem;
         }
-
-        .stat-num {
-            font-family: var(--f);
-            font-size: clamp(2.6rem, 4.5vw, 4rem);
-            font-weight: 700;
-            line-height: 1;
-            letter-spacing: -0.03em;
-            color: var(--white);
+        .figure-tick {
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            margin-bottom: 1.4rem;
+            transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+        }
+        .stats-grid.in .figure:nth-child(1) .figure-tick { width: 2.4rem; }
+        .stats-grid.in .figure:nth-child(3) .figure-tick { width: 2.4rem; transition-delay: 0.12s; }
+        .stats-grid.in .figure:nth-child(5) .figure-tick { width: 2.4rem; transition-delay: 0.24s; }
+        .figure-num {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: clamp(3.4rem, 8vw, 5.8rem);
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            color: var(--dark);
             display: flex;
             align-items: baseline;
-            gap: 0.15em;
+            gap: 0.06em;
         }
-        .stat-suffix {
-            font-size: 0.32em;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            color: var(--accent);
-            text-transform: uppercase;
-        }
-        .stat-label {
-            font-size: 0.95rem;
+        .figure-suffix {
+            font-family: var(--f);
+            font-size: 0.26em;
             font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.82);
-            line-height: 1.4;
+            letter-spacing: 0.01em;
+            color: var(--mid);
+            white-space: nowrap;
+        }
+        .figure-label {
+            margin-top: 1.1rem;
+            font-size: 0.92rem;
+            color: var(--mid);
+            line-height: 1.45;
+            max-width: 15ch;
+        }
+        .figure-divider {
+            align-self: stretch;
+            width: 1px;
+            min-height: 8rem;
+            margin-top: 0.5rem;
+            background: linear-gradient(to bottom, transparent, var(--border) 30%, var(--border) 70%, transparent);
+        }
+        @media (max-width: 680px) {
+            .figure-divider { display: none; }
+            .stats-figures { gap: 2.6rem; }
+            .figure { flex-basis: 100%; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .figure-tick { transition: none; width: 2.4rem; }
         }
 
         /* ── PORTFOLIO SLIDER ────────────────────── */
@@ -583,7 +612,131 @@
             color: var(--dark);
             margin-top: 0.6rem;
         }
-        .portfolio-title em { font-style: normal; color: var(--accent); }
+        .portfolio-title em { font-style: normal; color: var(--dark); }
+
+        /* ── Galleria bento "interventi recenti" ── */
+        .pf-head { text-align: center; max-width: 660px; margin: 0 auto; padding: 0 1.5rem; }
+        .pf-head .portfolio-title { margin: 0; }
+        .pf-desc { margin: 1.1rem 0 0; color: var(--mid); font-size: clamp(1rem, 1.2vw, 1.12rem); line-height: 1.55; }
+
+        .pf-viewport {
+            position: relative;
+            margin-top: 2.6rem;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+            cursor: grab;
+            padding: 0.6rem clamp(1.5rem, 5vw, 4.5rem);
+            user-select: none;
+        }
+        .pf-tile img { -webkit-user-drag: none; user-select: none; }
+        .pf-viewport::-webkit-scrollbar { display: none; }
+        .pf-viewport.is-dragging { cursor: grabbing; }
+        .pf-viewport.is-dragging .pf-tile { pointer-events: none; }
+
+        .pf-grid {
+            display: grid;
+            grid-auto-flow: column dense;
+            grid-template-rows: repeat(2, 13rem);
+            grid-auto-columns: minmax(13.5rem, 1fr);
+            gap: 0.85rem;
+            width: max-content;
+        }
+        @media (min-width: 768px) {
+            .pf-grid { grid-template-rows: repeat(2, 15rem); grid-auto-columns: minmax(16rem, 1fr); gap: 1rem; }
+        }
+        @media (max-width: 767px) {
+            .pf-tile.big { grid-column: span 1; } /* niente tile più larghe del viewport */
+        }
+
+        .pf-tile {
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--light);
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            transition: box-shadow 0.4s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.55s ease;
+        }
+        .has-js .pf-tile { opacity: 0; transform: translateY(18px) scale(0.98); }
+        .has-js .pf-grid.is-inview .pf-tile { opacity: 1; transform: none; }
+        .pf-grid.is-inview .pf-tile:nth-child(2) { transition-delay: 0.05s; }
+        .pf-grid.is-inview .pf-tile:nth-child(3) { transition-delay: 0.10s; }
+        .pf-grid.is-inview .pf-tile:nth-child(4) { transition-delay: 0.15s; }
+        .pf-grid.is-inview .pf-tile:nth-child(5) { transition-delay: 0.20s; }
+        .pf-grid.is-inview .pf-tile:nth-child(6) { transition-delay: 0.25s; }
+        .pf-grid.is-inview .pf-tile:nth-child(n+7) { transition-delay: 0.30s; }
+        .pf-tile:hover { box-shadow: 0 14px 34px rgba(0,0,0,0.16); }
+        .pf-tile.tall { grid-row: span 2; }
+        .pf-tile.big  { grid-row: span 2; grid-column: span 2; }
+        .pf-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        .pf-tile img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+            filter: contrast(1.05) saturate(1.1);
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .pf-tile:hover img { transform: scale(1.06); }
+
+        .pf-grad {
+            position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.35) 45%, transparent 75%);
+            opacity: 0; transition: opacity 0.5s ease;
+        }
+        .pf-tile:hover .pf-grad, .pf-tile:focus-visible .pf-grad { opacity: 1; }
+
+        .pf-cap {
+            position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+            padding: 1rem 1.1rem; color: #fff;
+            opacity: 0; transform: translateY(12px);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+        .pf-tile:hover .pf-cap, .pf-tile:focus-visible .pf-cap { opacity: 1; transform: none; }
+        .pf-cap h3 { font-family: var(--f); font-size: 1.05rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+        .pf-cap p { margin: 0.2rem 0 0; font-size: 0.85rem; color: rgba(255,255,255,0.82); line-height: 1.35; }
+
+        .pf-hint {
+            display: flex; justify-content: center; align-items: center; gap: 0.5rem;
+            margin: 1.6rem auto 0; color: var(--mid);
+            font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+        }
+        .pf-hint svg { width: 16px; height: 16px; opacity: 0.7; }
+
+        /* Lightbox */
+        .pf-lightbox {
+            position: fixed; inset: 0; z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(4px);
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+        .pf-lightbox.open { opacity: 1; visibility: visible; }
+        .pf-lightbox img {
+            max-width: min(100%, 1100px); max-height: 88vh; width: auto; height: auto;
+            border-radius: 10px; object-fit: contain;
+            transform: scale(0.96); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+        .pf-lightbox.open img { transform: scale(1); }
+        .pf-close {
+            position: absolute; top: 1.2rem; right: 1.4rem;
+            width: 44px; height: 44px; border: none; border-radius: 50%;
+            background: rgba(255,255,255,0.12); color: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.25s ease;
+        }
+        .pf-close:hover { background: rgba(255,255,255,0.25); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .pf-tile, .pf-tile img, .pf-cap, .pf-grad, .pf-lightbox, .pf-lightbox img { transition: none !important; }
+            .pf-tile { opacity: 1 !important; transform: none !important; }
+        }
 
         .slider-container {
             position: relative;
@@ -743,58 +896,61 @@
         }
 
         /* ── COME LAVORIAMO ──────────────────────── */
-        .process { background: var(--dark); }
+        .process { background: var(--bg); }
 
-        .process-header { margin-bottom: 3.5rem; }
+        .process-header { margin-bottom: clamp(2.6rem, 5vw, 4rem); text-align: center; }
         .process-title {
-            font-family: var(--f);
-            font-size: clamp(2rem, 3.8vw, 3.4rem);
-            font-weight: 700;
-            line-height: 1.0;
-            letter-spacing: -0.03em;
-            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            color: var(--dark);
+            text-wrap: balance;
         }
-        .process-title em { font-style: normal; color: var(--accent); }
+        .process-title em { font-style: normal; color: var(--dark); }
         .process-intro {
-            margin-top: 1.1rem;
+            margin: 1.1rem auto 0;
             max-width: 56ch;
             font-size: 1.08rem;
             line-height: 1.65;
-            color: rgba(255,255,255,0.72);
+            color: var(--mid);
         }
 
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2.5rem 2rem;
-        }
-        .step {
+        .process-flow {
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.15);
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: clamp(0.8rem, 2vw, 1.6rem);
         }
-        .step-num {
-            font-family: var(--f);
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: var(--accent);
-        }
-        .step-title {
-            font-family: var(--f);
-            font-size: 1.35rem;
-            font-weight: 600;
+        .flow-step {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+            font-weight: 500;
             letter-spacing: -0.01em;
-            line-height: 1.2;
-            color: var(--white);
+            color: var(--dark);
+            white-space: nowrap;
         }
-        .step-desc {
-            font-size: 0.98rem;
-            font-weight: 400;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.75);
+        .flow-sep {
+            flex: 0 0 auto;
+            width: clamp(1.5rem, 5vw, 4rem);
+            height: 1px;
+            background: var(--border);
+            position: relative;
+        }
+        .flow-sep::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
+            transform: translate(-50%, -50%);
+        }
+        @media (max-width: 680px) {
+            .process-flow { flex-direction: column; gap: 0.9rem; }
+            .flow-sep { width: 1px; height: 1.6rem; }
         }
 
         /* ── CTA DARK ────────────────────────────── */
@@ -1089,7 +1245,7 @@
 
         /* Titoli in Playfair Display (corpo resta Outfit) */
         .hero-title, .section-title, .service-title, .process-title, .portfolio-title, .cta-title { font-family: 'Playfair Display', serif; }
-        .section-title em, .process-title em, .portfolio-title em, .cta-title em { font-style: italic; }
+        .section-title em, .cta-title em { font-style: italic; }
 
         /* ── HERO DISTRIBUITO — solo desktop (≥961px) ─────────────
            Palco ad aspect-ratio bloccato: font in cqw + posizioni in %
@@ -1411,21 +1567,26 @@
 
 <!-- ── STATS / NUMERI ──────── NUMERI SEGNAPOSTO: sostituire con dati reali ── -->
 <section class="stats" id="numeri">
-    <div class="stats-header">
-        <h2 class="section-title">Esperienza che <em>parla da sé</em></h2>
-    </div>
-    <div class="stats-grid">
-        <div class="stat">
-            <div class="stat-num"><span class="stat-value" data-target="35">35</span><span class="stat-suffix">+</span></div>
-            <p class="stat-label">anni di esperienza del posatore</p>
-        </div>
-        <div class="stat">
-            <div class="stat-num"><span class="stat-value" data-target="50000">50.000</span><span class="stat-suffix">+ m²</span></div>
-            <p class="stat-label">di superfici posate</p>
-        </div>
-        <div class="stat">
-            <div class="stat-num"><span class="stat-value" data-target="300">300</span><span class="stat-suffix">+</span></div>
-            <p class="stat-label">cantieri completati</p>
+    <div class="stats-inner">
+        <h2 class="stats-title">Esperienza che parla da sé</h2>
+        <div class="stats-grid stats-figures">
+            <div class="figure">
+                <span class="figure-tick" aria-hidden="true"></span>
+                <span class="figure-num"><span class="stat-value" data-target="35">35</span><span class="figure-suffix">+</span></span>
+                <span class="figure-label">anni di esperienza del posatore</span>
+            </div>
+            <span class="figure-divider" aria-hidden="true"></span>
+            <div class="figure">
+                <span class="figure-tick" aria-hidden="true"></span>
+                <span class="figure-num"><span class="stat-value" data-target="50000">50.000</span><span class="figure-suffix">+&nbsp;m²</span></span>
+                <span class="figure-label">di superfici posate</span>
+            </div>
+            <span class="figure-divider" aria-hidden="true"></span>
+            <div class="figure">
+                <span class="figure-tick" aria-hidden="true"></span>
+                <span class="figure-num"><span class="stat-value" data-target="300">300</span><span class="figure-suffix">+</span></span>
+                <span class="figure-label">cantieri completati</span>
+            </div>
         </div>
     </div>
 </section>
@@ -1433,131 +1594,144 @@
 
 <!-- ── PORTFOLIO SLIDER ──────────────────────────────────────── -->
 <section class="portfolio-section" id="portfolio">
-  <div class="portfolio-split">
-    <div class="portfolio-inner">
-        <h2 class="portfolio-title">Alcuni dei nostri<br><em>interventi recenti</em></h2>
-    </div>
-    <div class="slider-container" id="sliderContainer">
+  <div class="pf-head">
+    <h2 class="portfolio-title">Alcuni dei nostri <em>interventi recenti</em></h2>
+    <p class="pf-desc">Una selezione di pose e rivestimenti che abbiamo realizzato. Trascina per esplorare, clicca su una foto per ingrandirla.</p>
+  </div>
 
-        <!-- ── LAVORI REALI ── aggiungi nuove foto con lo stesso schema ── -->
-        <div class="slide active">
-            <div class="slide-blur" style="background-image: url('img/lavoro-interno-rovere.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-interno-rovere.jpg" alt="Parquet in rovere rustico in una cucina moderna" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-boutique-parquet.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-boutique-parquet.jpg" alt="Parquet in rovere in una boutique di moda" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-negozio-parquet.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-negozio-parquet.jpg" alt="Parquet in un negozio con esposizione di calzature" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-piscina-teak-interna.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-piscina-teak-interna.jpg" alt="Piscina interna con bordo in teak a giunto nautico" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-terrazza-fioriere.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-terrazza-fioriere.jpg" alt="Terrazza in decking WPC con seduta e fioriere integrate" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-doccia-esterna.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-doccia-esterna.jpg" alt="Doccia da esterno rivestita in WPC" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-piscina-sfioro.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-piscina-sfioro.jpg" alt="Piscina a sfioro con decking in legno e vista sulle colline" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-terrazza-jacuzzi.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-terrazza-jacuzzi.jpg" alt="Terrazza in WPC con vasca idromassaggio e vista sulla città" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-piscina-decking-chiaro.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-piscina-decking-chiaro.jpg" alt="Piscina con ampio bordo in decking WPC chiaro" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-terrazza-prato-mare.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-terrazza-prato-mare.jpg" alt="Ampia terrazza in decking WPC con prato e vista mare" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-villa-wpc.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-villa-wpc.jpg" alt="Villa moderna con rivestimento diagonale in WPC" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-piscina-doccia-colline.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-piscina-doccia-colline.jpg" alt="Piscina con bordo in WPC e doccia esterna, vista sulle colline" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-bordo-piscina-legno.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-bordo-piscina-legno.jpg" alt="Bordo piscina in legno con acqua turchese" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-terrazza-diagonale.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-terrazza-diagonale.jpg" alt="Terrazza con rivestimento e pavimento in WPC a posa diagonale" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-camminamento-piscina.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-camminamento-piscina.jpg" alt="Camminamento in decking WPC lungo la piscina" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-piscina-gradini.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-piscina-gradini.jpg" alt="Bordo piscina in WPC con gradini di accesso all'acqua" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-giardino-ulivo.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-giardino-ulivo.jpg" alt="Decking WPC in giardino con ulivo e palme" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-doghe-verticali.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-doghe-verticali.jpg" alt="Rivestimento a doghe verticali in WPC e scala in granito" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-edificio-organico.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-edificio-organico.jpg" alt="Sottobalconi rivestiti in legno su edificio dal design organico" loading="lazy">
-        </div>
-        <div class="slide">
-            <div class="slide-blur" style="background-image: url('img/lavoro-terrazza-residenziale.jpg')"></div>
-            <img class="slide-img" src="img/lavoro-terrazza-residenziale.jpg" alt="Terrazza residenziale in decking WPC" loading="lazy">
-        </div>
-
-        <div class="slider-overlay"></div>
-        <button class="slide-btn prev" id="slidePrev" aria-label="Foto precedente">&#8249;</button>
-        <button class="slide-btn next" id="slideNext" aria-label="Foto successiva">&#8250;</button>
-        <div class="slide-indicators" id="slideIndicators"></div>
-        <span class="slide-counter" id="slideCounter"></span>
+  <div class="pf-viewport" id="pfViewport">
+    <div class="pf-grid" id="pfGrid">
+        <article class="pf-tile big" tabindex="0" role="button" aria-label="Apri: Rovere rustico">
+          <img src="img/lavoro-interno-rovere.jpg" alt="Parquet in rovere rustico in una cucina moderna" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Rovere rustico</h3><p>Parquet in cucina moderna</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Boutique moda">
+          <img src="img/lavoro-boutique-parquet.jpg" alt="Parquet in rovere in una boutique di moda" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Boutique moda</h3><p>Rovere in ambiente commerciale</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Retail">
+          <img src="img/lavoro-negozio-parquet.jpg" alt="Parquet in un negozio con esposizione di calzature" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Retail</h3><p>Parquet in negozio espositivo</p></div>
+        </article>
+        <article class="pf-tile tall" tabindex="0" role="button" aria-label="Apri: Teak nautico">
+          <img src="img/lavoro-piscina-teak-interna.jpg" alt="Piscina interna con bordo in teak a giunto nautico" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Teak nautico</h3><p>Bordo piscina interna a giunto nautico</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Terrazza WPC">
+          <img src="img/lavoro-terrazza-fioriere.jpg" alt="Terrazza in decking WPC con seduta e fioriere integrate" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Terrazza WPC</h3><p>Decking con sedute e fioriere integrate</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Doccia esterna">
+          <img src="img/lavoro-doccia-esterna.jpg" alt="Doccia da esterno rivestita in WPC" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Doccia esterna</h3><p>Rivestimento in WPC per esterni</p></div>
+        </article>
+        <article class="pf-tile tall" tabindex="0" role="button" aria-label="Apri: Piscina a sfioro">
+          <img src="img/lavoro-piscina-sfioro.jpg" alt="Piscina a sfioro con decking in legno e vista sulle colline" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Piscina a sfioro</h3><p>Decking con vista sulle colline</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Idromassaggio">
+          <img src="img/lavoro-terrazza-jacuzzi.jpg" alt="Terrazza in WPC con vasca idromassaggio e vista sulla città" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Idromassaggio</h3><p>Terrazza in WPC con vista città</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Bordo piscina">
+          <img src="img/lavoro-piscina-decking-chiaro.jpg" alt="Piscina con ampio bordo in decking WPC chiaro" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Bordo piscina</h3><p>Ampio decking WPC chiaro</p></div>
+        </article>
+        <article class="pf-tile tall" tabindex="0" role="button" aria-label="Apri: Vista mare">
+          <img src="img/lavoro-terrazza-prato-mare.jpg" alt="Ampia terrazza in decking WPC con prato e vista mare" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Vista mare</h3><p>Terrazza in decking con prato</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Villa moderna">
+          <img src="img/lavoro-villa-wpc.jpg" alt="Villa moderna con rivestimento diagonale in WPC" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Villa moderna</h3><p>Rivestimento diagonale in WPC</p></div>
+        </article>
+        <article class="pf-tile big" tabindex="0" role="button" aria-label="Apri: Bordo e doccia">
+          <img src="img/lavoro-piscina-doccia-colline.jpg" alt="Piscina con bordo in WPC e doccia esterna, vista sulle colline" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Bordo e doccia</h3><p>WPC con vista sulle colline</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Acqua turchese">
+          <img src="img/lavoro-bordo-piscina-legno.jpg" alt="Bordo piscina in legno con acqua turchese" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Acqua turchese</h3><p>Bordo piscina in legno</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Posa diagonale">
+          <img src="img/lavoro-terrazza-diagonale.jpg" alt="Terrazza con rivestimento e pavimento in WPC a posa diagonale" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Posa diagonale</h3><p>Terrazza e pavimento in WPC</p></div>
+        </article>
+        <article class="pf-tile tall" tabindex="0" role="button" aria-label="Apri: Camminamento">
+          <img src="img/lavoro-camminamento-piscina.jpg" alt="Camminamento in decking WPC lungo la piscina" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Camminamento</h3><p>Decking WPC lungo la piscina</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Gradini in acqua">
+          <img src="img/lavoro-piscina-gradini.jpg" alt="Bordo piscina in WPC con gradini di accesso all'acqua" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Gradini in acqua</h3><p>Bordo piscina in WPC con accesso graduale</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Giardino">
+          <img src="img/lavoro-giardino-ulivo.jpg" alt="Decking WPC in giardino con ulivo e palme" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Giardino</h3><p>Decking WPC con ulivo e palme</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Doghe verticali">
+          <img src="img/lavoro-doghe-verticali.jpg" alt="Rivestimento a doghe verticali in WPC e scala in granito" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Doghe verticali</h3><p>Rivestimento WPC e scala in granito</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Design organico">
+          <img src="img/lavoro-edificio-organico.jpg" alt="Sottobalconi rivestiti in legno su edificio dal design organico" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Design organico</h3><p>Sottobalconi rivestiti in legno</p></div>
+        </article>
+        <article class="pf-tile" tabindex="0" role="button" aria-label="Apri: Residenziale">
+          <img src="img/lavoro-terrazza-residenziale.jpg" alt="Terrazza residenziale in decking WPC" loading="lazy">
+          <div class="pf-grad"></div>
+          <div class="pf-cap"><h3>Residenziale</h3><p>Terrazza in decking WPC</p></div>
+        </article>
     </div>
   </div>
+
+  <p class="pf-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6 3 12l5 6"/><path d="m16 6 5 6-5 6"/></svg>
+    Trascina per esplorare
+  </p>
 </section>
+
+<div class="pf-lightbox" id="pfLightbox" role="dialog" aria-modal="true" aria-label="Immagine ingrandita">
+  <button class="pf-close" id="pfClose" aria-label="Chiudi">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <img id="pfLightboxImg" src="" alt="">
+</div>
 
 
 <!-- ── COME LAVORIAMO ───────────────────────────────────────── -->
 <section class="process" id="processo">
     <div class="process-header">
-        <h2 class="process-title">Dal sopralluogo<br>alla <em>consegna</em></h2>
+        <h2 class="process-title">Dal sopralluogo alla consegna</h2>
         <p class="process-intro">Un percorso chiaro, senza sorprese in corso d'opera. Ci occupiamo di tutto: materiale e posa, un solo referente dall'inizio alla fine.</p>
     </div>
-    <div class="process-grid">
-        <div class="step">
-            <span class="step-num">1</span>
-            <h3 class="step-title">Sopralluogo gratuito</h3>
-            <p class="step-desc">Veniamo da te, misuriamo gli spazi e valutiamo il supporto. Senza impegno.</p>
-        </div>
-        <div class="step">
-            <span class="step-num">2</span>
-            <h3 class="step-title">Preventivo chiaro</h3>
-            <p class="step-desc">Materiali e costi definiti in anticipo, per iscritto. Nessuna sorpresa dopo.</p>
-        </div>
-        <div class="step">
-            <span class="step-num">3</span>
-            <h3 class="step-title">Posa</h3>
-            <p class="step-desc">Esecuzione diretta dei nostri posatori. Cantiere ordinato e tempi rispettati.</p>
-        </div>
-        <div class="step">
-            <span class="step-num">4</span>
-            <h3 class="step-title">Consegna e garanzia</h3>
-            <p class="step-desc">Ti consegniamo il pavimento pronto e pulito, con garanzia sul lavoro eseguito.</p>
-        </div>
+    <div class="process-flow">
+        <span class="flow-step">Sopralluogo</span>
+        <span class="flow-sep" aria-hidden="true"></span>
+        <span class="flow-step">Preventivo</span>
+        <span class="flow-sep" aria-hidden="true"></span>
+        <span class="flow-step">Posa</span>
+        <span class="flow-sep" aria-hidden="true"></span>
+        <span class="flow-step">Consegna</span>
     </div>
 </section>
 
@@ -1634,6 +1808,7 @@
         entries.forEach(e => {
             if (!e.isIntersecting) return;
             statsObserver.unobserve(e.target);
+            e.target.classList.add('in');
             const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             e.target.querySelectorAll('.stat-value').forEach(el => {
                 const target = parseInt(el.dataset.target, 10) || 0;
@@ -1688,6 +1863,21 @@
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
 
+    // ── Smooth scroll sugli anchor interni (nativo, senza jank) ──
+    (function () {
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', ev => {
+                const id = a.getAttribute('href');
+                if (id.length < 2) return;
+                const target = document.querySelector(id);
+                if (!target) return;
+                ev.preventDefault();
+                target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+            });
+        });
+    })();
+
     // Video autoplay + resume on any touch (iOS) — hero e fascia video CTA
     const autoVideos = Array.from(document.querySelectorAll('.cta-video'));
     if (autoVideos.length) {
@@ -1714,62 +1904,90 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
 
-    // Carosello portfolio automatico
-    (function() {
-        const slides = Array.from(document.querySelectorAll('.slide'));
-        const dotsEl = document.getElementById('slideIndicators');
-        const counterEl = document.getElementById('slideCounter');
-        const btnPrev = document.getElementById('slidePrev');
-        const btnNext = document.getElementById('slideNext');
-        let current = 0;
-        let timer = null;
+    // Galleria bento "interventi recenti": auto-scroll + drag + lightbox
+    (function () {
+        const vp = document.getElementById('pfViewport');
+        const grid = document.getElementById('pfGrid');
+        if (!vp || !grid) return;
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        if (slides.length <= 1) {
-            if (btnPrev) btnPrev.style.display = 'none';
-            if (btnNext) btnNext.style.display = 'none';
-            if (counterEl) counterEl.style.display = 'none';
+        // Entrata scaglionata delle tile
+        const pfObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { grid.classList.add('is-inview'); pfObserver.disconnect(); } });
+        }, { threshold: 0 });
+        pfObserver.observe(grid);
+
+        // ── Lightbox ──
+        const lb = document.getElementById('pfLightbox');
+        const lbImg = document.getElementById('pfLightboxImg');
+        const lbClose = document.getElementById('pfClose');
+        const lbIsOpen = () => lb.classList.contains('open');
+        let lastFocus = null;
+        function openLb(src, alt) {
+            lbImg.src = src; lbImg.alt = alt || '';
+            lb.classList.add('open'); document.body.style.overflow = 'hidden';
+            lastFocus = document.activeElement; lbClose.focus();
         }
+        function closeLb() {
+            lb.classList.remove('open'); document.body.style.overflow = '';
+            lbImg.src = ''; if (lastFocus) lastFocus.focus();
+        }
+        lbClose.addEventListener('click', closeLb);
+        lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lbIsOpen()) closeLb(); });
 
-        slides.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', 'Foto ' + (i + 1));
-            dot.addEventListener('click', () => { goTo(i); resetTimer(); });
-            dotsEl.appendChild(dot);
+        // ── Drag-to-scroll (mouse; su touch resta lo scroll nativo) ──
+        // is-dragging viene aggiunto SOLO se ci si muove davvero, così il click resta pulito
+        let down = false, startX = 0, startScroll = 0, moved = 0;
+        vp.addEventListener('pointerdown', (e) => {
+            if (e.pointerType === 'touch') return;
+            down = true; moved = 0; startX = e.clientX; startScroll = vp.scrollLeft;
+        });
+        window.addEventListener('pointermove', (e) => {
+            if (!down) return;
+            const dx = e.clientX - startX;
+            moved = Math.max(moved, Math.abs(dx));
+            if (moved > 4) vp.classList.add('is-dragging');
+            vp.scrollLeft = startScroll - dx;
+        });
+        window.addEventListener('pointerup', () => { if (down) { down = false; vp.classList.remove('is-dragging'); } });
+
+        // Apertura foto: click sulla tile (drag soppresso) + tastiera
+        grid.querySelectorAll('.pf-tile').forEach(tile => {
+            const img = tile.querySelector('img');
+            tile.addEventListener('click', () => { if (moved > 6) return; openLb(img.src, img.alt); });
+            tile.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(img.src, img.alt); }
+            });
         });
 
-        const dots = Array.from(dotsEl.querySelectorAll('.slide-dot'));
+        // ── Auto-scroll lento (ping-pong), in pausa su interazione o lightbox ──
+        let dir = 1, interacting = false, resumeTimer = null;
+        const pauseAuto  = () => { interacting = true; clearTimeout(resumeTimer); };
+        const resumeSoon = () => { clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { interacting = false; }, 2500); };
+        vp.addEventListener('mouseenter', pauseAuto);
+        vp.addEventListener('mouseleave', resumeSoon);
+        vp.addEventListener('pointerdown', pauseAuto);
+        vp.addEventListener('pointerup', resumeSoon);
+        vp.addEventListener('touchstart', pauseAuto, { passive: true });
+        vp.addEventListener('touchend', resumeSoon, { passive: true });
 
-        function updateCounter() {
-            if (counterEl) counterEl.textContent = (current + 1) + ' / ' + slides.length;
+        // accumulatore float: scrollLeft è intero, i micro-incrementi vanno sommati a parte
+        let pos = vp.scrollLeft;
+        function autoTick() {
+            const max = vp.scrollWidth - vp.clientWidth;
+            if (interacting || lbIsOpen()) {
+                pos = vp.scrollLeft;                              // resta in sync mentre l'utente interagisce
+            } else if (max > 4) {
+                pos += 0.3 * dir;                                 // ~ lento
+                if (pos >= max) { pos = max; dir = -1; }
+                else if (pos <= 0) { pos = 0; dir = 1; }
+                vp.scrollLeft = pos;
+            }
+            requestAnimationFrame(autoTick);
         }
-
-        function goTo(idx) {
-            slides[current].classList.remove('active');
-            dots[current] && dots[current].classList.remove('active');
-            current = (idx + slides.length) % slides.length;
-            slides[current].classList.add('active');
-            dots[current] && dots[current].classList.add('active');
-            updateCounter();
-        }
-
-        function resetTimer() {
-            clearInterval(timer);
-            if (slides.length > 1) timer = setInterval(() => goTo(current + 1), 4500);
-        }
-
-        if (btnPrev) btnPrev.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
-        if (btnNext) btnNext.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
-
-        const container = document.getElementById('sliderContainer');
-        if (container) {
-            container.addEventListener('mouseenter', () => clearInterval(timer));
-            container.addEventListener('mouseleave', resetTimer);
-        }
-
-        updateCounter();
-        resetTimer();
-    }());
+        if (!reduced) requestAnimationFrame(autoTick);
+    })();
 </script>
 
 </body>
