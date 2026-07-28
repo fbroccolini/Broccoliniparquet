@@ -1243,18 +1243,44 @@
         .det.is-inview .line-b { transform: scaleY(1); transition-delay: 1.5s; }
         .det.is-inview .lab-b  { opacity: 1; transition-delay: 1.8s; }
 
-        /* MOBILE/TABLET (≤960px): testo sopra, foto sotto, niente annotazioni */
+        .det-points { display: none; }
+
+        /* MOBILE/TABLET (≤960px): testo sopra, FOTO full-bleed grande (crop quadrato
+           che tiene la curva), i due dettagli come caption sotto. */
         @media (max-width: 960px) {
-            .det { padding: 4rem 1.5rem; }
+            .det { padding: 0; }
             .det-stage {
                 aspect-ratio: auto; container-type: normal; overflow: visible; max-width: 100%;
-                display: flex; flex-direction: column; gap: 2rem;
+                display: flex; flex-direction: column;
             }
-            .det-copy { position: static; order: -1; max-width: 100%; top: auto; left: auto; }
+            .det-copy {
+                position: static; order: -1; max-width: 100%; top: auto; left: auto;
+                padding: 3.5rem 1.5rem 2rem;
+            }
             .det-title { font-size: clamp(2.2rem, 8.5vw, 3.4rem); }
             .det-intro { margin-top: 1rem; font-size: 1.05rem; max-width: 60ch; }
-            .det-photo-wrap { position: relative; inset: auto; aspect-ratio: 1493 / 1053; border-radius: 3px; }
+            .det-photo-wrap {
+                position: relative; inset: auto; width: 100%;
+                aspect-ratio: 1 / 1;
+            }
+            .det-photo { object-position: center; }
             .anno-dot, .anno-line, .anno-label { display: none; }
+
+            .det-points {
+                display: flex; flex-direction: column; gap: 0.85rem;
+                margin: 0; padding: 1.9rem 1.5rem 3.5rem; list-style: none;
+            }
+            .det-points li {
+                display: flex; align-items: center; gap: 0.75rem;
+                font-size: 1rem; font-weight: 500; color: var(--dark); letter-spacing: 0.01em;
+            }
+            .det-points li::before {
+                content: ''; width: 7px; height: 7px; border-radius: 50%;
+                background: var(--accent); flex-shrink: 0;
+            }
+            .has-js .det-points li { opacity: 0; transform: translateY(0.5rem); transition: opacity .6s ease, transform .6s var(--det-eout); }
+            .det.is-inview .det-points li { opacity: 1; transform: none; }
+            .det.is-inview .det-points li:nth-child(2) { transition-delay: .12s; }
         }
         @media (prefers-reduced-motion: reduce) {
             .has-js .det-photo-wrap { clip-path: none; }
@@ -1388,6 +1414,11 @@
         <span class="anno-dot dot-b"></span>
         <span class="anno-line line-b"></span>
         <span class="anno-label lab-b">fuga costante al millimetro</span>
+
+        <ul class="det-points">
+            <li>Doga sagomata sulla vasca</li>
+            <li>Fuga costante al millimetro</li>
+        </ul>
     </div>
 </section>
 
