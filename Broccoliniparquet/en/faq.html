@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contatti — Broccolini Srls</title>
-    <meta name="description" content="Richiedi un preventivo gratuito a Broccolini Srls per la posa di parquet o decking WPC. Sopralluogo senza impegno, risposta entro 24 ore lavorative.">
-    <link rel="canonical" href="https://www.broccoliniparquet.it/contatti.html">
-    <link rel="alternate" hreflang="it" href="https://www.broccoliniparquet.it/contatti.html">
-    <link rel="alternate" hreflang="en" href="https://www.broccoliniparquet.it/en/contatti.html">
-    <link rel="alternate" hreflang="x-default" href="https://www.broccoliniparquet.it/contatti.html">
+    <title>FAQ — Broccolini Srls</title>
+    <meta name="description" content="Frequently asked questions about wood flooring and WPC decking installation: cost per square metre, warranty, maintenance, poolsides. Answers from Broccolini Srls.">
+    <link rel="canonical" href="https://www.broccoliniparquet.it/en/faq.html">
+    <link rel="alternate" hreflang="it" href="https://www.broccoliniparquet.it/faq.html">
+    <link rel="alternate" hreflang="en" href="https://www.broccoliniparquet.it/en/faq.html">
+    <link rel="alternate" hreflang="x-default" href="https://www.broccoliniparquet.it/faq.html">
     <meta name="theme-color" content="#111111">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../favicon-96.png">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 
     <!-- Open Graph / social preview -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Broccolini Parquet">
     <meta property="og:locale" content="it_IT">
-    <meta property="og:title" content="Contatti — Broccolini Parquet">
-    <meta property="og:description" content="Richiedi un preventivo gratuito per posa di parquet o decking WPC. Sopralluogo senza impegno.">
-    <meta property="og:url" content="https://www.broccoliniparquet.it/contatti.html">
+    <meta property="og:title" content="FAQ — Broccolini Parquet">
+    <meta property="og:description" content="Cost, warranty, maintenance, poolsides: answers to the most common questions about wood flooring and WPC installation.">
+    <meta property="og:url" content="https://www.broccoliniparquet.it/faq.html">
     <meta property="og:image" content="https://www.broccoliniparquet.it/img/lavoro-piscina-decking-chiaro.jpg">
     <meta property="og:image:width" content="1443">
     <meta property="og:image:height" content="811">
     <meta property="og:image:alt" content="Decking WPC a bordo piscina realizzato da Broccolini">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Contatti — Broccolini Parquet">
-    <meta name="twitter:description" content="Richiedi un preventivo gratuito per posa di parquet o decking WPC. Sopralluogo senza impegno.">
+    <meta name="twitter:title" content="FAQ — Broccolini Parquet">
+    <meta name="twitter:description" content="Cost, warranty, maintenance, poolsides: answers to the most common questions about wood flooring and WPC installation.">
     <meta name="twitter:image" content="https://www.broccoliniparquet.it/img/lavoro-piscina-decking-chiaro.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -330,11 +330,6 @@
         }
         .form-privacy a { color: rgba(255,255,255,0.5); text-decoration: underline; }
 
-        .form-consent { display: flex; align-items: flex-start; gap: 0.6rem; margin-top: 1.25rem; }
-        .form-consent input { width: 16px; height: 16px; margin-top: 0.15rem; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
-        .form-consent label { font-size: 0.72rem; color: rgba(255,255,255,0.5); line-height: 1.5; cursor: pointer; }
-        .form-consent a { color: rgba(255,255,255,0.7); text-decoration: underline; }
-
         /* ── FOOTER ──────────────────────────────── */
         footer {
             background: var(--dark-2);
@@ -486,9 +481,101 @@
         .page-eyebrow  { animation: fadeInUp 0.7s ease forwards; }
         .page-title    { animation: fadeInUp 0.7s ease 0.12s both; }
 
+        /* ── FAQ ─────────────────────────────────── */
+        .faq-section { padding: 4.5rem 4.5rem 6rem; }
+        .faq-list { max-width: 840px; margin: 0 auto; }
+        .faq-item { border-top: 1px solid var(--border); }
+        .faq-item:last-child { border-bottom: 1px solid var(--border); }
+
+        .faq-q {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 1.6rem 0;
+            cursor: pointer;
+            list-style: none;
+            font-family: var(--f);
+            font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--dark);
+            transition: color 0.25s ease;
+        }
+        .faq-q::-webkit-details-marker { display: none; }
+        .faq-q:hover { color: var(--accent); }
+
+        .faq-icon { position: relative; flex-shrink: 0; width: 18px; height: 18px; }
+        .faq-icon::before,
+        .faq-icon::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 14px; height: 1.5px;
+            background: var(--accent);
+            transform: translate(-50%, -50%);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+        .faq-item[open] .faq-icon::after { opacity: 0; transform: translate(-50%, -50%) rotate(0deg); }
+
+        .faq-a { padding: 0 0 1.7rem; max-width: 66ch; }
+        .faq-a p { font-size: 0.98rem; line-height: 1.65; color: var(--mid); }
+        .faq-a p + p { margin-top: 0.8rem; }
+        .faq-a strong { color: var(--dark); font-weight: 600; }
+
+        .faq-item[open] .faq-a { animation: faqReveal 0.35s ease; }
+        @keyframes faqReveal {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── ASK BOX (domanda libera) ────────────── */
+        .ask-box { background: var(--dark); padding: 5.5rem 4.5rem; }
+        .ask-box-inner {
+            max-width: 1040px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .ask-title {
+            font-family: var(--f);
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.0;
+            letter-spacing: -0.03em;
+            color: var(--white);
+        }
+        .ask-title em { font-style: normal; color: var(--accent); }
+        .ask-sub {
+            margin-top: 1.2rem;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.6);
+            max-width: 42ch;
+        }
+        .ask-sub a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+        .ask-form { width: 100%; }
+        .ask-success-title { font-size: 1.6rem; font-weight: 700; color: var(--white); letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+        .ask-success-sub { color: rgba(255,255,255,0.55); font-size: 0.95rem; }
+
+        @media (max-width: 960px) {
+            .faq-section { padding: 3rem 1.5rem 4rem; }
+            .ask-box { padding: 3.5rem 1.5rem; }
+            .ask-box-inner { grid-template-columns: 1fr; gap: 2rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .faq-item[open] .faq-a { animation: none; }
+            .faq-icon::before, .faq-icon::after { transition: none; }
+            .page-eyebrow, .page-title { animation: none; }
+        }
+
         /* Titoli in Playfair Display (corpo resta Outfit) */
-        .page-title, .form-title { font-family: 'Playfair Display', serif; }
-        .form-title em { font-style: italic; }
+        .page-title, .ask-title { font-family: 'Playfair Display', serif; }
+        .page-title em, .ask-title em { font-style: italic; }
     </style>
 </head>
 <body>
@@ -503,11 +590,11 @@
         </a>
         <div class="nav-right">
             <div class="nav-lang" aria-label="Lingua / Language">
-                <a href="contatti.html" class="lang-opt is-active" aria-current="true">IT</a>
+                <a href="../faq.html" class="lang-opt" hreflang="it">IT</a>
                 <span class="lang-sep" aria-hidden="true">/</span>
-                <a href="en/contatti.html" class="lang-opt" hreflang="en">EN</a>
+                <a href="faq.html" class="lang-opt is-active" aria-current="true">EN</a>
             </div>
-            <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu" aria-expanded="false" aria-controls="navMobile">
+            <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navMobile">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -518,124 +605,139 @@
     <div class="nav-mobile-inner">
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#servizi">Servizi</a></li>
+            <li><a href="index.html#servizi">Services</a></li>
             <li><a href="index.html#portfolio">Portfolio</a></li>
-            <li><a href="chi-siamo.html">Chi siamo</a></li>
+            <li><a href="chi-siamo.html">About us</a></li>
             <li><a href="faq.html">FAQ</a></li>
-            <li><a href="#form">Contatti</a></li>
+            <li><a href="contatti.html">Contact</a></li>
         </ul>
-        <a href="#form" class="mobile-cta">Richiedi preventivo</a>
+        <a href="contatti.html" class="mobile-cta">Get a quote</a>
     </div>
 </div>
 
 <!-- ── PAGE HEADER ──────────────────────────────────────────── -->
 <div class="page-header">
     <div class="page-header-inner">
-        <p class="page-eyebrow">Parliamo del tuo progetto</p>
         <h1 class="page-title">
-            Contat<em>taci</em>
+            Frequently asked <em>questions</em>
         </h1>
     </div>
 </div>
 
-<!-- ── CONTACT SECTION ──────────────────────────────────────── -->
-<div class="contact-section">
-
-    <!-- INFO -->
-    <div class="contact-info">
-
-        <div class="contact-block">
-            <p class="contact-label">Email</p>
-            <a href="mailto:info@broccoliniparquet.it" class="contact-value">info@broccoliniparquet.it</a>
-            <p class="contact-note">Risposta entro 24h lavorative</p>
-        </div>
-
-        <div class="contact-block">
-            <p class="contact-label">Telefono</p>
-            <a href="tel:+393294116649" class="contact-value">329 411 6649</a>
-            <p class="contact-note">Chiamaci per un preventivo o un sopralluogo</p>
-        </div>
-
-        <a href="mailto:info@broccoliniparquet.it" class="btn-contact">
-            <svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M2 4h16v12H2zM2 4l8 7 8-7"/>
-            </svg>
-            Scrivici una email
-        </a>
-
+<!-- ── FAQ SECTION ──────────────────────────────────────────── -->
+<div class="faq-section">
+    <div class="faq-list">
+        <details class="faq-item">
+            <summary class="faq-q">
+                <span>How much does installation cost per square metre?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">
+                <p>There's no single price: it depends on the material chosen, the condition of the subfloor and the surface to be covered. That's exactly why the <strong>survey is free</strong> — we measure in person and give you a written quote, with materials and installation already included. No surprise costs along the way.</p>
+            </div>
+        </details>
+        <details class="faq-item">
+            <summary class="faq-q">
+                <span>Does WPC decking get hot by the pool, in the sun?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">
+                <p>WPC heats up less than dark solid wood, but like any surface exposed to the summer sun it can get warm — especially in darker shades. Lighter finishes stay cooler underfoot. During the survey we'll recommend the best colour for the sun exposure of your pool area.</p>
+            </div>
+        </details>
+        <details class="faq-item">
+            <summary class="faq-q">
+                <span>Can I lay the new floor over the existing one?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">
+                <p>Often, yes. If the current floor is stable, level and well anchored, we can lay over it without demolition — cutting time, dust and disposal costs. We check this during the survey: if the base isn't suitable, we'll tell you honestly.</p>
+            </div>
+        </details>
+        <details class="faq-item">
+            <summary class="faq-q">
+                <span>What warranty do you offer on the work?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">
+                <p>We provide a <strong>warranty on the installation</strong> we carry out. The material is also covered by the manufacturer's warranty. We give you everything in writing at handover, so you always know who to turn to: one point of contact, from start to finish.</p>
+            </div>
+        </details>
+        <details class="faq-item">
+            <summary class="faq-q">
+                <span>How long does a job take to complete?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">
+                <p>It depends on the square metres and the type of installation, but a home room is usually finished in a few days. We set the exact timing in the quote and stick to it: a tidy site and handover on the agreed schedule.</p>
+            </div>
+        </details>
+        <details class="faq-item">
+            <summary class="faq-q">
+                <span>Does WPC decking require maintenance?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">
+                <p>Far less than wood. WPC doesn't need oiling or sanding every season: periodic cleaning with water is enough. That's why it's the ideal choice for poolsides, terraces and gardens exposed to the weather.</p>
+            </div>
+        </details>
+        <details class="faq-item">
+            <summary class="faq-q">
+                <span>Do you only work in your local area?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">
+                <p>We work throughout Italy and, for dedicated projects, across Europe and beyond. Tell us where you are: we'll assess feasibility together and arrange the survey.</p>
+            </div>
+        </details>
     </div>
 
-    <!-- FORM -->
-    <div class="contact-form-side" id="form">
-        <h2 class="form-title">
-            Richiedi un<br><em>preventivo gratuito</em>
-        </h2>
+</div>
 
-        <form id="contactForm" onsubmit="handleSubmit(event)">
-            <!-- Web3Forms access key (broccoliniparquet — richieste preventivo) -->
+<!-- ── ASK BOX (domanda libera) ─────────────────────────────── -->
+<section class="ask-box">
+    <div class="ask-box-inner">
+        <div class="ask-box-intro">
+            <h2 class="ask-title">Didn't find<br><em>your answer?</em></h2>
+            <p class="ask-sub">Send us your question: we'll reply within 24 working hours. Alternatively you can <a href="contatti.html">book a free on-site survey</a>.</p>
+        </div>
+
+        <form class="ask-form" id="askForm" onsubmit="handleAsk(event)">
+            <!-- Web3Forms access key (broccoliniparquet — domande FAQ) -->
             <input type="hidden" name="access_key" value="72318e8e-7bbc-4405-9cde-44fc38a00f7e">
-            <input type="hidden" name="subject" value="Nuova richiesta preventivo — Broccolini Parquet">
-            <input type="hidden" name="from_name" value="Broccolini Parquet Website">
+            <input type="hidden" name="subject" value="New FAQ question (EN) — Broccolini Parquet">
+            <input type="hidden" name="from_name" value="Broccolini Parquet — FAQ">
             <input type="hidden" name="redirect" value="false">
             <input type="checkbox" name="botcheck" style="display:none">
 
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label" for="nome">Nome</label>
-                    <input class="form-input" type="text" id="nome" name="nome" placeholder="Mario" required>
+                    <label class="form-label" for="ask-nome">Name</label>
+                    <input class="form-input" type="text" id="ask-nome" name="nome" placeholder="Mario Rossi" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="cognome">Cognome</label>
-                    <input class="form-input" type="text" id="cognome" name="cognome" placeholder="Rossi" required>
+                    <label class="form-label" for="ask-email">Email</label>
+                    <input class="form-input" type="email" id="ask-email" name="email" placeholder="john@example.com" required>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="email">Email</label>
-                <input class="form-input" type="email" id="email" name="email" placeholder="mario@esempio.it" required>
+                <label class="form-label" for="ask-domanda">Your question</label>
+                <textarea class="form-textarea form-input" id="ask-domanda" name="domanda" placeholder="Type your question here…" required></textarea>
             </div>
 
-            <div class="form-group">
-                <label class="form-label" for="telefono">Telefono</label>
-                <input class="form-input" type="tel" id="telefono" name="telefono" placeholder="+39 333 000 0000">
-            </div>
+            <button type="submit" class="btn-submit" id="askSubmit">Send question</button>
 
-            <div class="form-group">
-                <label class="form-label" for="servizio">Tipo di intervento</label>
-                <select class="form-select form-input" id="servizio" name="servizio" required>
-                    <option value="" disabled selected>Seleziona un servizio</option>
-                    <option value="parquet">Posa parquet interno</option>
-                    <option value="wpc">Decking WPC esterno</option>
-                    <option value="levigatura">Levigatura e restauro</option>
-                    <option value="fornitura-posa">Fornitura + Posa</option>
-                    <option value="altro">Altro</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label" for="messaggio">Messaggio</label>
-                <textarea class="form-textarea form-input" id="messaggio" name="messaggio" placeholder="Descrivi brevemente il tuo progetto (mq, tipologia di locale, tempistiche…)"></textarea>
-            </div>
-
-            <button type="submit" class="btn-submit" id="submitBtn">
-                Invia richiesta
-            </button>
-
-            <div class="form-consent">
-                <input type="checkbox" id="privacyConsent" name="privacy_consent" required>
-                <!-- TODO Google Ads: sostituire href="#" con l'URL della Privacy Policy (Iubenda) -->
-                <label for="privacyConsent">Ho letto la <a href="#" target="_blank" rel="noopener">Privacy Policy</a> e acconsento al trattamento dei miei dati per essere ricontattato. I dati non saranno ceduti a terzi. *</label>
-            </div>
+            <p class="form-privacy">By submitting you accept our Privacy Policy. We do not share your data with third parties.</p>
         </form>
 
         <!-- Messaggio di conferma (nascosto di default) -->
-        <div id="formSuccess" style="display:none; text-align:center; padding: 3rem 0;">
-            <p style="font-size:1.8rem; font-weight:700; color:var(--white); letter-spacing:-0.02em; margin-bottom:0.75rem;">Richiesta inviata ✓</p>
-            <p style="color:rgba(255,255,255,0.5); font-size:0.9rem; font-weight:300;">Ti risponderemo entro 24 ore lavorative.</p>
+        <div id="askSuccess" style="display:none;">
+            <p class="ask-success-title">Question sent ✓</p>
+            <p class="ask-success-sub">We'll reply within 24 working hours.</p>
         </div>
     </div>
-
-</div>
+</section>
 
 <!-- ── FOOTER ───────────────────────────────────────────────── -->
 <footer>
@@ -646,43 +748,40 @@
                 <span class="logo-rule"></span>
                 <span class="logo-sub">Parquet</span>
             </div>
-            <p class="footer-tagline">Fornitura e posa di parquet<br>e pavimenti WPC da esterno.</p>
+            <p class="footer-tagline">Supply and installation of wood flooring<br>and outdoor WPC decking.</p>
         </div>
         <div>
-            <p class="footer-col-title">Contatti</p>
+            <p class="footer-col-title">Contact</p>
             <ul class="footer-links">
                 <li><a href="mailto:info@broccoliniparquet.it">info@broccoliniparquet.it</a></li>
             </ul>
         </div>
     </div>
     <div class="footer-bottom">
-        <p class="footer-copy">© 2025 Broccolini Srls · P.IVA 01937410676 · Via San Giuseppe SNC, Teramo (TE)</p>
+        <p class="footer-copy">© 2025 Broccolini Srls · VAT 01937410676 · Via San Giuseppe SNC, Teramo (TE), Italy</p>
         <p class="footer-copy">Privacy Policy · Cookie Policy</p>
     </div>
 </footer>
 
 <script>
-    async function handleSubmit(e) {
+    // Invio domanda libera (box FAQ) via Web3Forms
+    async function handleAsk(e) {
         e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        const form = document.getElementById('contactForm');
-        const successEl = document.getElementById('formSuccess');
+        const btn = document.getElementById('askSubmit');
+        const form = document.getElementById('askForm');
+        const successEl = document.getElementById('askSuccess');
 
-        btn.textContent = 'Invio in corso…';
+        btn.textContent = 'Sending…';
         btn.disabled = true;
 
         try {
             const data = new FormData(form);
-            const res = await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: data
-            });
+            const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
             const json = await res.json();
 
             if (json.success) {
                 form.style.display = 'none';
                 successEl.style.display = 'block';
-                if (window.trackConversion) window.trackConversion('lead_form_submit'); // conversione Google Ads
             } else {
                 throw new Error(json.message || 'Errore invio');
             }
@@ -692,7 +791,7 @@
             btn.style.color = '#fff';
             btn.disabled = false;
             setTimeout(() => {
-                btn.textContent = 'Invia richiesta';
+                btn.textContent = 'Invia la domanda';
                 btn.style.background = '';
                 btn.style.color = '';
             }, 4000);
@@ -723,7 +822,7 @@
   .call-fab:focus-visible{outline:2px solid #111;outline-offset:3px}
   @media (prefers-reduced-motion:reduce){.call-fab{transition:none}}
 </style>
-<a class="call-fab" id="callFab" data-goal="call" href="tel:+393294116649" aria-label="Chiama Broccolini Parquet">
+<a class="call-fab" id="callFab" data-goal="call" href="tel:+393294116649" aria-label="Call Broccolini Parquet">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
 </a>
 <script>

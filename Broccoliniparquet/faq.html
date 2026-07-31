@@ -6,6 +6,9 @@
     <title>Domande frequenti — Broccolini Srls</title>
     <meta name="description" content="Domande frequenti su posa di parquet e decking WPC: costi al metro quadro, garanzia, manutenzione, bordo piscina. Le risposte di Broccolini Srls.">
     <link rel="canonical" href="https://www.broccoliniparquet.it/faq.html">
+    <link rel="alternate" hreflang="it" href="https://www.broccoliniparquet.it/faq.html">
+    <link rel="alternate" hreflang="en" href="https://www.broccoliniparquet.it/en/faq.html">
+    <link rel="alternate" hreflang="x-default" href="https://www.broccoliniparquet.it/faq.html">
     <meta name="theme-color" content="#111111">
 
     <!-- Favicon -->
@@ -31,7 +34,8 @@
     <meta name="twitter:image" content="https://www.broccoliniparquet.it/img/lavoro-piscina-decking-chiaro.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet"></noscript>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         * { outline: unset; }
@@ -102,6 +106,13 @@
         .logo-rule { display: block; width: 100%; height: 1px; background: var(--dark); opacity: 0.18; margin: 0.28rem 0 0.22rem; }
         .logo-sub { font-family: var(--font-body); font-size: 0.65rem; font-weight: 400; letter-spacing: 0.48em; text-transform: uppercase; color: var(--accent); display: block; }
 
+        /* ── LANG SWITCH ── */
+        .nav-right { display: flex; align-items: center; gap: 1.15rem; }
+        .nav-lang { display: flex; align-items: center; gap: 0.35rem; font-family: var(--f); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; color: var(--dark); }
+        .nav-lang a { color: inherit; text-decoration: none; opacity: 0.45; transition: opacity 0.2s ease; }
+        .nav-lang a.is-active, .nav-lang a:hover { opacity: 1; }
+        .nav-lang .lang-sep { opacity: 0.3; }
+
 
         /* ── PAGE HEADER ─────────────────────────── */
         .page-header {
@@ -152,7 +163,6 @@
             font-weight: 700;
             line-height: 0.95;
             letter-spacing: -0.03em;
-            text-transform: uppercase;
             color: var(--dark);
         }
         .page-title em { font-style: normal; color: var(--dark); }
@@ -578,9 +588,16 @@
             <span class="logo-rule"></span>
             <span class="logo-sub">Parquet</span>
         </a>
-        <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu" aria-expanded="false" aria-controls="navMobile">
-            <span></span><span></span><span></span>
-        </button>
+        <div class="nav-right">
+            <div class="nav-lang" aria-label="Lingua / Language">
+                <a href="faq.html" class="lang-opt is-active" aria-current="true">IT</a>
+                <span class="lang-sep" aria-hidden="true">/</span>
+                <a href="en/faq.html" class="lang-opt" hreflang="en">EN</a>
+            </div>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu" aria-expanded="false" aria-controls="navMobile">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
     </div>
 </nav>
 
