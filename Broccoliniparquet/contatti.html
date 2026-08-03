@@ -743,7 +743,15 @@
   window.trackConversion = function (name) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: name });
-    if (typeof window.gtag === 'function') window.gtag('event', name);
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', name);
+      // Conversioni Google Ads (AW-786513961): mappa nome evento -> send_to
+      var adsSendTo = {
+        call_click: 'AW-786513961/JUIYCNeajtscEKmAhfcC',
+        lead_form_submit: 'AW-786513961/XYxICPux_docEKmAhfcC'
+      };
+      if (adsSendTo[name]) window.gtag('event', 'conversion', { send_to: adsSendTo[name] });
+    }
   };
   (function () { var f = document.getElementById('callFab'); if (f) f.addEventListener('click', function () { window.trackConversion('call_click'); }); })();
 </script>
