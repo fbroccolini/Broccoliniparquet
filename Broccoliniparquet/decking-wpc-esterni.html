@@ -93,7 +93,7 @@
         .hero-trust svg{width:16px;height:16px;color:var(--accent-2)}
 
         /* ── USP BAND ── */
-        .band{background:var(--dark);color:#fff;text-align:center;padding:2.4rem 1.5rem}
+        .band{background:var(--bg-2);color:var(--dark);text-align:center;padding:2.4rem 1.5rem;border-top:1px solid #ddd8d0;border-bottom:1px solid #ddd8d0}
         .band p{font-family:var(--fd);font-size:clamp(1.3rem,2.6vw,2rem);font-weight:600}
         .band em{font-style:italic;color:var(--accent-2)}
 
@@ -106,6 +106,15 @@
         .b-num{font-family:var(--fd);font-size:1.05rem;color:var(--accent);font-weight:600;margin-bottom:0.7rem}
         .b-item h3{font-size:1.3rem;font-weight:600;letter-spacing:-0.01em;margin-bottom:0.55rem}
         .b-item p{color:#4a453f;font-weight:300;font-size:1rem}
+
+        /* ── DETAIL ── */
+        .detail{padding:clamp(3.5rem,7vw,6rem) 0}
+        .detail-grid{display:grid;grid-template-columns:1fr;gap:2rem;align-items:center}
+        @media(min-width:860px){.detail-grid{grid-template-columns:0.85fr 1.15fr;gap:3.5rem}}
+        .detail-text h2{font-size:clamp(1.8rem,3.5vw,2.6rem);margin-bottom:1rem}
+        .detail-text p{color:#4a453f;font-weight:300;font-size:1.08rem;max-width:44ch}
+        .detail-img{border-radius:6px;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,0.16)}
+        .detail-img img{width:100%;height:auto;display:block;aspect-ratio:3/2;object-fit:cover}
 
         /* ── PROOF (stats + foto) ── */
         .proof{background:var(--bg-2);padding:clamp(3.5rem,7vw,6rem) 0}
@@ -130,40 +139,39 @@
         .step-sep{color:var(--accent);font-size:1.2rem}
 
         /* ── FORM ── */
-        .lead-form{background:var(--dark-2);color:#fff;padding:clamp(4rem,8vw,6.5rem) 0}
+        .lead-form{background:var(--bg-2);color:var(--dark);padding:clamp(4rem,8vw,6.5rem) 0}
         .lf-grid{display:grid;grid-template-columns:1fr;gap:2.5rem}
         @media(min-width:900px){.lf-grid{grid-template-columns:1fr 1.1fr;gap:4rem;align-items:start}}
         .lf-left h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:1.2rem}
-        .lf-left h2 em{font-style:italic;color:var(--accent-2)}
-        .lf-left p{color:rgba(255,255,255,0.7);font-weight:300;max-width:42ch;margin-bottom:2rem}
+        .lf-left p{color:#4a453f;font-weight:300;max-width:42ch;margin-bottom:2rem}
         .lf-contact{display:flex;flex-direction:column;gap:1.3rem}
-        .lf-contact a{display:inline-flex;align-items:center;gap:0.7rem;text-decoration:none;color:#fff;font-weight:500}
-        .lf-contact a:hover .lfc-val{color:var(--accent-2)}
-        .lfc-ico{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);display:inline-flex;align-items:center;justify-content:center;flex:none}
-        .lfc-ico svg{width:18px;height:18px;color:var(--accent-2)}
-        .lfc-lab{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.5)}
+        .lf-contact a{display:inline-flex;align-items:center;gap:0.7rem;text-decoration:none;color:var(--dark);font-weight:500}
+        .lf-contact a:hover .lfc-val{color:#9a7d4e}
+        .lfc-ico{width:40px;height:40px;border-radius:50%;background:rgba(196,168,130,0.20);display:inline-flex;align-items:center;justify-content:center;flex:none}
+        .lfc-ico svg{width:18px;height:18px;color:#9a7d4e}
+        .lfc-lab{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:#8a8377}
         .lfc-val{font-size:1.1rem;font-weight:600;transition:color .2s}
         form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
         @media(max-width:520px){form .form-row{grid-template-columns:1fr}}
         .fg{margin-bottom:1.1rem}
-        .fg label{display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.5rem}
-        .fg input,.fg textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.14);border-radius:3px;padding:0.9rem 1rem;color:#fff;font-family:inherit;font-size:1rem;transition:border-color .2s,background .2s}
-        .fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,0.35)}
-        .fg input:focus,.fg textarea:focus{outline:none;border-color:var(--accent);background:rgba(255,255,255,0.08)}
+        .fg label{display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a8377;margin-bottom:0.5rem}
+        .fg input,.fg textarea{width:100%;background:#fff;border:1px solid #d8d3ca;border-radius:3px;padding:0.9rem 1rem;color:var(--dark);font-family:inherit;font-size:1rem;transition:border-color .2s,box-shadow .2s}
+        .fg input::placeholder,.fg textarea::placeholder{color:#9a938a}
+        .fg input:focus,.fg textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(196,168,130,0.20)}
         .fg textarea{resize:vertical;min-height:96px}
         .submit-btn{width:100%;background:var(--accent);color:#1a1a1a;border:0;border-radius:3px;padding:1.1rem;font-family:inherit;font-size:1rem;font-weight:700;letter-spacing:0.02em;cursor:pointer;transition:background .25s}
         .submit-btn:hover{background:var(--accent-2)}
         .submit-btn:disabled{opacity:0.7;cursor:default}
-        .consent{display:flex;gap:0.6rem;margin-top:1rem;font-size:0.82rem;color:rgba(255,255,255,0.6);line-height:1.5}
+        .consent{display:flex;gap:0.6rem;margin-top:1rem;font-size:0.82rem;color:#6a645c;line-height:1.5}
         .consent input{margin-top:0.2rem;flex:none;accent-color:var(--accent)}
-        .consent a{color:rgba(255,255,255,0.85);text-decoration:underline}
+        .consent a{color:var(--dark);text-decoration:underline}
 
         /* ── FOOTER ── */
-        footer{background:var(--dark);color:#fff;padding:3rem 0 2rem;text-align:center}
+        footer{background:var(--bg-2);color:var(--dark);padding:3rem 0 2rem;text-align:center;border-top:1px solid #ddd8d0}
         .foot-logo .ln{font-family:var(--fd);font-size:1.3rem;font-weight:700;letter-spacing:-0.02em;text-transform:uppercase;display:block}
-        .foot-logo .ls{font-size:0.6rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--accent);margin-top:3px}
-        .foot-copy{margin-top:1.4rem;font-size:0.8rem;color:rgba(255,255,255,0.5);line-height:1.7}
-        .foot-copy a{color:rgba(255,255,255,0.6);text-decoration:underline}
+        .foot-logo .ls{font-size:0.6rem;letter-spacing:0.42em;text-transform:uppercase;color:#9a7d4e;margin-top:3px}
+        .foot-copy{margin-top:1.4rem;font-size:0.8rem;color:#6a645c;line-height:1.7}
+        .foot-copy a{color:#4a453f;text-decoration:underline}
 
         /* ── FAB speed-dial ── */
         .fab-dial{position:fixed;right:1.25rem;bottom:5.5rem;z-index:90;display:flex;flex-direction:column;align-items:flex-end;gap:.6rem}
@@ -214,7 +222,7 @@
 
     <div class="hero-inner">
         <h1>Il tuo esterno in WPC, bello e senza manutenzione</h1>
-        <p class="hero-sub">Terrazze, giardini, bordi piscina e camminamenti in decking WPC: antiscivolo, resistente alle intemperie, con la bellezza calda del legno. Fornitura e posa con un solo referente.</p>
+        <p class="hero-sub">Terrazze, giardini, bordi piscina e vialetti in decking WPC: antiscivolo, resistente alle intemperie, con la bellezza calda del legno. Fornitura e posa con un solo referente.</p>
         <div class="hero-actions">
             <a href="#form" class="btn btn-primary" data-goal="quote">
                 Richiedi preventivo gratuito
@@ -268,6 +276,19 @@
     </div>
 </section>
 
+<!-- ── DETTAGLIO ── -->
+<section class="detail">
+    <div class="wrap detail-grid">
+        <div class="detail-text">
+            <h2>La differenza è nel dettaglio</h2>
+            <p>Ogni doga segue la forma della vasca, con fughe costanti al millimetro. È la posa curata a distinguere un buon lavoro da un lavoro impeccabile.</p>
+        </div>
+        <figure class="detail-img">
+            <img src="img/dettaglio-doga-curva-piscina.jpg" alt="Doga in WPC sagomata che segue la curva della vasca" loading="lazy">
+        </figure>
+    </div>
+</section>
+
 <!-- ── PROOF ── -->
 <section class="proof">
     <div class="wrap">
@@ -282,7 +303,7 @@
         <figure><img src="img/lavoro-piscina-decking-chiaro.jpg" alt="Bordo piscina in decking WPC chiaro" loading="lazy"></figure>
         <figure><img src="img/lavoro-giardino-wpc.jpg" alt="Pavimento da giardino in WPC" loading="lazy"></figure>
         <figure><img src="img/lavoro-terrazza-jacuzzi.jpg" alt="Terrazza con jacuzzi rivestita in WPC" loading="lazy"></figure>
-        <figure><img src="img/lavoro-bordo-piscina-legno.jpg" alt="Bordo piscina in decking WPC finitura legno" loading="lazy"></figure>
+        <figure><img src="img/lavoro-rivestimento-doghe-gradini.jpg" alt="Rivestimento a doghe in WPC con gradini in pietra" loading="lazy"></figure>
         <figure><img src="img/lavoro-villa-wpc.jpg" alt="Esterno di villa con pavimento in WPC" loading="lazy"></figure>
     </div>
     <p class="gallery-hint">← Lavori reali realizzati da Broccolini →</p>
@@ -359,8 +380,8 @@
                 </form>
 
                 <div id="formSuccess" style="display:none;text-align:center;padding:3rem 0">
-                    <p style="font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:-0.02em;margin-bottom:0.75rem;font-family:var(--fd)">Richiesta inviata ✓</p>
-                    <p style="color:rgba(255,255,255,0.55);font-size:0.95rem;font-weight:300">Ti risponderemo entro 24 ore lavorative.</p>
+                    <p style="font-size:1.8rem;font-weight:700;color:var(--dark);letter-spacing:-0.02em;margin-bottom:0.75rem;font-family:var(--fd)">Richiesta inviata ✓</p>
+                    <p style="color:#6a645c;font-size:0.95rem;font-weight:300">Ti risponderemo entro 24 ore lavorative.</p>
                 </div>
             </div>
         </div>
