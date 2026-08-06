@@ -93,15 +93,14 @@
         .hero-trust svg{width:16px;height:16px;color:var(--accent-2)}
 
         /* ── USP BAND ── */
-        .band{background:var(--bg-2);color:var(--dark);text-align:center;padding:2.4rem 1.5rem;border-top:1px solid #ddd8d0;border-bottom:1px solid #ddd8d0}
-        .band p{font-family:var(--fd);font-size:clamp(1.3rem,2.6vw,2rem);font-weight:600}
-        .band em{font-style:italic;color:var(--accent-2)}
 
         /* ── BENEFITS ── */
         .benefits{padding:clamp(4rem,8vw,7rem) 0}
-        .benefits h2{font-size:clamp(1.9rem,4vw,3rem);max-width:18ch;margin-bottom:0.9rem}
-        .benefits .lead{color:#4a453f;font-size:1.1rem;font-weight:300;max-width:60ch;margin-bottom:3.5rem}
-        .b-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:2.6rem 3rem}
+        .benefits h2{font-size:clamp(1.9rem,4vw,3rem);max-width:24ch;margin:0 auto 0.9rem;text-align:center}
+        .benefits .lead{color:#4a453f;font-size:1.1rem;font-weight:300;max-width:60ch;margin:0 auto 3.5rem;text-align:center}
+        .b-grid{display:grid;grid-template-columns:1fr;gap:2.4rem}
+        @media(min-width:640px){.b-grid{grid-template-columns:1fr 1fr}}
+        @media(min-width:1000px){.b-grid{grid-template-columns:repeat(4,1fr);gap:2.4rem 2.2rem}}
         .b-item{border-top:1px solid var(--bg-2);padding-top:1.4rem}
         .b-num{font-family:var(--fd);font-size:1.05rem;color:var(--accent);font-weight:600;margin-bottom:0.7rem}
         .b-item h3{font-size:1.3rem;font-weight:600;letter-spacing:-0.01em;margin-bottom:0.55rem}
@@ -241,11 +240,6 @@
     </div>
 </header>
 
-<!-- ── USP BAND ── -->
-<section class="band">
-    <p>Dal sopralluogo alla consegna, un solo referente. Materiale e posa, nessun rimpallo.</p>
-</section>
-
 <!-- ── BENEFITS ── -->
 <section class="benefits">
     <div class="wrap">
@@ -253,22 +247,22 @@
         <p class="lead">All'aperto il legno richiede cure continue e si rovina con sole, pioggia e gelo. Il WPC di qualità ne ha l'aspetto, ma è pensato per resistere dove il legno soffre.</p>
         <div class="b-grid">
             <div class="b-item">
-                <p class="b-num">01</p>
+                <p class="b-num">1</p>
                 <h3>Sicuro a piedi nudi</h3>
                 <p>Superficie antiscivolo che non scheggia: sicura dove si cammina scalzi o bagnati, a bordo piscina come in terrazza.</p>
             </div>
             <div class="b-item">
-                <p class="b-num">02</p>
+                <p class="b-num">2</p>
                 <h3>Resiste a tutto</h3>
                 <p>Cloro, salsedine, gelo e raggi UV non lo intaccano. Non marcisce, non si deforma e mantiene il colore nel tempo.</p>
             </div>
             <div class="b-item">
-                <p class="b-num">03</p>
+                <p class="b-num">3</p>
                 <h3>Zero manutenzione</h3>
                 <p>Niente oliature o verniciature ogni stagione. Una passata d'acqua e torna come il primo giorno.</p>
             </div>
             <div class="b-item">
-                <p class="b-num">04</p>
+                <p class="b-num">4</p>
                 <h3>Il calore del legno</h3>
                 <p>L'estetica calda delle doghe in legno, con le prestazioni del composito. Un esterno che valorizza tutta la casa.</p>
             </div>
