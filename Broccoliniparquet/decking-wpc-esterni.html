@@ -106,14 +106,72 @@
         .b-item h3{font-size:1.3rem;font-weight:600;letter-spacing:-0.01em;margin-bottom:0.55rem}
         .b-item p{color:#4a453f;font-weight:300;font-size:1rem}
 
-        /* ── DETAIL ── */
-        .detail{padding:clamp(3.5rem,7vw,6rem) 0}
-        .detail-grid{display:grid;grid-template-columns:1fr;gap:2rem;align-items:center}
-        @media(min-width:860px){.detail-grid{grid-template-columns:0.85fr 1.15fr;gap:3.5rem}}
-        .detail-text h2{font-size:clamp(1.8rem,3.5vw,2.6rem);margin-bottom:1rem}
-        .detail-text p{color:#4a453f;font-weight:300;font-size:1.08rem;max-width:44ch}
-        .detail-img{border-radius:6px;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,0.16)}
-        .detail-img img{width:100%;height:auto;display:block;aspect-ratio:3/2;object-fit:cover}
+        /* ── DETTAGLIO (animato, come home: wipe + zoom + titolo mascherato + annotazioni) ── */
+        .det{position:relative;padding:0;background:var(--bg);--det-ewipe:cubic-bezier(.65,0,.35,1);--det-eout:cubic-bezier(.22,1,.36,1)}
+        .det-stage{position:relative;width:100%;max-width:1500px;margin-inline:auto;aspect-ratio:3/2;overflow:hidden;container-type:inline-size}
+        .det-photo-wrap{position:absolute;inset:0;overflow:hidden}
+        .det-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+        .det-copy{position:absolute;top:9%;left:5%;z-index:3;max-width:48%}
+        .det-title{font-family:var(--fd);font-weight:700;font-size:5cqw;line-height:1.02;letter-spacing:-0.02em;color:#f4f1ea;margin:0;text-shadow:0 0.2cqw 1.2cqw rgba(0,0,0,0.5)}
+        .det-tline{display:block;overflow:hidden}
+        .det-tline>span{display:block;will-change:transform}
+        .det-intro{margin-top:1.7cqw;max-width:32cqw;font-size:1.45cqw;font-weight:400;line-height:1.5;color:#f4f1ea;opacity:0.94;text-shadow:0 0.15cqw 0.9cqw rgba(0,0,0,0.55)}
+        .anno-dot{position:absolute;z-index:4;width:0.8cqw;height:0.8cqw;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%) scale(1);box-shadow:0 0 0 0.35cqw rgba(196,168,130,0.30)}
+        .anno-line{position:absolute;z-index:4;background:var(--accent)}
+        .anno-label{position:absolute;z-index:4;font-family:var(--f);font-size:1.05cqw;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;white-space:nowrap}
+        .dot-a{top:30%;left:72%}
+        .line-a{top:30%;left:54%;width:18%;height:1.5px;transform-origin:right center}
+        .lab-a{top:28.2%;left:54%;transform:translateX(-100%);padding-right:1cqw;color:#f4f1ea;text-align:right;text-shadow:0 0.15cqw 0.8cqw rgba(0,0,0,0.6)}
+        .dot-b{top:80%;left:26%}
+        .line-b{top:64%;left:26%;width:1.5px;height:16%;transform-origin:bottom center}
+        .lab-b{top:60%;left:26%;transform:translateX(-50%);color:#1a1a1a}
+        .det-photo-wrap{transition:clip-path 1.25s var(--det-ewipe)}
+        .det-photo{transition:transform 1.5s var(--det-ewipe)}
+        .det-tline>span{transition:transform 1s var(--det-eout)}
+        .det-intro{transition:opacity .85s ease,transform .85s var(--det-eout)}
+        .anno-dot{transition:transform .55s cubic-bezier(.34,1.45,.7,1),opacity .4s ease}
+        .anno-line{transition:transform .75s var(--det-ewipe)}
+        .anno-label{transition:opacity .6s ease}
+        .has-js .det-photo-wrap{clip-path:inset(0 100% 0 0)}
+        .has-js .det-photo{transform:scale(1.14)}
+        .has-js .det-tline>span{transform:translateY(112%)}
+        .has-js .det-intro{opacity:0;transform:translateY(1.6cqw)}
+        .has-js .anno-dot{opacity:0;transform:translate(-50%,-50%) scale(0)}
+        .has-js .line-a{transform:scaleX(0)}
+        .has-js .line-b{transform:scaleY(0)}
+        .has-js .anno-label{opacity:0}
+        .det.is-inview .det-photo-wrap{clip-path:inset(0 0 0 0)}
+        .det.is-inview .det-photo{transform:scale(1)}
+        .det.is-inview .det-tline:nth-child(1)>span{transform:translateY(0);transition-delay:.45s}
+        .det.is-inview .det-tline:nth-child(2)>span{transform:translateY(0);transition-delay:.57s}
+        .det.is-inview .det-intro{opacity:1;transform:none;transition-delay:.82s}
+        .det.is-inview .dot-a{opacity:1;transform:translate(-50%,-50%) scale(1);transition-delay:1.05s}
+        .det.is-inview .line-a{transform:scaleX(1);transition-delay:1.2s}
+        .det.is-inview .lab-a{opacity:1;transition-delay:1.5s}
+        .det.is-inview .dot-b{opacity:1;transform:translate(-50%,-50%) scale(1);transition-delay:1.35s}
+        .det.is-inview .line-b{transform:scaleY(1);transition-delay:1.5s}
+        .det.is-inview .lab-b{opacity:1;transition-delay:1.8s}
+        @media(max-width:860px){
+            .det-stage{aspect-ratio:4/5;max-width:100%}
+            .det-copy{top:6%;left:6.5%;right:6.5%;max-width:none}
+            .det-title{font-size:clamp(2rem,8.5vw,3rem)}
+            .det-intro{margin-top:0.85rem;font-size:clamp(0.95rem,3.9vw,1.05rem);max-width:34ch}
+            .anno-dot{width:2.6cqw;height:2.6cqw;box-shadow:0 0 0 1.2cqw rgba(196,168,130,0.30)}
+            .anno-label{font-size:2.9cqw;letter-spacing:0.1em}
+            .dot-a{top:47%;left:74%}.line-a{top:47%;left:54%;width:24%}.lab-a{top:44%;left:54%;padding-right:2cqw}
+            .dot-b{top:86%;left:34%}.line-b{top:70%;left:34%;height:15%}.lab-b{top:66%;left:24%}
+        }
+        @media(prefers-reduced-motion:reduce){
+            .has-js .det-photo-wrap{clip-path:none}
+            .has-js .det-photo{transform:none}
+            .has-js .det-tline>span{transform:none}
+            .has-js .det-intro{opacity:1;transform:none}
+            .has-js .anno-dot{opacity:1;transform:translate(-50%,-50%) scale(1)}
+            .has-js .line-a{transform:scaleX(1)}
+            .has-js .line-b{transform:scaleY(1)}
+            .has-js .anno-label{opacity:1}
+            .det,.det *{transition:none!important}
+        }
 
         /* ── PROOF (stats + foto) ── */
         .proof{background:var(--bg-2);padding:clamp(3.5rem,7vw,6rem) 0}
@@ -270,16 +328,28 @@
     </div>
 </section>
 
-<!-- ── DETTAGLIO ── -->
-<section class="detail">
-    <div class="wrap detail-grid">
-        <div class="detail-text">
-            <h2>La differenza è nel dettaglio</h2>
-            <p>Ogni doga segue la forma della vasca, con fughe costanti al millimetro. È la posa curata a distinguere un buon lavoro da un lavoro impeccabile.</p>
+<!-- ── DETTAGLIO (animato) ── -->
+<section class="det" aria-label="La differenza è nel dettaglio">
+    <div class="det-stage">
+        <div class="det-photo-wrap">
+            <img class="det-photo" src="img/dettaglio-doghe-gradini.jpg" alt="Dettaglio: rivestimento a doghe in legno e gradini antiscivolo in pietra" loading="lazy" width="1086" height="1448">
+
+            <span class="anno-dot dot-a"></span>
+            <span class="anno-line line-a"></span>
+            <span class="anno-label lab-a">doghe in legno</span>
+
+            <span class="anno-dot dot-b"></span>
+            <span class="anno-line line-b"></span>
+            <span class="anno-label lab-b">gradini antiscivolo</span>
         </div>
-        <figure class="detail-img">
-            <img src="img/dettaglio-doga-curva-piscina.jpg" alt="Doga in WPC sagomata che segue la curva della vasca" loading="lazy">
-        </figure>
+
+        <div class="det-copy">
+            <h2 class="det-title">
+                <span class="det-tline"><span>La differenza</span></span>
+                <span class="det-tline"><span>è nel dettaglio</span></span>
+            </h2>
+            <p class="det-intro">Giunti costanti e tagli su misura, materiale dopo materiale. È la cura della posa a fare la differenza.</p>
+        </div>
     </div>
 </section>
 
@@ -416,6 +486,21 @@
 </div>
 
 <script>
+    // ── Reveal on-scroll (linguaggio di movimento del sito) ──
+    document.documentElement.classList.add('has-js');
+    (function () {
+        var det = document.querySelector('.det');
+        if (!det) return;
+        if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function (es) {
+                es.forEach(function (e) { if (e.isIntersecting) { det.classList.add('is-inview'); io.unobserve(e.target); } });
+            }, { threshold: 0.25 });
+            io.observe(det);
+        } else {
+            det.classList.add('is-inview');
+        }
+    })();
+
     // ── Livello conversioni (GA4 + Google Ads) ──
     window.trackConversion = function (name) {
         window.dataLayer = window.dataLayer || [];
