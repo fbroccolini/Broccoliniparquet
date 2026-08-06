@@ -274,6 +274,22 @@
         }
         .hero-usp strong { font-weight: 600; color: #ffffff; }
 
+        .hero-cta {
+            display: inline-flex; align-items: center; gap: 0.55rem;
+            align-self: flex-start; margin-top: 2rem;
+            padding: 1.05rem 2.1rem;
+            background: var(--accent, #C4A882); color: #1a1a1a;
+            font-family: var(--f); font-size: 1rem; font-weight: 600; letter-spacing: 0.01em;
+            text-decoration: none; border-radius: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+            transition: transform 0.25s cubic-bezier(.16,1,.3,1), background 0.25s, box-shadow 0.25s;
+            animation: fadeInUp 0.8s ease 1.9s both;
+        }
+        .hero-cta:hover { background: #d4b892; transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,0.34); }
+        .hero-cta:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+        .hero-cta svg { width: 18px; height: 18px; }
+        .hero-cta--desk { display: none; }
+
         .hero-desc {
             font-size: var(--wp--preset--font-size--m);
             font-weight: 300;
@@ -1298,6 +1314,10 @@
             .hero-left { display: none; }                    /* via titolo impilato + USP su desktop */
 
             .hero-dist { display: block; position: absolute; inset: 0; z-index: 3; }
+            .hero-cta--desk {
+                display: inline-flex; position: absolute;
+                left: 4.5rem; bottom: 8%; margin-top: 0; z-index: 4;
+            }
             .hd-word {
                 position: absolute;
                 font-family: 'Playfair Display', serif;
@@ -1518,6 +1538,10 @@
         <span class="hd-word hd-eleganza">L'eleganza</span>
         <span class="hd-word hd-parteda"><span class="hd-pd-in">parte da</span></span>
         <span class="hd-word hd-terra">Terra</span>
+        <a class="hero-cta hero-cta--desk" href="contatti.html#form" data-goal="quote">
+            Richiedi preventivo gratuito
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
     </div>
 
     <div class="hero-left">
@@ -1532,6 +1556,10 @@
             </span>
         </h1>
         <p class="hero-usp"><strong>Qualità senza compromessi.</strong> Un solo referente, dalla fornitura alla posa.</p>
+        <a class="hero-cta" href="contatti.html#form" data-goal="quote">
+            Richiedi preventivo gratuito
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
     </div>
 </div>
 
