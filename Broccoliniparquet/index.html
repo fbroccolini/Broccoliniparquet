@@ -1456,17 +1456,34 @@
 
         .det-text {
             background: var(--bg);
-            padding: clamp(3rem, 7vw, 6rem) 1.5rem;
-            display: flex; flex-direction: column; align-items: center;
+            display: grid; grid-template-columns: 1fr;
+            align-items: stretch;
+            row-gap: clamp(2rem, 4vw, 3rem);
+            padding-block: clamp(3.5rem, 7vw, 6.5rem);
+        }
+        .det-text-copy {
+            padding-inline: clamp(1.5rem, 6vw, 5rem);
+            min-height: clamp(460px, 42vw, 640px);
+            display: flex; flex-direction: column; justify-content: center;
             gap: clamp(1.1rem, 2.4vw, 1.6rem);
         }
-        .det-text p {
-            width: min(62ch, 100%); margin: 0;
-            font-family: var(--f);
-            font-size: clamp(1.12rem, 1.7vw, 1.34rem);
-            line-height: 1.75; letter-spacing: 0.005em;
-            color: #111111;
-            text-align: left; text-wrap: pretty;
+        .det-text-copy p {
+            margin: 0; max-width: 54ch; font-family: var(--f);
+            font-size: clamp(1.3rem, 1.85vw, 1.62rem);
+            line-height: 1.65; letter-spacing: 0.005em;
+            color: #000000; text-align: left; text-wrap: pretty;
+        }
+        .det-text-photo { margin: 0; overflow: hidden; position: relative; }
+        .det-text-photo img {
+            display: block; width: 100%; height: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover; object-position: center bottom;
+        }
+        @media (min-width: 861px) {
+            .det-text { grid-template-columns: 1.1fr 0.9fr; }
+            .det-text-photo img {
+                position: absolute; inset: 0; aspect-ratio: auto;  /* la foto riempie l'altezza del testo senza allungare la sezione */
+            }
         }
 
         /* MOBILE/TABLET (≤960px): testo sopra, FOTO full-bleed grande (crop quadrato),
@@ -1650,9 +1667,18 @@
     </div>
 
     <div class="det-text">
-        <p class="reveal">C'è una parte del nostro lavoro che non salta subito all'occhio, ma che fa tutta la differenza: il modo in cui una doga incontra un gradino, il taglio che segue il profilo di un angolo, l'incastro che combacia senza forzature.</p>
-        <p class="reveal">Sono i punti più difficili di ogni posa, quelli che richiedono più tempo e più attenzione, e per noi non sono mai un dettaglio secondario.</p>
-        <p class="reveal">Ogni spazio ha le sue geometrie e le sue misure fuori standard: il nostro mestiere è farle sembrare naturali, come se il pavimento fosse nato per stare proprio lì.</p>
+        <div class="det-text-copy">
+            <p class="reveal">C'è una parte del nostro lavoro che non salta subito all'occhio, ma che fa tutta la differenza: il modo in cui una doga incontra un gradino, il taglio che segue il profilo di un angolo, l'incastro che combacia senza forzature.</p>
+            <p class="reveal">Sono i punti più difficili di ogni posa, quelli che richiedono più tempo e più attenzione, e per noi non sono mai un dettaglio secondario.</p>
+            <p class="reveal">Ogni spazio ha le sue geometrie e le sue misure fuori standard: il nostro mestiere è farle sembrare naturali, come se il pavimento fosse nato per stare proprio lì.</p>
+        </div>
+        <figure class="det-text-photo reveal">
+            <picture>
+                <source media="(max-width:960px)" srcset="img/dettaglio-doghe-gradini-m.webp" type="image/webp">
+                <source srcset="img/dettaglio-doghe-gradini.webp" type="image/webp">
+                <img src="img/dettaglio-doghe-gradini.webp" alt="Dettaglio: rivestimento a doghe in legno che incontra i gradini in pietra, inserto tagliato su misura" loading="lazy">
+            </picture>
+        </figure>
     </div>
 </section>
 
