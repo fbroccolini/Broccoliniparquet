@@ -1454,6 +1454,21 @@
         .det.is-inview .line-b { transform: scaleY(1); transition-delay: 1.5s; }
         .det.is-inview .lab-b  { opacity: 1; transition-delay: 1.8s; }
 
+        .det-text {
+            background: var(--bg);
+            padding: clamp(3rem, 7vw, 6rem) 1.5rem;
+            display: flex; flex-direction: column; align-items: center;
+            gap: clamp(1.1rem, 2.4vw, 1.6rem);
+        }
+        .det-text p {
+            width: min(62ch, 100%); margin: 0;
+            font-family: var(--f);
+            font-size: clamp(1.12rem, 1.7vw, 1.34rem);
+            line-height: 1.75; letter-spacing: 0.005em;
+            color: #111111;
+            text-align: left; text-wrap: pretty;
+        }
+
         /* MOBILE/TABLET (≤960px): testo sopra, FOTO full-bleed grande (crop quadrato),
            annotazioni con puntatore oro riposizionate sul crop. */
         @media (max-width: 960px) {
@@ -1632,6 +1647,12 @@
                 <span class="det-tline"><span>è nei dettagli</span></span>
             </h2>
         </div>
+    </div>
+
+    <div class="det-text">
+        <p class="reveal">C'è una parte del nostro lavoro che non salta subito all'occhio, ma che fa tutta la differenza: il modo in cui una doga incontra un gradino, il taglio che segue il profilo di un angolo, l'incastro che combacia senza forzature.</p>
+        <p class="reveal">Sono i punti più difficili di ogni posa, quelli che richiedono più tempo e più attenzione, e per noi non sono mai un dettaglio secondario.</p>
+        <p class="reveal">Ogni spazio ha le sue geometrie e le sue misure fuori standard: il nostro mestiere è farle sembrare naturali, come se il pavimento fosse nato per stare proprio lì.</p>
     </div>
 </section>
 
@@ -1936,6 +1957,9 @@
         const grid = document.getElementById('pfGrid');
         if (!vp || !grid) return;
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // Su dispositivi touch (telefoni/tablet) niente deriva-auto con transform:
+        // solo scroll nativo sempre attivo → swipe immediata, niente mode-switch al touchstart.
+        const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
         // Entrata scaglionata delle tile
         const pfObserver = new IntersectionObserver((entries) => {
@@ -1970,7 +1994,7 @@
         //            (swipe su touch, drag su mouse): momentum nativo, fluido.
         // pos è l'offset in px, condiviso: transform(-pos) e scrollLeft(pos)
         // danno la stessa posizione visiva, così lo scambio è impercettibile.
-        let mode = reduced ? 'manual' : 'auto';
+        let mode = (reduced || isTouch) ? 'manual' : 'auto';
         let pos = 0, dir = 1, hovering = false, idleTimer = null;
         const maxScroll = () => Math.max(0, grid.scrollWidth - vp.clientWidth);
         const applyAuto = () => { grid.style.transform = 'translate3d(' + (-pos) + 'px,0,0)'; };
@@ -1983,7 +2007,7 @@
             vp.scrollLeft = pos;
         }
         function toAuto() {
-            if (mode === 'auto' || reduced) return;
+            if (mode === 'auto' || reduced || isTouch) return;
             pos = vp.scrollLeft;
             vp.style.overflowX = 'hidden';
             applyAuto();
@@ -1992,7 +2016,7 @@
         const scheduleAuto = () => { clearTimeout(idleTimer); idleTimer = setTimeout(toAuto, 2500); };
 
         // Stato iniziale
-        if (reduced) { vp.style.overflowX = 'auto'; }
+        if (reduced || isTouch) { vp.style.overflowX = 'auto'; }
         else { vp.style.overflowX = 'hidden'; applyAuto(); }
 
         // ── Drag-to-scroll (mouse) — passa in manuale e usa lo scroll nativo ──
@@ -2044,7 +2068,7 @@
             }
             requestAnimationFrame(autoTick);
         }
-        if (!reduced) requestAnimationFrame(autoTick);
+        if (!reduced && !isTouch) requestAnimationFrame(autoTick);
     })();
 </script>
 
