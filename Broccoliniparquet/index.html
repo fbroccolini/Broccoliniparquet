@@ -1957,9 +1957,6 @@
         const grid = document.getElementById('pfGrid');
         if (!vp || !grid) return;
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        // Su dispositivi touch (telefoni/tablet) niente deriva-auto con transform:
-        // solo scroll nativo sempre attivo → swipe immediata, niente mode-switch al touchstart.
-        const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
         // Entrata scaglionata delle tile
         const pfObserver = new IntersectionObserver((entries) => {
@@ -1986,67 +1983,44 @@
         lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lbIsOpen()) closeLb(); });
 
-        // ── Scorrimento: due modalità ────────────────────────────────
-        // 'auto'   → deriva lenta via transform sul grid: composited e sub-pixel,
-        //            quindi fluida anche su mobile (niente scritture di scrollLeft
-        //            sul main thread, che è ciò che faceva "andare a scatti").
-        // 'manual' → scroll nativo del viewport durante l'interazione dell'utente
-        //            (swipe su touch, drag su mouse): momentum nativo, fluido.
-        // pos è l'offset in px, condiviso: transform(-pos) e scrollLeft(pos)
-        // danno la stessa posizione visiva, così lo scambio è impercettibile.
-        let mode = (reduced || isTouch) ? 'manual' : 'auto';
-        let pos = 0, dir = 1, hovering = false, idleTimer = null;
-        const maxScroll = () => Math.max(0, grid.scrollWidth - vp.clientWidth);
-        const applyAuto = () => { grid.style.transform = 'translate3d(' + (-pos) + 'px,0,0)'; };
+        // ── Scorrimento: scroll nativo SEMPRE + deriva lenta ──────────
+        // Nessun transform, nessun toggle di overflow: il viewport resta
+        // sempre overflow-x:auto → la swipe su mobile è immediata e leggera
+        // (momentum nativo, basta sfiorare). La deriva scrive scrollLeft solo
+        // quando l'utente NON interagisce, così non litiga col momentum.
+        const maxScroll = () => Math.max(0, vp.scrollWidth - vp.clientWidth);
+        let dir = 1, pos = 0, paused = reduced, resumeTimer = null, moved = 0;
+        const pause = () => { paused = true; clearTimeout(resumeTimer); };
+        // alla ripresa sincronizzo pos con la posizione reale (dove l'utente ha lasciato)
+        const scheduleResume = () => { clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { pos = vp.scrollLeft; paused = false; }, 2200); };
 
-        function toManual() {
-            if (mode === 'manual') return;
-            mode = 'manual';
-            grid.style.transform = '';
-            vp.style.overflowX = 'auto';
-            vp.scrollLeft = pos;
-        }
-        function toAuto() {
-            if (mode === 'auto' || reduced || isTouch) return;
-            pos = vp.scrollLeft;
-            vp.style.overflowX = 'hidden';
-            applyAuto();
-            mode = 'auto';
-        }
-        const scheduleAuto = () => { clearTimeout(idleTimer); idleTimer = setTimeout(toAuto, 2500); };
+        // Touch e wheel: passive → non bloccano MAI lo scroll nativo
+        vp.addEventListener('touchstart', pause, { passive: true });
+        vp.addEventListener('touchend', scheduleResume, { passive: true });
+        vp.addEventListener('wheel', () => { pause(); scheduleResume(); }, { passive: true });
+        vp.addEventListener('mouseenter', pause);
+        vp.addEventListener('mouseleave', scheduleResume);
+        vp.addEventListener('focusin', pause);
 
-        // Stato iniziale
-        if (reduced || isTouch) { vp.style.overflowX = 'auto'; }
-        else { vp.style.overflowX = 'hidden'; applyAuto(); }
-
-        // ── Drag-to-scroll (mouse) — passa in manuale e usa lo scroll nativo ──
-        let down = false, startX = 0, startScroll = 0, moved = 0;
+        // Drag-to-scroll SOLO col mouse (il touch usa lo swipe nativo)
+        let down = false, startX = 0, startScroll = 0;
         vp.addEventListener('pointerdown', (e) => {
-            if (e.pointerType === 'touch') return;      // il touch usa lo swipe nativo
-            toManual(); clearTimeout(idleTimer);
-            down = true; moved = 0; startX = e.clientX; startScroll = vp.scrollLeft;
+            if (e.pointerType === 'touch') return;
+            down = true; moved = 0; startX = e.clientX; startScroll = vp.scrollLeft; pause();
+            try { vp.setPointerCapture(e.pointerId); } catch (_) {}
         });
-        window.addEventListener('pointermove', (e) => {
+        vp.addEventListener('pointermove', (e) => {
             if (!down) return;
             const dx = e.clientX - startX;
             moved = Math.max(moved, Math.abs(dx));
             if (moved > 4) vp.classList.add('is-dragging');
             vp.scrollLeft = startScroll - dx;
         });
-        window.addEventListener('pointerup', () => {
-            if (down) { down = false; vp.classList.remove('is-dragging'); pos = vp.scrollLeft; scheduleAuto(); }
-        });
+        const endDrag = () => { if (down) { down = false; vp.classList.remove('is-dragging'); scheduleResume(); } };
+        vp.addEventListener('pointerup', endDrag);
+        vp.addEventListener('pointercancel', endDrag);
 
-        // Touch e wheel: entra in manuale, torna in auto dopo la pausa
-        vp.addEventListener('touchstart', () => { toManual(); clearTimeout(idleTimer); }, { passive: true });
-        vp.addEventListener('touchend', scheduleAuto, { passive: true });
-        vp.addEventListener('wheel', () => { toManual(); scheduleAuto(); }, { passive: true });
-        vp.addEventListener('scroll', () => { if (mode === 'manual') pos = vp.scrollLeft; }, { passive: true });
-        vp.addEventListener('mouseenter', () => { hovering = true; });
-        vp.addEventListener('mouseleave', () => { hovering = false; });
-        vp.addEventListener('focusin', toManual);   // niente clip sull'elemento a fuoco
-
-        // Apertura foto: click sulla tile (drag soppresso) + tastiera
+        // Apertura foto: click sulla tile (soppresso dopo un drag) + tastiera
         grid.querySelectorAll('.pf-tile').forEach(tile => {
             const img = tile.querySelector('img');
             tile.addEventListener('click', () => { if (moved > 6) return; openLb(img.src, img.alt); });
@@ -2055,20 +2029,20 @@
             });
         });
 
-        // ── Deriva lenta ping-pong (solo in 'auto', in pausa su hover/lightbox) ──
-        function autoTick() {
-            if (mode === 'auto' && !hovering && !lbIsOpen()) {
+        // ── Deriva lenta ping-pong (in pausa durante interazione o lightbox) ──
+        function drift() {
+            if (!paused && !lbIsOpen()) {
                 const max = maxScroll();
                 if (max > 4) {
-                    pos += 0.35 * dir;
+                    pos += 0.35 * dir;               // accumulo sub-pixel in JS
                     if (pos >= max) { pos = max; dir = -1; }
                     else if (pos <= 0) { pos = 0; dir = 1; }
-                    applyAuto();
+                    vp.scrollLeft = pos;
                 }
             }
-            requestAnimationFrame(autoTick);
+            requestAnimationFrame(drift);
         }
-        if (!reduced && !isTouch) requestAnimationFrame(autoTick);
+        if (!reduced) requestAnimationFrame(drift);
     })();
 </script>
 
