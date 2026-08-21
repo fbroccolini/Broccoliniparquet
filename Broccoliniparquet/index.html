@@ -1528,6 +1528,57 @@
             .has-js .anno-label { opacity: 1; }
             .det, .det * { transition: none !important; }
         }
+
+        /* ── PRIMA E DOPO — slider trascinabile (nativo, no librerie) ── */
+        .ba { padding: clamp(4rem, 8vw, 7rem) 1.5rem; background: var(--bg); }
+        .ba-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2rem, 4vw, 3rem); }
+        .ba-title {
+            font-family: 'Playfair Display', serif; font-weight: 600;
+            font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.05; letter-spacing: -0.02em;
+            color: var(--dark); margin: 0; text-wrap: balance;
+        }
+        .ba-sub { margin-top: 0.9rem; color: var(--mid); font-size: 1.05rem; line-height: 1.55; }
+        .ba-stage { max-width: 1080px; margin: 0 auto; }
+        .ba-slider {
+            position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden;
+            border-radius: 6px; cursor: ew-resize; user-select: none; touch-action: pan-y;
+            background: var(--light);
+        }
+        .ba-img { position: absolute; inset: 0; }
+        .ba-img img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+        .ba-before { clip-path: inset(0 50% 0 0); will-change: clip-path; }
+        .ba-label {
+            position: absolute; top: 1rem; z-index: 3;
+            font-family: var(--f); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+            text-transform: uppercase; color: #fff; background: rgba(17,17,17,0.55);
+            padding: 0.4rem 0.85rem; border-radius: 2px; pointer-events: none;
+        }
+        .ba-label-before { left: 1rem; }
+        .ba-label-after { right: 1rem; }
+        .ba-handle {
+            position: absolute; top: 0; bottom: 0; left: 50%; z-index: 4;
+            display: flex; align-items: center; justify-content: center;
+            transform: translateX(-50%); will-change: left;
+        }
+        .ba-handle::before {
+            content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px;
+            background: #fff; transform: translateX(-50%); box-shadow: 0 0 10px rgba(0,0,0,0.35);
+        }
+        .ba-handle-btn {
+            position: relative; width: 48px; height: 48px; border-radius: 50%; background: #fff;
+            display: flex; align-items: center; justify-content: center; gap: 1px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.28); color: var(--dark);
+        }
+        .ba-handle-btn svg { width: 13px; height: 13px; }
+        .ba-handle:focus-visible .ba-handle-btn { outline: 2px solid var(--accent); outline-offset: 3px; }
+        .ba-hint {
+            text-align: center; margin-top: 1rem; font-size: 0.78rem; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--mid);
+        }
+        @media (max-width: 640px) {
+            .ba-slider { aspect-ratio: 3 / 4; }
+            .ba-handle-btn { width: 42px; height: 42px; }
+        }
     </style>
 </head>
 <body>
@@ -1680,6 +1731,34 @@
                 <img src="img/dettaglio-doghe-gradini.webp" alt="Dettaglio: rivestimento a doghe in legno che incontra i gradini in pietra, inserto tagliato su misura" loading="lazy">
             </picture>
         </figure>
+    </div>
+</section>
+
+
+<!-- ── PRIMA E DOPO — slider trascinabile ──────────────────────── -->
+<section class="ba" aria-label="Prima e dopo il rivestimento">
+    <div class="ba-head reveal">
+        <h2 class="ba-title">Prima e dopo</h2>
+        <p class="ba-sub">Stesso muro, stessa inquadratura: trascina per vedere cosa cambia con il rivestimento in WPC.</p>
+    </div>
+    <div class="ba-stage reveal">
+        <div class="ba-slider" id="baSlider">
+            <div class="ba-img ba-after">
+                <img src="img/dettaglio-dopo-rivestimento.jpg" alt="Muro rivestito in WPC, dopo l'intervento" loading="lazy" width="1448" height="1086">
+            </div>
+            <div class="ba-img ba-before" id="baBefore">
+                <img src="img/dettaglio-prima-rivestimento.jpg" alt="Stesso muro in intonaco grezzo, prima del rivestimento" loading="lazy" width="1448" height="1086">
+            </div>
+            <span class="ba-label ba-label-before">Prima</span>
+            <span class="ba-label ba-label-after">Dopo</span>
+            <div class="ba-handle" id="baHandle" role="slider" aria-label="Trascina per confrontare prima e dopo" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <span class="ba-handle-btn" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </span>
+            </div>
+        </div>
+        <p class="ba-hint">Trascina per confrontare</p>
     </div>
 </section>
 
@@ -1855,6 +1934,46 @@
         entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Prima/dopo: slider trascinabile (pointer + tastiera)
+    (function () {
+        const stage = document.getElementById('baSlider');
+        if (!stage) return;
+        const before = document.getElementById('baBefore');
+        const handle = document.getElementById('baHandle');
+        let pos = 50;
+
+        function setPos(p) {
+            pos = Math.min(96, Math.max(4, p));
+            before.style.clipPath = 'inset(0 ' + (100 - pos) + '% 0 0)';
+            handle.style.left = pos + '%';
+            handle.setAttribute('aria-valuenow', String(Math.round(pos)));
+        }
+        function fromEvent(e) {
+            const rect = stage.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            setPos((clientX - rect.left) / rect.width * 100);
+        }
+
+        let dragging = false;
+        stage.addEventListener('pointerdown', (e) => {
+            dragging = true;
+            fromEvent(e);
+            stage.setPointerCapture(e.pointerId);
+        });
+        stage.addEventListener('pointermove', (e) => { if (dragging) fromEvent(e); });
+        stage.addEventListener('pointerup', () => { dragging = false; });
+        stage.addEventListener('pointercancel', () => { dragging = false; });
+
+        handle.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') { setPos(pos - 5); e.preventDefault(); }
+            if (e.key === 'ArrowRight') { setPos(pos + 5); e.preventDefault(); }
+            if (e.key === 'Home') { setPos(4); e.preventDefault(); }
+            if (e.key === 'End') { setPos(96); e.preventDefault(); }
+        });
+
+        setPos(50);
+    })();
 
     // Animazione sequenziale servizi
     const servicesObserver = new IntersectionObserver((entries) => {
