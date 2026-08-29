@@ -137,8 +137,7 @@
         .cfg-name{font-family:var(--f);font-weight:700;font-size:clamp(1rem,1.4vw,1.35rem);letter-spacing:-0.01em;color:var(--dark)}
         .cfg-dim{font-size:clamp(0.82rem,1vw,0.95rem);color:rgba(17,17,17,0.55);margin-top:0.25rem}
         .cfg-dim .cfg-inphoto{color:#9a7d4e}
-        .cfg-price{font-family:var(--f);font-weight:600;font-size:clamp(0.98rem,1.3vw,1.25rem);color:var(--dark);white-space:nowrap;margin-left:auto;padding-left:0.5rem}
-        .cfg-qty{display:flex;align-items:center;gap:0.3rem;border:1.5px solid var(--dark);border-radius:999px;padding:0.25rem;flex:none}
+        .cfg-qty{display:flex;align-items:center;gap:0.3rem;border:1.5px solid var(--dark);border-radius:999px;padding:0.25rem;flex:none;margin-left:auto}
         .cfg-qty button{width:2.3rem;height:2.3rem;border-radius:50%;background:none;border:0;font-size:1.15rem;line-height:1;cursor:pointer;color:var(--dark);transition:background .2s}
         .cfg-qty button:hover{background:rgba(0,0,0,0.06)}
         .cfg-qty button:disabled{opacity:0.35;cursor:default}
@@ -147,13 +146,11 @@
         .cfg-summary.is-empty{display:none}
         .cfg-summary-txt{font-size:clamp(0.92rem,1.1vw,1.1rem);color:var(--dark)}
         .cfg-summary-txt strong{color:var(--dark)}
-        .cfg-total{font-family:var(--f);font-weight:700;font-size:clamp(1.05rem,1.5vw,1.4rem);color:var(--dark);margin-top:0.25rem}
         .cfg-cta{display:inline-block;margin-top:1.6rem;text-decoration:none;background:var(--dark);color:#fff;border:0;border-radius:999px;padding:1.15rem 2.6rem;font-family:var(--f);font-size:clamp(0.85rem,1vw,0.98rem);font-weight:600;letter-spacing:0.04em;cursor:pointer;transition:background .2s}
         .cfg-cta:hover{background:var(--dark-2)}
         .cfg-note{font-size:clamp(0.82rem,0.95vw,0.92rem);color:var(--dark);opacity:0.6;margin-top:1rem;line-height:1.65;max-width:52ch}
         @media(max-width:520px){
             .cfg-row{flex-wrap:wrap}
-            .cfg-price{margin-left:0;order:3;width:100%}
         }
 
         /* ── SU MISURA (sezione delimitata, sfondo tenue) ── */
@@ -327,24 +324,22 @@
         <p class="hero-sub">Scegli il formato e la quantità della fioriera rettangolare, oppure dicci le misure che ti servono per un progetto su misura: personalizziamo dimensioni e finitura come preferisci e ti inviamo un rendering gratuito di prova del modello, prima di procedere.</p>
 
         <div class="configurator" id="configurator">
-            <div class="cfg-row" data-sku="piccola" data-price="129">
+            <div class="cfg-row" data-sku="piccola">
                 <div class="cfg-info">
                     <p class="cfg-name">Fioriera piccola</p>
                     <p class="cfg-dim">Circa 60 × 35 × 45 cm</p>
                 </div>
-                <p class="cfg-price">da 129 €</p>
                 <div class="cfg-qty" role="group" aria-label="Quantità fioriera piccola">
                     <button type="button" class="cfg-minus" aria-label="Diminuisci">−</button>
                     <output>0</output>
                     <button type="button" class="cfg-plus" aria-label="Aumenta">+</button>
                 </div>
             </div>
-            <div class="cfg-row" data-sku="grande" data-price="289">
+            <div class="cfg-row" data-sku="grande">
                 <div class="cfg-info">
                     <p class="cfg-name">Fioriera grande</p>
                     <p class="cfg-dim">Circa 180 × 35 × 50 cm <span class="cfg-inphoto">— il modello in foto</span></p>
                 </div>
-                <p class="cfg-price">da 289 €</p>
                 <div class="cfg-qty" role="group" aria-label="Quantità fioriera grande">
                     <button type="button" class="cfg-minus" aria-label="Diminuisci">−</button>
                     <output>0</output>
@@ -353,10 +348,9 @@
             </div>
             <div class="cfg-summary" id="cfgSummary">
                 <p class="cfg-summary-txt" id="cfgSummaryTxt"></p>
-                <p class="cfg-total" id="cfgTotal"></p>
             </div>
             <button type="button" class="cfg-cta" id="cfgCta">Richiedi preventivo per questo ordine</button>
-            <p class="cfg-note">Consegna gratuita in tutta Italia. Prezzi indicativi di partenza, stimati sul mercato del WPC: il preventivo finale dipende da rifiniture e quantità. Puoi anche scrivere solo per informazioni, senza impegno.</p>
+            <p class="cfg-note">Consegna gratuita in tutta Italia. Il preventivo finale dipende da rifiniture e quantità. Puoi anche scrivere solo per informazioni, senza impegno.</p>
         </div>
 
         <p class="hero-trust">
@@ -555,43 +549,31 @@
         });
     })();
 
-    // ── Configuratore piccola/grande (quantità + prezzo, stile e-commerce → resta un preventivo) ──
+    // ── Configuratore piccola/grande (quantità, stile e-commerce → resta un preventivo) ──
     (function () {
         var cfg = document.getElementById('configurator');
         if (!cfg) return;
         var rows = [].slice.call(cfg.querySelectorAll('.cfg-row'));
         var summaryTxt = document.getElementById('cfgSummaryTxt');
-        var totalEl = document.getElementById('cfgTotal');
         var ordineField = document.getElementById('ordineField');
         var messaggio = document.getElementById('messaggio');
         var cta = document.getElementById('cfgCta');
 
-        function fmt(n) { return n.toLocaleString('it-IT') + ' €'; }
-
         function update() {
             var parts = [];
-            var total = 0;
             var count = 0;
             rows.forEach(function (row) {
                 var qty = parseInt(row.querySelector('output').textContent, 10) || 0;
-                var price = parseInt(row.dataset.price, 10);
                 var name = row.querySelector('.cfg-name').textContent;
                 row.querySelector('.cfg-minus').disabled = qty <= 0;
                 if (qty > 0) {
                     parts.push(qty + '× ' + name);
-                    total += qty * price;
                     count += qty;
                 }
             });
             summaryTxt.closest('.cfg-summary').classList.toggle('is-empty', count === 0);
-            if (count === 0) {
-                summaryTxt.textContent = '';
-                totalEl.textContent = '';
-            } else {
-                summaryTxt.innerHTML = 'Il tuo ordine: <strong>' + parts.join(', ') + '</strong>';
-                totalEl.textContent = 'da ' + fmt(total);
-            }
-            return { parts: parts, total: total, count: count };
+            summaryTxt.innerHTML = count === 0 ? '' : 'Il tuo ordine: <strong>' + parts.join(', ') + '</strong>';
+            return { parts: parts, count: count };
         }
 
         rows.forEach(function (row) {
@@ -613,8 +595,8 @@
         cta.addEventListener('click', function () {
             var state = update();
             var summary = state.count === 0
-                ? 'Vorrei ricevere informazioni sulle fioriere WPC (formati e prezzi).'
-                : 'Richiesta preventivo per: ' + state.parts.join(', ') + ' — totale indicativo ' + fmt(state.total) + '.';
+                ? 'Vorrei ricevere informazioni sulle fioriere WPC.'
+                : 'Richiesta preventivo per: ' + state.parts.join(', ') + '.';
             ordineField.value = summary;
             if (messaggio && !messaggio.value.trim()) messaggio.value = summary;
             document.getElementById('form').scrollIntoView({ behavior: 'smooth' });
