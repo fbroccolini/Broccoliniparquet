@@ -1,6 +1,12 @@
 {
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "broccoliniparquet.vercel.app" }],
+      "destination": "https://www.broccoliniparquet.it/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "broccoliniparquet.vercel.app" }],
       "destination": "https://www.broccoliniparquet.it/:path*",
