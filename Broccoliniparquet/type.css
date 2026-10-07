@@ -1,0 +1,197 @@
+/* ==========================================================================
+   SISTEMA TIPOGRAFICO BROCCOLINI (caricato per ultimo da tutte le pagine)
+   - Hero:            Outfit 400, maiuscole/minuscole, bianco, titolo grande
+   - Titoli:          Cormorant Garamond 400. MAIUSCOLO solo per i titoli-manifesto
+                      brevi; elenchi e titoli-frase in maiuscole/minuscole
+   - Testo da leggere (paragrafi lunghi, voci, titoli di card): Cormorant
+   - Etichette, sottotitoli brevi, bottoni, legale: Space Mono MAIUSCOLO spaziato
+   - Outfit resta solo per hero e campi dei form
+   Il prefisso "body" serve a vincere sulle regole inline delle pagine.
+   ========================================================================== */
+
+:root {
+    --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --sans: 'Outfit', system-ui, sans-serif;
+    --ink-soft: #68635d;
+    --ink-faint: #8c8c8c;
+    --fd: var(--serif); /* font "display" delle landing */
+}
+
+/* ── LOGO ─────────────────────────────────────────────────────────────── */
+body .logo-name {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(1.6rem, 2.1vw, 2.25rem); letter-spacing: 0.14em; line-height: 0.95;
+    padding-left: 0.14em; /* compensa lo spazio dopo l'ultima lettera: resta centrato */
+}
+body .logo-sub { font-family: var(--mono); font-weight: 400; font-size: 0.6rem; letter-spacing: 0.5em; padding-left: 0.5em; }
+body .logo-rule { margin: 0.35rem 0 0.3rem; }
+body :is(.footer-logo, .foot-logo, .lp-logo) .logo-name { font-family: var(--serif); font-weight: 500; }
+body :is(.footer-logo, .foot-logo, .lp-logo) .logo-sub { font-family: var(--mono); font-weight: 400; }
+body :is(.footer-logo, .foot-logo) .logo-name { font-size: clamp(2.4rem, 4vw, 3.4rem); }
+@media (min-width: 961px) { body .nav-bar { height: 84px; } }
+
+/* ── HERO (home) ──────────────────────────────────────────────────────── */
+body :is(.hero-title, .hero-usp) {
+    font-family: var(--sans); font-weight: 400; font-style: normal; text-transform: none;
+    color: #fff; text-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+body .hero-title { font-size: clamp(2.8rem, 6.6vw, 6rem); line-height: 1.02; letter-spacing: -0.035em; }
+body .hero-usp {
+    margin-top: clamp(1rem, 2vh, 1.5rem); max-width: clamp(280px, 45vw, 600px);
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem); line-height: 1.35; letter-spacing: 0; text-wrap: balance;
+}
+@media (min-width: 961px) {
+    body .hero-left { max-width: 68%; }
+    body .hero-usp { max-width: none; }
+}
+@media (max-width: 768px) {
+    body .hero-title { font-size: clamp(2.4rem, 10.5vw, 3.3rem); }
+    body .hero-usp { font-size: clamp(1.15rem, 5vw, 1.45rem); max-width: 100%; }
+}
+
+/* ── HERO della home inglese: stessa impostazione della home italiana ──
+   (via le parole giganti agganciate alla foto e l'evidenziatore oro) */
+body .hero-dist, body .hero-cta--desk, body .tl-marker { display: none; }
+body :is(.tagline-line-1, .tagline-line-2) { font-weight: 400; }
+body .tl-word, body .tl-word.lit { color: inherit; text-transform: lowercase; }
+body .hero-usp strong { font-weight: 500; }
+body .hero:has(.hero-dist) .hero-left { justify-content: flex-start; }
+body .hero:has(.hero-dist) .hero-left .hero-cta { margin-top: auto; align-self: flex-start; }
+@media (min-width: 961px) {
+    body .hero:has(.hero-dist) { aspect-ratio: auto; min-height: 100vh; padding-top: 80px; }
+    body .hero:has(.hero-dist) .hero-left { display: flex; }
+}
+
+/* ── HERO delle pagine interne e delle landing ────────────────────────── */
+body .page-title {
+    font-family: var(--sans); font-weight: 400; font-style: normal; text-transform: none;
+    font-size: clamp(3rem, 7vw, 6.2rem); line-height: 1; letter-spacing: -0.035em;
+}
+body .page-title em { font-style: normal; color: inherit; }
+body :is(header.hero h1, .banner h1) {
+    font-family: var(--sans); font-weight: 400; font-style: normal; text-transform: none;
+    letter-spacing: -0.03em; line-height: 1.05;
+}
+body header.hero h1 { font-size: clamp(2.5rem, 5.4vw, 4.8rem); }
+body .banner h1 { font-size: clamp(2.2rem, 4.4vw, 3.8rem); }
+body :is(header.hero h1, .banner h1) em { font-style: normal; color: inherit; }
+body :is(header.hero .hero-sub, .banner-sub) {
+    font-family: var(--sans); font-weight: 400; text-transform: none; letter-spacing: 0;
+    font-size: clamp(1.1rem, 1.8vw, 1.45rem); line-height: 1.4;
+}
+
+/* "La nostra forza è nei dettagli" (titolo su foto): stesso font e carattere del titolo hero */
+body .det-title { font-family: var(--sans); font-weight: 400; font-style: normal; text-transform: none; letter-spacing: -0.035em; line-height: 1.02; }
+
+/* ── TITOLI SERIF ─────────────────────────────────────────────────────── */
+/* manifesto brevi: MAIUSCOLO */
+body :is(.section-title, .ba-title, .stats-title, .portfolio-title, .process-title, .cta-title,
+         .form-title, .about-cta-title, .ask-title,
+         .benefits h2, .zpa-copy h2, .process h2:not(.process-title), .lf-left h2, .cf-body h2) {
+    font-family: var(--serif); font-weight: 400; font-style: normal; text-transform: uppercase;
+    letter-spacing: -0.02em; line-height: 0.95;
+}
+/* elenchi e titoli-frase: maiuscole/minuscole */
+body :is(.service-title, .flow-step, .faq-q, .b-item h3, .step, .cfg-name,
+         .pf-cap h3, .about-lead) {
+    font-family: var(--serif); font-weight: 400; font-style: normal; text-transform: none;
+    letter-spacing: -0.01em;
+}
+/* parole evidenziate: niente corsivo né oro (titoli monocolore e monostile) */
+body :is(.section-title, .portfolio-title, .process-title, .cta-title, .form-title,
+         .about-cta-title, .ask-title, .about-lead, .page-title) em { font-style: normal; color: inherit; }
+
+/* dimensioni: il peso sottile chiede più corpo */
+body :is(.section-title, .stats-title, .process-title) { font-size: clamp(2.3rem, 4.4vw, 4rem); }
+body .portfolio-title { font-size: clamp(2.3rem, 4.4vw, 4rem); }
+body :is(.benefits h2, .zpa-copy h2, .process h2:not(.process-title), .lf-left h2, .cf-body h2, .form-title, .about-cta-title, .ask-title) {
+    font-size: clamp(2.1rem, 3.8vw, 3.4rem);
+}
+body .det-copy { max-width: 62%; }
+body .faq-q { font-size: clamp(1.35rem, 2vw, 1.65rem); line-height: 1.25; }
+body :is(.b-item h3, .cfg-name) { font-size: clamp(1.35rem, 1.8vw, 1.6rem); line-height: 1.2; }
+body .step { font-size: clamp(1.35rem, 2vw, 1.7rem); }
+body .pf-cap h3 { font-size: 1.35rem; }
+body .about-lead { font-size: clamp(1.9rem, 3.2vw, 2.9rem); line-height: 1.15; }
+
+/* numeri */
+body :is(.figure-num, .stat-value, .figure-suffix, .stat .n, .stat .n sup, .about-mark-num, .b-num) {
+    font-family: var(--serif); font-weight: 400; letter-spacing: -0.03em;
+}
+
+/* ── TESTO DA LEGGERE (serif) ─────────────────────────────────────────── */
+body :is(.det-text-copy p, .det-intro, .about-p, .faq-a p, .benefits .lead, .lf-left p, .cf-body p, .shop .hero-sub) {
+    font-family: var(--serif); font-weight: 400; letter-spacing: -0.005em; color: #2b2b2b;
+}
+body .det-text-copy p { font-size: clamp(1.45rem, 2.1vw, 1.9rem); line-height: 1.42; }
+body .det-intro { font-size: clamp(1.3rem, 1.8vw, 1.6rem); line-height: 1.45; }
+body :is(.about-p, .faq-a p, .benefits .lead, .lf-left p, .cf-body p, .shop .hero-sub) { font-size: clamp(1.2rem, 1.5vw, 1.35rem); line-height: 1.55; text-transform: none; }
+body :is(.about-p, .faq-a p) strong { font-weight: 600; }
+body :is(.footer-tagline, .contact-value, .lfc-val, .ask-success-title, .form-success-title) {
+    font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em;
+}
+body .footer-tagline { font-size: 1.3rem; line-height: 1.35; }
+body .contact-value { font-size: clamp(1.7rem, 2.6vw, 2.3rem); }
+body .lfc-val { font-size: 1.35rem; }
+body .nav-mobile ul li a { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; }
+
+/* ── ETICHETTE, SOTTOTITOLI BREVI, BOTTONI (monospace maiuscolo) ──────── */
+body :is(.service-desc, .ba-sub, .pf-desc, .figure-label, .process-intro, .ask-sub, .contact-note,
+         .process .lead, .b-item p, .stat .l,
+         .cfg-dim, .cfg-note, .cfg-inphoto, .cfg-summary-txt) {
+    font-family: var(--mono); font-weight: 400; font-size: clamp(0.75rem, 0.8vw, 0.85rem);
+    line-height: 1.6; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-soft);
+}
+body :is(.anno-label, .ba-label, .ba-hint, .pf-hint, .zp-hint, .zpa-label, .gallery-hint, .page-eyebrow,
+         .contact-label, .form-label, .fg label, .lfc-lab, .about-mark-label, .footer-col-title,
+         .hero-trust, .hero-photo-badge, .hero-thumb-lab, .hero-thumb, .step-sep, .cfg-qty button, .cfg-qty output,
+         .hero-cta, .hero-link, .ba-cta, .cta-btn, .mobile-cta, .fab-action, .btn, .btn-contact, .btn-submit,
+         .submit-btn, .cfg-cta, .about-cta a, .lp-nav-call, .lang-opt, .lang-sep,
+         .footer-copy, .footer-links a, .foot-copy, .consent, .form-privacy, .form-consent, .ask-success-sub) {
+    font-family: var(--mono); font-weight: 400; text-transform: uppercase; letter-spacing: 0.08em;
+}
+body #pageCurtain .pc-mark { font-family: var(--mono); font-weight: 400; letter-spacing: 0.22em; }
+body .nav-mobile .mobile-cta { font-family: var(--mono); font-weight: 400; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.85rem; }
+/* conferma invio form: gli stili inline delle pagine vanno superati */
+body #formSuccess p:first-child { font-family: var(--serif) !important; font-weight: 400 !important; font-size: clamp(1.9rem, 3vw, 2.4rem) !important; }
+body #formSuccess p:last-child { font-family: var(--mono); font-weight: 400 !important; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem !important; }
+body :is(.hero-cta, .hero-link, .ba-cta, .cta-btn, .mobile-cta, .btn, .btn-contact, .btn-submit,
+         .submit-btn, .cfg-cta, .about-cta a) { font-size: 0.78rem; }
+body .fab-action { font-size: 0.72rem; }
+body .anno-label { letter-spacing: 0.1em; }
+body :is(.footer-copy, .footer-links a, .foot-copy, .consent, .form-privacy) { font-size: 0.7rem; line-height: 1.6; }
+body .figure-label { color: var(--ink-faint); font-size: 0.72rem; }
+/* email: minuscolo e spezzabile, altrimenti in monospace allarga la colonna su mobile */
+body a[href^="mailto:"]:is(.footer-links a, .lfc-val, .contact-value, .foot-copy a) { text-transform: none; overflow-wrap: anywhere; }
+body .footer-grid > * { min-width: 0; }
+/* su mobile il logo spaziato non sta in mezza colonna: gli do tutta la riga */
+@media (max-width: 960px) { body .footer-grid > *:has(.footer-logo) { grid-column: 1 / -1; } }
+body .pf-cap p { font-family: var(--mono); font-weight: 400; text-transform: uppercase; letter-spacing: 0.07em; color: rgba(255,255,255,0.82); font-size: 0.68rem; }
+body header.hero .hero-trust { color: rgba(255,255,255,0.82); font-size: 0.72rem; }
+body .service-desc { max-width: 40ch; }
+body .ba-sub { max-width: 34ch; }
+body :is(.pf-desc, .process-intro) { max-width: 52ch; margin-left: auto; margin-right: auto; }
+/* i campi dei form restano in Outfit: è testo che scrive l'utente */
+body :is(input, textarea, select, option) { font-family: var(--sans); }
+
+/* ── DESKTOP: titoli e sottotitoli su una riga dove lo spazio lo consente ── */
+@media (min-width: 961px) {
+    body :is(.service-desc, .ba-sub, .pf-desc, .process-intro, .figure-label) { max-width: none; }
+    body .figure-label { font-size: 0.68rem; white-space: nowrap; }
+    body .ba-split { grid-template-columns: minmax(420px, 520px) 1fr; }
+    body .pf-head { max-width: none; }
+    body :is(.stats-title, .portfolio-title, .cta-title, .section-title) { max-width: none; white-space: nowrap; }
+    body .section-title { font-size: clamp(2.1rem, 3.3vw, 3.6rem); }
+    body :is(.portfolio-title, .cta-title) { font-size: clamp(2.3rem, 3.6vw, 3.8rem); }
+    body .stats-title { font-size: clamp(2.3rem, 3.6vw, 4rem); }
+    body .cta-title br { display: none; }
+    body .cta-title em::before { content: ' '; }
+}
+
+/* ── MOBILE: bottoni lunghi su una riga ───────────────────────────────── */
+@media (max-width: 600px) {
+    body :is(.cta-btn, .ba-cta, .hero-cta) { font-size: 0.7rem; letter-spacing: 0.05em; white-space: nowrap; }
+    body .cta-btn { padding-left: 1.6rem; padding-right: 1.6rem; max-width: 100%; }
+    body .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+}

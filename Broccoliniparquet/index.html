@@ -67,16 +67,15 @@
         "addressCountry": "IT"
       },
       "description": "Fornitura e posa di parquet per interni e pavimenti WPC per esterni e bordo piscina. Un unico referente dal sopralluogo alla consegna.",
-      "areaServed": "Italia",
+      "areaServed": "Italia ed Europa",
       "knowsAbout": ["Posa parquet", "Decking WPC", "Pavimentazioni per esterni", "Bordo piscina", "Restauro parquet"]
     }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="image" href="img/hero-piscina-foto-m.webp" media="(max-width:768px)" fetchpriority="high">
-    <link rel="preload" as="image" href="img/hero-piscina-foto.webp" media="(min-width:769px)" fetchpriority="high">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet"></noscript>
+    <link rel="preload" as="image" href="img/hero-lounge-poster.jpg" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"></noscript>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         * { outline: unset; }
@@ -194,13 +193,12 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 92%;
+            object-position: center;
             display: block;
             z-index: 0;
             transform: scale(1.08);
             animation: heroImgScale 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
         }
-        /* piscina a luminosità piena (solo un filo di contrasto) */
         .hero-video--dim { filter: brightness(0.92) contrast(1.03); }
 
         .hero::before {
@@ -219,11 +217,13 @@
             z-index: 3;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            padding: 5rem 4.5rem 3rem;
+            justify-content: space-between;
+            padding: 6.5rem 4.5rem 4rem;
             min-height: calc(100vh - 80px);
             max-width: 55%;
         }
+
+        .hero-head { max-width: 100%; }
 
         @keyframes heroImgScale {
             to { transform: scale(1); }
@@ -251,18 +251,29 @@
 
         .hero-title {
             font-family: var(--f);
-            font-size: clamp(3rem, 6.2vw, 5.6rem);
+            font-size: clamp(2.3rem, 6.8vw, 5.6rem);
             font-weight: 700;
-            line-height: 0.98;
+            font-style: italic;
+            line-height: 1.05;
             letter-spacing: -0.03em;
-            text-transform: uppercase;
             color: #ffffff;
             margin-bottom: 0;
             text-shadow: 0 2px 12px rgba(0,0,0,0.45), 0 2px 40px rgba(0,0,0,0.3);
         }
+        .hero-title-mask { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+        .hero-title-in {
+            display: block;
+            text-wrap: balance;
+            transform: translateY(115%);
+            animation: heroTitleRise 0.95s cubic-bezier(.22,1,.36,1) 0.15s forwards;
+        }
+        @keyframes heroTitleRise { to { transform: translateY(0); } }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-title-in { animation: none; transform: none; }
+        }
 
         .hero-usp {
-            margin-top: 1.7rem;
+            margin-top: 1.1rem;
             max-width: 44ch;
             font-family: var(--f);
             font-size: clamp(1.05rem, 1.7vw, 1.4rem);
@@ -273,23 +284,38 @@
             text-shadow: 0 2px 24px rgba(0,0,0,0.45);
             animation: fadeInUp 0.8s ease 1.6s both;
         }
-        .hero-usp strong { font-weight: 600; color: #ffffff; }
+
+        .hero-ctas {
+            display: flex; align-items: center; flex-wrap: wrap;
+            gap: 0.5rem 2rem;
+        }
 
         .hero-cta {
             display: inline-flex; align-items: center; gap: 0.55rem;
-            align-self: flex-start; margin-top: 2rem;
             padding: 1.05rem 2.1rem;
-            background: var(--accent, #C4A882); color: #1a1a1a;
+            background: transparent; color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.7);
             font-family: var(--f); font-size: 1rem; font-weight: 600; letter-spacing: 0.01em;
-            text-decoration: none; border-radius: 2px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.28);
-            transition: transform 0.25s cubic-bezier(.16,1,.3,1), background 0.25s, box-shadow 0.25s;
+            text-decoration: none; border-radius: 999px;
+            transition: transform 0.25s cubic-bezier(.16,1,.3,1), background 0.25s, border-color 0.25s;
             animation: fadeInUp 0.8s ease 1.9s both;
         }
-        .hero-cta:hover { background: #d4b892; transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,0.34); }
+        .hero-cta:hover { background: rgba(255,255,255,0.14); border-color: #fff; transform: translateY(-2px); }
         .hero-cta:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
         .hero-cta svg { width: 18px; height: 18px; }
-        .hero-cta--desk { display: none; }
+
+        .hero-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: var(--f); font-size: 0.95rem; font-weight: 500; letter-spacing: 0.01em;
+            color: rgba(255,255,255,0.88);
+            text-decoration: none;
+            text-shadow: 0 2px 16px rgba(0,0,0,0.4);
+            transition: gap 0.2s, color 0.2s;
+            animation: fadeInUp 0.8s ease 2.1s both;
+        }
+        .hero-link::after { content: '→'; }
+        .hero-link:hover { gap: 0.75rem; color: #fff; }
+        .hero-link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 
         .hero-desc {
             font-size: var(--wp--preset--font-size--m);
@@ -372,53 +398,6 @@
             margin-top: 1.5rem;
             user-select: none;
         }
-
-        .tagline-line-1 {
-            display: block;
-            font-style: normal;
-            font-weight: 700;
-            opacity: 0;
-            transform: translateY(22px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .tagline-line-1.tl-in { opacity: 1; transform: translateY(0); }
-
-        .tagline-line-2 {
-            display: block;
-            white-space: nowrap;
-            font-weight: 700;
-            opacity: 0;
-            transform: translateY(22px);
-            transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
-        }
-        .tagline-line-2.tl-in { opacity: 1; transform: translateY(0); }
-
-        .tl-wrap {
-            position: relative;
-            display: inline-block;
-        }
-
-        .tl-marker {
-            position: absolute;
-            top: 0.05em; bottom: 0.05em;
-            left: -0.06em; right: -0.06em;
-            background: var(--accent);
-            transform-origin: left center;
-            transform: scaleX(0);
-            z-index: 0;
-            transition: transform 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        opacity 0.6s ease;
-        }
-        .tl-marker.sweep { transform: scaleX(1); }
-        .tl-marker.hide  { opacity: 0; }
-
-        .tl-word {
-            position: relative;
-            z-index: 1;
-            color: var(--wp--preset--color--contrast-3);
-            transition: color 0.35s ease;
-        }
-        .tl-word.lit { color: var(--white); }
 
         /* ── SHARED ──────────────────────────────── */
         section { padding: 6rem 4.5rem; }
@@ -720,9 +699,10 @@
             width: 100%; height: 100%;
             object-fit: cover; display: block;
             filter: contrast(1.05) saturate(1.1);
-            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+            transition: scale 0.6s cubic-bezier(0.16,1,0.3,1);
         }
-        .pf-tile:hover img { transform: scale(1.06); }
+        /* "scale" (non "transform") così lo zoom hover si somma alla parallasse GSAP */
+        .pf-tile:hover img { scale: 1.06; }
 
         .pf-grad {
             position: absolute; inset: 0; pointer-events: none;
@@ -1043,6 +1023,7 @@
             display: inline-block;
             background: var(--accent);
             border: none;
+            border-radius: 999px;
             color: var(--dark);
             padding: 1.1rem 3rem;
             font-family: var(--font-body);
@@ -1230,6 +1211,7 @@
             color: var(--white);
             background: var(--dark);
             padding: 0.9rem 2.6rem;
+            border-radius: 999px;
             text-decoration: none;
             transition: background 0.2s ease;
         }
@@ -1257,8 +1239,6 @@
             .nav-bar { padding: 0 1.5rem; }
 
             .hero-left { padding: 3rem 1.5rem 4rem; max-width: 100%; min-height: 80vh; }
-            /* su schermi stretti "parte da TERRA" può andare a capo (TERRA sulla sua riga) invece di sforare */
-            .tagline-line-2 { white-space: normal; }
             .hero-video { transform: scale(1); animation: none; }
             .hero-right::before { background: linear-gradient(to bottom, var(--bg) 0%, transparent 20%); }
             .logo-sub { color: rgba(255,255,255,0.75); }
@@ -1288,88 +1268,6 @@
         .hero-title, .section-title, .service-title, .process-title, .portfolio-title, .cta-title { font-family: 'Playfair Display', serif; }
         .section-title em, .cta-title em { font-style: italic; }
 
-        /* ── HERO DISTRIBUITO — solo desktop (≥961px) ─────────────
-           Palco ad aspect-ratio bloccato: font in cqw + posizioni in %
-           → le parole restano incollate ai materiali della foto a ogni
-           larghezza. Nessun JS, nessun velo nero. Mobile/tablet (≤960px)
-           restano col titolo impilato attuale, invariati. */
-        .hero-dist { display: none; }
-        @keyframes hdRise {
-            from { opacity: 0; transform: translate3d(0, 28px, 0); }
-            to   { opacity: 1; transform: translate3d(0, 0, 0); }
-        }
-        @media (min-width: 961px) {
-            .hero {
-                min-height: 0;
-                padding-top: 0;
-                aspect-ratio: 16 / 9;
-                container-type: inline-size;
-            }
-            .hero::before {                                  /* velo nero leggero: aiuta il bianco senza spegnere l'azzurro */
-                background:
-                    linear-gradient(to bottom, rgba(10,7,5,0.12) 0%, transparent 25%, transparent 60%, rgba(10,7,5,0.20) 100%),
-                    linear-gradient(115deg, rgba(10,7,5,0.09) 0%, transparent 42%);
-            }
-            .hero-video { transform: none; animation: none; } /* niente zoom: le parole non si scollano */
-            .hero-video--dim { filter: none; }               /* piena luminosità, come nel prototipo */
-            .hero-left { display: none; }                    /* via titolo impilato + USP su desktop */
-
-            .hero-dist { display: block; position: absolute; inset: 0; z-index: 3; }
-            .hero-cta--desk {
-                display: inline-flex; position: absolute;
-                left: 4.5rem; bottom: 8%; margin-top: 0; z-index: 4;
-            }
-            .hd-kw {
-                position: absolute; left: 4.5rem; bottom: calc(8% + 4rem); z-index: 4;
-                max-width: 24cqw;
-                font-family: var(--f);
-                font-size: 1.2cqw; font-weight: 400; line-height: 1.45; letter-spacing: 0.01em;
-                color: rgba(255,255,255,0.9);
-                text-shadow: 0 0.15cqw 1.2cqw rgba(0,0,0,0.55), 0 0.05cqw 0.4cqw rgba(0,0,0,0.4);
-                animation: hdRise 0.85s cubic-bezier(.22,.61,.36,1) 1.6s both;
-            }
-            .hd-kw strong { font-weight: 700; color: #fff; }
-            .hd-word {
-                position: absolute;
-                font-family: 'Playfair Display', serif;
-                font-weight: 700;
-                text-transform: uppercase;
-                line-height: 0.9;
-                letter-spacing: -0.02em;
-                color: #fff;
-                white-space: nowrap;
-            }
-            .hd-eleganza {
-                top: 12%; left: 6%;
-                font-size: 7cqw;
-                text-shadow: 0 0.3cqw 2.4cqw rgba(0,0,0,0.45), 0 0.1cqw 0.6cqw rgba(0,0,0,0.35);
-                will-change: transform, opacity;
-                animation: hdRise 0.85s cubic-bezier(.22,.61,.36,1) 0.25s both;
-            }
-            .hd-parteda {
-                top: 51%; left: 48%;
-                transform: translateX(-50%);   /* centraggio statico, mai animato */
-                font-size: 3cqw;
-                font-weight: 600; font-style: italic; text-transform: none; letter-spacing: 0;
-                color: rgba(255,255,255,0.95);
-                text-shadow: 0 0.2cqw 1.4cqw rgba(0,0,0,0.4);
-            }
-            .hd-pd-in {
-                display: inline-block;
-                will-change: transform, opacity;
-                animation: hdRise 0.85s cubic-bezier(.22,.61,.36,1) 0.75s both;
-            }
-            .hd-terra {
-                top: 71.25%; left: 68%;
-                font-size: 7.2cqw;   /* copre esattamente 3 doghe: cap-top e base sulle fughe */
-                text-shadow: 0 0.3cqw 2.4cqw rgba(0,0,0,0.4), 0 0.1cqw 0.6cqw rgba(0,0,0,0.3);
-                will-change: transform, opacity;
-                animation: hdRise 0.85s cubic-bezier(.22,.61,.36,1) 1.25s both;
-            }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .hd-eleganza, .hd-terra, .hd-pd-in { animation: none; }
-        }
 
         /* ── SEZIONE DETTAGLIO (sotto i Servizi, non in navbar) ────
            Foto full-bleed con testo e annotazioni agganciate ai materiali
@@ -1529,19 +1427,38 @@
             .det, .det * { transition: none !important; }
         }
 
-        /* ── PRIMA E DOPO — slider trascinabile (nativo, no librerie) ── */
-        .ba { padding: clamp(4rem, 8vw, 7rem) 1.5rem; background: var(--bg); }
-        .ba-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2rem, 4vw, 3rem); }
+        /* ── PRIMA E DOPO — split screen, slider trascinabile (nativo, no librerie) ── */
+        .ba { padding: 0; background: var(--bg); }
+        .ba-split {
+            display: grid;
+            grid-template-columns: minmax(320px, 420px) 1fr;
+            min-height: clamp(560px, 56vw, 720px);
+        }
+        .ba-panel {
+            display: flex; flex-direction: column; justify-content: center;
+            padding: clamp(2.5rem, 4vw, 4rem);
+        }
         .ba-title {
-            font-family: 'Playfair Display', serif; font-weight: 600;
-            font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.05; letter-spacing: -0.02em;
+            font-family: 'Playfair Display', serif; font-weight: 700;
+            font-size: clamp(2.3rem, 3vw, 3.2rem); line-height: 1.03; letter-spacing: -0.03em;
             color: var(--dark); margin: 0; text-wrap: balance;
         }
-        .ba-sub { margin-top: 0.9rem; color: var(--mid); font-size: 1.05rem; line-height: 1.55; }
-        .ba-stage { max-width: 1080px; margin: 0 auto; }
+        .ba-sub { margin-top: 1.1rem; max-width: 38ch; color: var(--mid); font-size: 1.25rem; line-height: 1.6; }
+        .ba-cta {
+            display: inline-flex; align-self: flex-start; margin-top: 2rem;
+            padding: 1rem 1.75rem;
+            border: 1px solid rgba(17,17,17,0.35); border-radius: 999px;
+            color: var(--dark); text-decoration: none;
+            font-family: var(--f); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+            transition: background 0.25s, border-color 0.25s;
+        }
+        .ba-cta:hover { background: rgba(17,17,17,0.05); border-color: var(--dark); }
+        .ba-cta:focus-visible { outline: 2px solid var(--dark); outline-offset: 3px; }
+
+        .ba-stage { position: relative; }
         .ba-slider {
-            position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden;
-            border-radius: 6px; cursor: ew-resize; user-select: none; touch-action: pan-y;
+            position: relative; width: 100%; height: 100%; overflow: hidden;
+            cursor: ew-resize; user-select: none; touch-action: pan-y;
             background: var(--light);
         }
         .ba-img { position: absolute; inset: 0; }
@@ -1556,9 +1473,9 @@
         .ba-label-before { left: 1rem; }
         .ba-label-after { right: 1rem; }
         .ba-handle {
-            position: absolute; top: 0; bottom: 0; left: 50%; z-index: 4;
+            position: absolute; top: 0; bottom: 0; left: 0; margin-left: -24px; z-index: 4;
             display: flex; align-items: center; justify-content: center;
-            transform: translateX(-50%); will-change: left;
+            touch-action: none; will-change: transform;
         }
         .ba-handle::before {
             content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px;
@@ -1572,16 +1489,58 @@
         .ba-handle-btn svg { width: 13px; height: 13px; }
         .ba-handle:focus-visible .ba-handle-btn { outline: 2px solid var(--accent); outline-offset: 3px; }
         .ba-hint {
-            text-align: center; margin-top: 1rem; font-size: 0.78rem; letter-spacing: 0.08em;
-            text-transform: uppercase; color: var(--mid);
+            position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 3;
+            font-family: var(--f); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+            text-transform: uppercase; color: #fff; background: rgba(17,17,17,0.55);
+            padding: 0.4rem 0.85rem; border-radius: 2px; pointer-events: none; white-space: nowrap;
         }
-        @media (max-width: 640px) {
-            .ba-slider { aspect-ratio: 3 / 4; }
+        @media (max-width: 860px) {
+            .ba-split { grid-template-columns: 1fr; min-height: 0; }
+            .ba-panel { text-align: center; align-items: center; padding: 3rem 1.5rem; }
+            .ba-sub { max-width: 48ch; }
+            .ba-cta { align-self: center; }
+            .ba-stage { aspect-ratio: 3 / 4; }
+            .ba-handle { margin-left: -21px; }
             .ba-handle-btn { width: 42px; height: 42px; }
         }
+
+        /* ── TRANSIZIONE "SIPARIO" tra pagine (GSAP, con fallback automatico) ── */
+        #pageCurtain {
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--dark);
+        }
+        #pageCurtain .pc-seam {
+            position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+            background: var(--accent); transform: scaleX(0); transform-origin: left center;
+        }
+        #pageCurtain .pc-mark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-family: var(--f); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.22em;
+            text-transform: uppercase; color: rgba(255,255,255,0.78);
+            opacity: 0; white-space: nowrap;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #pageCurtain { display: none !important; }
+        }
+
+        /* ── SMOOTH SCROLL (Lenis) + REVEAL FOTOGRAFICI (ScrollTrigger) ── */
+        html.lenis, html.lenis body { height: auto; }
+        .lenis-smooth { scroll-behavior: auto !important; }
+        .lenis-stopped { overflow: hidden; }
+        /* con GSAP attivo le entrate CSS lasciano il posto a clip-path + parallasse */
+        .gsap-motion .pf-tile { opacity: 1; transform: none; transition: box-shadow 0.4s ease; }
+        .gsap-motion .det-text-photo.reveal { opacity: 1; transform: none; transition: none; }
     </style>
+    <link rel="stylesheet" href="type.css?v=1">
 </head>
 <body>
+
+<div id="pageCurtain" aria-hidden="true">
+    <span class="pc-seam"></span>
+    <span class="pc-mark">Broccolini Parquet</span>
+</div>
+<script>setTimeout(function () { var c = document.getElementById('pageCurtain'); if (c) c.style.display = 'none'; }, 1800);</script>
+<noscript><style>#pageCurtain{display:none!important}</style></noscript>
 
 <!-- ── NAVIGATION ──────────────────────────────────────────── -->
 <nav id="navbar">
@@ -1609,7 +1568,6 @@
     <div class="nav-mobile-inner">
         <ul>
             <li><a href="#servizi">Servizi</a></li>
-            <li><a href="fioriere-wpc.html">Fioriere WPC</a></li>
             <li><a href="#portfolio">Portfolio</a></li>
             <li><a href="chi-siamo.html">Chi siamo</a></li>
             <li><a href="faq.html">FAQ</a></li>
@@ -1621,41 +1579,24 @@
 
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <div class="hero">
-    <picture>
-        <source media="(max-width:768px)" srcset="img/hero-piscina-foto-m.webp" type="image/webp">
-        <source srcset="img/hero-piscina-foto.webp" type="image/webp">
-        <img class="hero-video hero-video--dim" src="img/hero-piscina-foto.jpg" alt="Bordo piscina con decking WPC" fetchpriority="high" width="1254" height="1254">
-    </picture>
-
-    <!-- Hero distribuito: solo desktop (≥961px). La versione accessibile/SEO
-         resta l'<h1> in .hero-left qui sotto (letto anche quando è display:none). -->
-    <div class="hero-dist">
-        <span class="hd-word hd-eleganza">L'eleganza</span>
-        <span class="hd-word hd-parteda"><span class="hd-pd-in">parte da</span></span>
-        <span class="hd-word hd-terra">Terra</span>
-        <span class="hd-kw"><strong>Decking WPC per esterni</strong> — terrazze, giardini, bordo piscina</span>
-        <a class="hero-cta hero-cta--desk" href="contatti.html#form" data-goal="quote">
-            Richiedi preventivo gratuito
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-    </div>
+    <video class="hero-video hero-video--dim cta-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="img/hero-lounge-poster.jpg">
+        <source src="img/hero-lounge.mp4" type="video/mp4">
+    </video>
 
     <div class="hero-left">
-        <h1 class="hero-title">
-            <span class="tagline-line-1">L'eleganza</span>
-            <span class="tagline-line-2">
-                parte da
-                <span class="tl-wrap">
-                    <span class="tl-marker" id="tlMarker"></span>
-                    <span class="tl-word" id="tlWord">TERRA</span>
-                </span>
-            </span>
-        </h1>
-        <p class="hero-usp"><strong>Decking WPC per esterni.</strong> Fornitura e posa su terrazze, giardini e bordo piscina — un solo referente, dal sopralluogo alla consegna.</p>
-        <a class="hero-cta" href="contatti.html#form" data-goal="quote">
-            Richiedi preventivo gratuito
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
+        <div class="hero-head">
+            <h1 class="hero-title">
+                <span class="hero-title-mask"><span class="hero-title-in">Per chi ama ciò che è bello</span></span>
+            </h1>
+            <p class="hero-usp">Parquet e WPC di qualità, dalla fornitura alla posa.</p>
+        </div>
+        <div class="hero-ctas">
+            <a class="hero-cta" href="contatti.html#form" data-goal="quote">
+                Richiedi preventivo gratuito
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a class="hero-link" href="#portfolio">Guarda i lavori recenti</a>
+        </div>
     </div>
 </div>
 
@@ -1737,28 +1678,31 @@
 
 <!-- ── PRIMA E DOPO — slider trascinabile ──────────────────────── -->
 <section class="ba" aria-label="Prima e dopo il rivestimento">
-    <div class="ba-head reveal">
-        <h2 class="ba-title">Prima e dopo</h2>
-        <p class="ba-sub">Stesso muro, stessa inquadratura: trascina per vedere cosa cambia con il rivestimento in WPC.</p>
-    </div>
-    <div class="ba-stage reveal">
-        <div class="ba-slider" id="baSlider">
-            <div class="ba-img ba-after">
-                <img src="img/dettaglio-dopo-rivestimento.jpg" alt="Muro rivestito in WPC, dopo l'intervento" loading="lazy" width="1448" height="1086">
-            </div>
-            <div class="ba-img ba-before" id="baBefore">
-                <img src="img/dettaglio-prima-rivestimento.jpg" alt="Stesso muro in intonaco grezzo, prima del rivestimento" loading="lazy" width="1448" height="1086">
-            </div>
-            <span class="ba-label ba-label-before">Prima</span>
-            <span class="ba-label ba-label-after">Dopo</span>
-            <div class="ba-handle" id="baHandle" role="slider" aria-label="Trascina per confrontare prima e dopo" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-                <span class="ba-handle-btn" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                </span>
+    <div class="ba-split">
+        <div class="ba-panel reveal">
+            <h2 class="ba-title">Prima e dopo</h2>
+            <p class="ba-sub">Stesso muro, stessa inquadratura: trascina per vedere cosa cambia con il rivestimento in WPC.</p>
+            <a class="ba-cta" href="contatti.html#form" data-goal="quote">Richiedi un preventivo gratuito</a>
+        </div>
+        <div class="ba-stage reveal">
+            <div class="ba-slider" id="baSlider">
+                <div class="ba-img ba-after">
+                    <img src="img/dettaglio-dopo-rivestimento.jpg" alt="Muro rivestito in WPC, dopo l'intervento" loading="lazy" width="1448" height="1086">
+                </div>
+                <div class="ba-img ba-before" id="baBefore">
+                    <img src="img/dettaglio-prima-rivestimento.jpg" alt="Stesso muro in intonaco grezzo, prima del rivestimento" loading="lazy" width="1448" height="1086">
+                </div>
+                <span class="ba-label ba-label-before">Prima</span>
+                <span class="ba-label ba-label-after">Dopo</span>
+                <div class="ba-handle" id="baHandle" role="slider" aria-label="Trascina per confrontare prima e dopo" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                    <span class="ba-handle-btn" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </span>
+                </div>
+                <p class="ba-hint">Trascina per confrontare</p>
             </div>
         </div>
-        <p class="ba-hint">Trascina per confrontare</p>
     </div>
 </section>
 
@@ -1797,7 +1741,7 @@
     <p class="pf-desc">Una selezione di pose e rivestimenti che abbiamo realizzato. Trascina per esplorare, clicca su una foto per ingrandirla.</p>
   </div>
 
-  <div class="pf-viewport" id="pfViewport">
+  <div class="pf-viewport" id="pfViewport" data-lenis-prevent-horizontal>
     <div class="pf-grid" id="pfGrid">
         <article class="pf-tile tall" tabindex="0" role="button" aria-label="Apri: Rovere rustico">
           <img src="img/lavoro-cucina-rovere.webp" alt="Parquet in rovere rustico in una cucina moderna" loading="lazy">
@@ -1917,8 +1861,106 @@
     </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/Draggable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/InertiaPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
 <script>
     document.documentElement.classList.add('has-js');
+
+    // Transizione "sipario" tra pagine: il pannello (già "chiuso" di default via CSS)
+    // sale e si apre rivelando la pagina; al click su un link interno sale a coprire
+    // lo schermo e poi naviga, creando un unico movimento continuo tra le pagine.
+    (function () {
+        const curtain = document.getElementById('pageCurtain');
+        if (!curtain) return;
+        const seam = curtain.querySelector('.pc-seam');
+        const mark = curtain.querySelector('.pc-mark');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!window.gsap || reduceMotion) { curtain.style.display = 'none'; return; }
+
+        gsap.timeline()
+            .set(mark, { opacity: 0, y: 8 })
+            .set(seam, { scaleX: 0 })
+            .to(mark, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.05)
+            .to(seam, { scaleX: 1, duration: 0.28, ease: 'power3.out' }, 0.1)
+            .to(mark, { opacity: 0, duration: 0.15 }, 0.46)
+            .to(curtain, {
+                yPercent: -101, duration: 0.5, ease: 'power3.inOut',
+                onComplete: () => { curtain.style.display = 'none'; }
+            }, 0.38);
+
+        document.querySelectorAll('a[href]').forEach((a) => {
+            const href = a.getAttribute('href');
+            if (!href || href.charAt(0) === '#' || href.includes('://') || /^(mailto|tel|javascript):/i.test(href) || a.target === '_blank' || a.hasAttribute('download')) return;
+            a.addEventListener('click', (e) => {
+                if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+                e.preventDefault();
+                curtain.style.display = 'block';
+                gsap.timeline({ onComplete: () => { window.location.href = href; } })
+                    .set(curtain, { yPercent: 101 })
+                    .set(seam, { scaleX: 0 })
+                    .set(mark, { opacity: 0 })
+                    .to(curtain, { yPercent: 0, duration: 0.45, ease: 'power3.inOut' })
+                    .to(seam, { scaleX: 1, duration: 0.22, ease: 'power3.out' }, 0.2);
+            });
+        });
+    })();
+
+    // Smooth scroll (Lenis) + reveal fotografici su tre livelli: cornice che si apre
+    // (clip-path), contenitore in parallasse, immagine sovradimensionata che scorre e
+    // si de-zooma. Lo scrub numerico fa "inseguire" lo scroll con un leggero ritardo.
+    (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (!window.gsap || !window.ScrollTrigger) return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        if (window.Lenis) {
+            const lenis = new Lenis({ lerp: 0.09 });
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => lenis.raf(time * 1000));
+            gsap.ticker.lagSmoothing(0);
+            window.__lenis = lenis;
+        }
+
+        // scala minima >= 1 + 2*|yPercent|/100, altrimenti ai bordi compare il vuoto
+        const passing = (trigger, scrub) => ({ trigger, start: 'top bottom', end: 'bottom top', scrub });
+
+        const detFig = document.querySelector('.det-text-photo');
+        const detImg = detFig && detFig.querySelector('img');
+        if (detFig && detImg) {
+            gsap.fromTo(detFig, { clipPath: 'inset(100% 0% 0% 0%)' }, {
+                clipPath: 'inset(0% 0% 0% 0%)', duration: 1.35, ease: 'power3.inOut',
+                scrollTrigger: { trigger: detFig, start: 'top 85%', toggleActions: 'play none none reverse' }
+            });
+            gsap.fromTo(detImg, { yPercent: -4, scale: 1.2 }, { yPercent: 4, scale: 1.1, ease: 'none', scrollTrigger: passing(detFig, 1.2) });
+            gsap.matchMedia().add('(min-width: 861px)', () => {
+                gsap.fromTo(detFig, { y: 30 }, { y: -30, ease: 'none', scrollTrigger: passing(detFig, 1.4) });
+            });
+        }
+
+        const grid = document.getElementById('pfGrid');
+        if (grid) {
+            const tiles = gsap.utils.toArray('.pf-tile', grid);
+            gsap.fromTo(tiles, { clipPath: 'inset(100% 0% 0% 0% round 14px)' }, {
+                clipPath: 'inset(0% 0% 0% 0% round 14px)', duration: 1.2, ease: 'power3.inOut', stagger: 0.08,
+                scrollTrigger: { trigger: grid, start: 'top 85%', once: true },
+                // il clip-path taglierebbe l'ombra dell'hover: lo tolgo a reveal finito
+                onComplete: () => gsap.set(tiles, { clearProps: 'clipPath' })
+            });
+            gsap.fromTo(grid.querySelectorAll('.pf-tile img'), { yPercent: -5, scale: 1.2 }, { yPercent: 5, scale: 1.12, ease: 'none', scrollTrigger: passing(grid, 1.2) });
+        }
+
+        const ctaSection = document.querySelector('.cta-section');
+        const ctaVideo = ctaSection && ctaSection.querySelector('.cta-video');
+        if (ctaVideo) {
+            gsap.fromTo(ctaVideo, { yPercent: -6, scale: 1.15 }, { yPercent: 6, scale: 1.15, ease: 'none', scrollTrigger: passing(ctaSection, 1.5) });
+        }
+
+        document.documentElement.classList.add('gsap-motion');
+    })();
 
     // Reveal sezione dettaglio: wipe clip-path + titolo mascherato + annotazioni
     const detailSection = document.querySelector('.det');
@@ -1935,7 +1977,7 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Prima/dopo: slider trascinabile (pointer + tastiera)
+    // Prima/dopo: slider trascinabile con GSAP Draggable + inerzia (fallback a pointer events se GSAP non è disponibile)
     (function () {
         const stage = document.getElementById('baSlider');
         if (!stage) return;
@@ -1943,37 +1985,109 @@
         const handle = document.getElementById('baHandle');
         let pos = 50;
 
-        function setPos(p) {
+        function setClip(p) {
             pos = Math.min(96, Math.max(4, p));
             before.style.clipPath = 'inset(0 ' + (100 - pos) + '% 0 0)';
-            handle.style.left = pos + '%';
             handle.setAttribute('aria-valuenow', String(Math.round(pos)));
         }
-        function fromEvent(e) {
-            const rect = stage.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            setPos((clientX - rect.left) / rect.width * 100);
+
+        const hasGSAP = window.gsap && window.Draggable;
+
+        if (hasGSAP) {
+            gsap.registerPlugin(Draggable, InertiaPlugin);
+
+            function bounds() {
+                const w = stage.clientWidth;
+                return { minX: w * 0.04, maxX: w * 0.96 };
+            }
+
+            gsap.set(handle, { x: stage.clientWidth * 0.5 });
+
+            const draggable = Draggable.create(handle, {
+                type: 'x',
+                bounds: bounds(),
+                inertia: true,
+                edgeResistance: 0.85,
+                onDrag: onMove,
+                onThrowUpdate: onMove
+            })[0];
+
+            function onMove() {
+                setClip(this.x / stage.clientWidth * 100);
+            }
+
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    draggable.applyBounds(bounds());
+                    gsap.set(handle, { x: stage.clientWidth * pos / 100 });
+                }, 150);
+            });
+
+            // Clicca/tocca ovunque sull'immagine per spostare subito la manopola e continuare a trascinare
+            stage.addEventListener('pointerdown', (e) => {
+                if (e.target === handle || handle.contains(e.target)) return;
+                const rect = stage.getBoundingClientRect();
+                setClip((e.clientX - rect.left) / rect.width * 100);
+                gsap.set(handle, { x: stage.clientWidth * pos / 100 });
+                draggable.startDrag(e);
+            });
+
+            handle.addEventListener('keydown', (e) => {
+                let next = pos;
+                if (e.key === 'ArrowLeft') next -= 5;
+                else if (e.key === 'ArrowRight') next += 5;
+                else if (e.key === 'Home') next = 4;
+                else if (e.key === 'End') next = 96;
+                else return;
+                e.preventDefault();
+                setClip(next);
+                gsap.set(handle, { x: stage.clientWidth * pos / 100 });
+            });
+        } else {
+            function fromEvent(e) {
+                const rect = stage.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                setClip((clientX - rect.left) / rect.width * 100);
+                handle.style.left = pos + '%';
+            }
+
+            let dragging = false;
+            stage.addEventListener('pointerdown', (e) => {
+                dragging = true;
+                fromEvent(e);
+                stage.setPointerCapture(e.pointerId);
+            });
+            stage.addEventListener('pointermove', (e) => { if (dragging) fromEvent(e); });
+            stage.addEventListener('pointerup', () => { dragging = false; });
+            stage.addEventListener('pointercancel', () => { dragging = false; });
+
+            handle.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') { setClip(pos - 5); e.preventDefault(); }
+                else if (e.key === 'ArrowRight') { setClip(pos + 5); e.preventDefault(); }
+                else if (e.key === 'Home') { setClip(4); e.preventDefault(); }
+                else if (e.key === 'End') { setClip(96); e.preventDefault(); }
+                else return;
+                handle.style.left = pos + '%';
+            });
         }
 
-        let dragging = false;
-        stage.addEventListener('pointerdown', (e) => {
-            dragging = true;
-            fromEvent(e);
-            stage.setPointerCapture(e.pointerId);
-        });
-        stage.addEventListener('pointermove', (e) => { if (dragging) fromEvent(e); });
-        stage.addEventListener('pointerup', () => { dragging = false; });
-        stage.addEventListener('pointercancel', () => { dragging = false; });
-
-        handle.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') { setPos(pos - 5); e.preventDefault(); }
-            if (e.key === 'ArrowRight') { setPos(pos + 5); e.preventDefault(); }
-            if (e.key === 'Home') { setPos(4); e.preventDefault(); }
-            if (e.key === 'End') { setPos(96); e.preventDefault(); }
-        });
-
-        setPos(50);
+        setClip(50);
     })();
+
+    // Pausa i video fuori dal viewport (risparmio risorse su mobile)
+    const autoplayVideos = document.querySelectorAll('video[autoplay]');
+    if (autoplayVideos.length) {
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                const v = e.target;
+                if (e.isIntersecting) v.play().catch(() => {});
+                else v.pause();
+            });
+        }, { threshold: 0.1 });
+        autoplayVideos.forEach(v => videoObserver.observe(v));
+    }
 
     // Animazione sequenziale servizi
     const servicesObserver = new IntersectionObserver((entries) => {
@@ -2021,31 +2135,6 @@
     const statsGrid = document.querySelector('.stats-grid');
     if (statsGrid) statsObserver.observe(statsGrid);
 
-    // Marker highlight animation
-    const tlMarker = document.getElementById('tlMarker');
-    const tlWord   = document.getElementById('tlWord');
-    const tlLine1  = document.querySelector('.tagline-line-1');
-    const tlLine2  = document.querySelector('.tagline-line-2');
-    let tlLoopTimer = null;
-
-    function tlReset() {
-        tlLine1.classList.remove('tl-in');
-        tlLine2.classList.remove('tl-in');
-        tlMarker.classList.remove('sweep', 'hide');
-        tlWord.classList.remove('lit');
-    }
-
-    function tlPlay() {
-        tlReset();
-        setTimeout(() => tlLine1.classList.add('tl-in'), 30);
-        setTimeout(() => tlLine2.classList.add('tl-in'), 120);
-        setTimeout(() => tlMarker.classList.add('sweep'), 430);
-        setTimeout(() => tlWord.classList.add('lit'), 630);
-    }
-
-    // Avvio quasi immediato: il titolo è l'elemento LCP, non va ritardato
-    setTimeout(tlPlay, 60);
-
     // Navbar: trasparente → solida allo scroll
     const nav = document.getElementById('navbar');
     const heroThreshold = window.innerHeight * 0.75;
@@ -2066,7 +2155,8 @@
                 const target = document.querySelector(id);
                 if (!target) return;
                 ev.preventDefault();
-                target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+                if (window.__lenis) window.__lenis.scrollTo(target, { duration: 1.4 });
+                else target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
             });
         });
     })();
@@ -2090,6 +2180,7 @@
         nav.classList.toggle('nav-open', open);
         hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
         document.body.style.overflow = open ? 'hidden' : '';
+        if (window.__lenis) open ? window.__lenis.stop() : window.__lenis.start();
         if (!open) updateNav();
     }
     hamburger.addEventListener('click', () => setMenu(!hamburger.classList.contains('open')));
@@ -2119,10 +2210,12 @@
         function openLb(src, alt) {
             lbImg.src = src; lbImg.alt = alt || '';
             lb.classList.add('open'); document.body.style.overflow = 'hidden';
+            if (window.__lenis) window.__lenis.stop();
             lastFocus = document.activeElement; lbClose.focus();
         }
         function closeLb() {
             lb.classList.remove('open'); document.body.style.overflow = '';
+            if (window.__lenis) window.__lenis.start();
             lbImg.src = ''; if (lastFocus) lastFocus.focus();
         }
         lbClose.addEventListener('click', closeLb);

@@ -17,7 +17,7 @@
       gtag('config', 'AW-18382303561');
     </script>
     <title>Broccolini Parquet — Wood flooring &amp; WPC decking</title>
-    <meta name="description" content="Supply and installation of indoor wood flooring and outdoor WPC decking for terraces and poolsides. One point of contact from survey to handover. Broccolini Srls, Italy.">
+    <meta name="description" content="Supply and installation of indoor wood flooring and outdoor WPC decking for terraces and poolsides. One point of contact from survey to handover. Broccolini Srls, Italy and Europe.">
     <link rel="canonical" href="https://www.broccoliniparquet.it/en/">
     <link rel="alternate" hreflang="it" href="https://www.broccoliniparquet.it/">
     <link rel="alternate" hreflang="en" href="https://www.broccoliniparquet.it/en/">
@@ -67,7 +67,7 @@
         "addressCountry": "IT"
       },
       "description": "Supply and installation of indoor wood flooring and outdoor WPC decking for terraces and poolsides. One point of contact from survey to handover.",
-      "areaServed": "Italia",
+      "areaServed": "Italy and Europe",
       "knowsAbout": ["Wood flooring installation", "WPC decking", "Outdoor flooring", "Poolside decking", "Parquet restoration"]
     }
     </script>
@@ -75,8 +75,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="image" href="../img/hero-piscina-foto-m.webp" media="(max-width:768px)" fetchpriority="high">
     <link rel="preload" as="image" href="../img/hero-piscina-foto.webp" media="(min-width:769px)" fetchpriority="high">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"></noscript>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         * { outline: unset; }
@@ -281,7 +281,7 @@
             padding: 1.05rem 2.1rem;
             background: var(--accent, #C4A882); color: #1a1a1a;
             font-family: var(--f); font-size: 1rem; font-weight: 600; letter-spacing: 0.01em;
-            text-decoration: none; border-radius: 2px;
+            text-decoration: none; border-radius: 999px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.28);
             transition: transform 0.25s cubic-bezier(.16,1,.3,1), background 0.25s, box-shadow 0.25s;
             animation: fadeInUp 0.8s ease 1.9s both;
@@ -1043,6 +1043,7 @@
             display: inline-block;
             background: var(--accent);
             border: none;
+            border-radius: 999px;
             color: var(--dark);
             padding: 1.1rem 3rem;
             font-family: var(--font-body);
@@ -1230,6 +1231,7 @@
             color: var(--white);
             background: var(--dark);
             padding: 0.9rem 2.6rem;
+            border-radius: 999px;
             text-decoration: none;
             transition: background 0.2s ease;
         }
@@ -1570,6 +1572,7 @@
             .ba-handle-btn { width: 42px; height: 42px; }
         }
     </style>
+    <link rel="stylesheet" href="../type.css?v=1">
 </head>
 <body>
 
@@ -1962,6 +1965,19 @@
 
         setPos(50);
     })();
+
+    // Pausa i video fuori dal viewport (risparmio risorse su mobile)
+    const autoplayVideos = document.querySelectorAll('video[autoplay]');
+    if (autoplayVideos.length) {
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                const v = e.target;
+                if (e.isIntersecting) v.play().catch(() => {});
+                else v.pause();
+            });
+        }, { threshold: 0.1 });
+        autoplayVideos.forEach(v => videoObserver.observe(v));
+    }
 
     // Animazione sequenziale servizi
     const servicesObserver = new IntersectionObserver((entries) => {
