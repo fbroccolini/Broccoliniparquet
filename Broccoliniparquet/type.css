@@ -226,7 +226,32 @@ body :is(input, textarea, select, option) { font-family: var(--sans); }
 
 /* ── MOBILE: bottoni lunghi su una riga ───────────────────────────────── */
 @media (max-width: 600px) {
-    body :is(.cta-btn, .ba-cta, .hero-cta) { font-size: 0.7rem; letter-spacing: 0.05em; white-space: nowrap; }
-    body .cta-btn { padding-left: 1.6rem; padding-right: 1.6rem; max-width: 100%; }
+    body :is(.cta-btn, .ba-cta, .hero-cta) { font-size: 0.7rem; letter-spacing: 0.05em; white-space: nowrap; max-width: 100%; }
+    body .cta-btn { padding-left: 1.6rem; padding-right: 1.6rem; }
     body .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+/* telefoni stretti (Android da 360 px): se non c'è spazio il testo va a capo invece di
+   allargare la pagina e creare lo scroll orizzontale */
+@media (max-width: 380px) {
+    body :is(.cta-btn, .ba-cta, .hero-cta) { white-space: normal; text-align: center; line-height: 1.4; }
+}
+
+/* ── MOBILE: tocco comodo e niente zoom indesiderato (iPhone e Android) ── */
+@media (max-width: 960px) {
+    /* area di tocco ≥ 44 px senza cambiare l'aspetto: si allarga solo la zona cliccabile */
+    body .nav-lang a { position: relative; }
+    body .nav-lang a::after { content: ''; position: absolute; inset: -13px -8px; }
+    body .nav-hamburger { position: relative; }
+    body .nav-hamburger::after { content: ''; position: absolute; inset: -5px; }
+    body .lp-nav-call { min-height: 44px; display: inline-flex; align-items: center; }
+    body .cfg-qty button { min-width: 44px; min-height: 44px; }
+    body a.contact-value { display: flex; align-items: center; min-height: 44px; }
+    /* iPhone ingrandisce la pagina se un campo ha il testo sotto 16 px: lo evitiamo */
+    body :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) { font-size: 16px; }
+    body input[type="checkbox"] { width: 22px; height: 22px; flex: none; }
+    /* footer: email su una riga sola, colonne in pila */
+    body .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    body a[href^="mailto:"]:is(.footer-links a, .foot-copy a) { overflow-wrap: normal; word-break: normal; }
+    /* spazio in fondo così il pulsante flottante non copre privacy e cookie policy */
+    body footer { padding-bottom: 10.5rem; }
 }

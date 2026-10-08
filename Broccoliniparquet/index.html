@@ -318,6 +318,12 @@
         .hero-link::after { content: '→'; }
         .hero-link:hover { gap: 0.75rem; color: #fff; }
         .hero-link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+        /* mobile: pulsante e link in colonna, ben distanziati e facili da toccare */
+        @media (max-width: 600px) {
+            .hero-ctas { flex-direction: column; align-items: stretch; gap: 1rem; width: 100%; }
+            .hero-cta { justify-content: center; width: 100%; max-width: 100%; min-height: 54px; padding: 1rem 1.25rem; }
+            .hero-link { align-self: flex-start; min-height: 44px; padding: 0.5rem 0; }
+        }
 
         .hero-desc {
             font-size: var(--wp--preset--font-size--m);
@@ -476,26 +482,29 @@
         /* pulsante "Scopri cos'è il WPC": si riempie al passaggio, con un punto che pulsa */
         .service-more {
             position: relative; isolation: isolate; overflow: hidden;
-            display: inline-flex; align-items: center; gap: 0.65rem; margin-top: 1.2rem;
-            padding: 0.75rem 1.2rem 0.75rem 1rem; min-height: 44px;
-            border: 1px solid var(--dark); border-radius: 999px;
-            font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
-            color: var(--dark); transition: color 0.45s ease, border-color 0.45s ease;
+            display: inline-flex; align-items: center; gap: 0.8rem; margin-top: 1.4rem;
+            padding: 1rem 1.6rem 1rem 1.25rem; min-height: 52px;
+            background: var(--dark); border: 1px solid var(--dark); border-radius: 999px;
+            font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase;
+            color: #fff; box-shadow: 0 10px 26px rgba(17,17,17,0.18);
+            transition: color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease, transform 0.45s cubic-bezier(0.16,1,0.3,1);
         }
         .service-more::before {
-            content: ''; position: absolute; inset: 0; z-index: -1; background: var(--dark);
+            content: ''; position: absolute; inset: 0; z-index: -1; background: var(--accent);
             transform: scaleX(0); transform-origin: left center; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
         }
         .svc-dot { position: relative; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); flex: none; }
         .svc-dot::after { content: ''; position: absolute; inset: -0.35rem; border-radius: 50%; border: 1px solid var(--accent); animation: svcPulse 2.2s ease-out infinite; }
         @keyframes svcPulse { 0% { transform: scale(0.4); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
-        .service-more svg { width: 1rem; height: 1rem; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); }
-        a.service-link:hover .service-more, a.service-link:focus-visible .service-more { color: #fff; }
+        .service-more svg { width: 1.1rem; height: 1.1rem; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); }
+        a.service-link:hover .service-more, a.service-link:focus-visible .service-more { color: var(--dark); border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 16px 34px rgba(17,17,17,0.22); }
         a.service-link:hover .service-more::before, a.service-link:focus-visible .service-more::before { transform: scaleX(1); }
         a.service-link:hover .service-more svg, a.service-link:focus-visible .service-more svg { transform: translateX(5px); }
+        a.service-link:hover .svc-dot, a.service-link:focus-visible .svc-dot { background: var(--dark); }
+        a.service-link:hover .svc-dot::after, a.service-link:focus-visible .svc-dot::after { border-color: var(--dark); }
         /* senza mouse il pulsante è già "acceso", così si capisce che è da toccare */
         @media (hover: none) {
-            .service-more { background: var(--accent); border-color: var(--accent); }
+            .service-more { background: var(--accent); border-color: var(--accent); color: var(--dark); }
             .svc-dot { background: var(--dark); }
             .svc-dot::after { border-color: var(--dark); }
         }
@@ -1513,7 +1522,7 @@
         .gsap-motion .pf-tile { opacity: 1; transform: none; transition: box-shadow 0.4s ease; }
         .gsap-motion .det-text-photo.reveal { opacity: 1; transform: none; transition: none; }
     </style>
-    <link rel="stylesheet" href="type.css?v=7">
+    <link rel="stylesheet" href="type.css?v=8">
 </head>
 <body>
 
@@ -1602,7 +1611,7 @@
             <h3 class="service-title"><span class="st-mask"><span class="st-in">Outdoor WPC</span></span></h3>
             <div class="service-body">
                 <p class="service-desc">Pavimentazioni WPC per terrazze, giardini e bordi piscina. Resistenti alle intemperie, durevoli nel tempo.</p>
-                <span class="service-more"><span class="svc-dot" aria-hidden="true"></span>Scopri cos'è il WPC <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                <span class="service-more"><span class="svc-dot" aria-hidden="true"></span>Vieni a scoprire il WPC <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
             </div>
             <span class="svc-preview" aria-hidden="true"><img src="img/wpc/terrazzo-fioriere-m.webp" alt="" width="900" height="1200" loading="lazy"></span>
         </a>
@@ -2080,10 +2089,16 @@
         gsap.set(prev, { xPercent: -50, yPercent: -50, scale: 0.85, rotation: -3 });
         const xTo = gsap.quickTo(prev, 'x', { duration: 0.55, ease: 'power3' });
         const yTo = gsap.quickTo(prev, 'y', { duration: 0.55, ease: 'power3' });
-        // la foto sta un po' a destra del cursore, così non copre il testo che si sta leggendo
-        const move = (e) => { xTo(e.clientX + 150); yTo(e.clientY); };
+        // la foto sta sempre dal lato libero del cursore: a sinistra quando sei sul pulsante
+        // (metà destra), a destra quando sei sul titolo, così non copre mai il bottone
+        const cta = row.querySelector('.service-more');
+        const half = () => prev.offsetWidth / 2 + 20;
+        const posX = (x) => x > window.innerWidth * 0.5
+            ? Math.min(x - 190, cta.getBoundingClientRect().left - half())
+            : x + 190;
+        const move = (e) => { xTo(posX(e.clientX)); yTo(e.clientY); };
         row.addEventListener('mouseenter', (e) => {
-            gsap.set(prev, { x: e.clientX + 150, y: e.clientY });
+            gsap.set(prev, { x: posX(e.clientX), y: e.clientY });
             gsap.to(prev, { autoAlpha: 1, scale: 1, rotation: 0, duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
         });
         row.addEventListener('mousemove', move);
