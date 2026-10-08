@@ -124,7 +124,7 @@
         .nav-mobile-inner { display: flex; flex-direction: column; align-items: center; gap: 2.5rem; }
         .nav-mobile ul { list-style: none; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
         .nav-mobile ul li a { display: inline-block; padding: 0.4rem 0; font-size: clamp(1.9rem, 5.5vw, 2.7rem); color: var(--dark); text-decoration: none; transition: color 0.2s ease; }
-        .nav-mobile ul li a:hover { color: var(--accent); }
+        .nav-mobile ul li a:hover, .nav-mobile ul li a[aria-current="page"] { color: var(--accent); }
         .nav-mobile .mobile-cta { display: inline-block; margin-top: 1rem; color: var(--white); background: var(--dark); padding: 0.9rem 2.6rem; border-radius: 999px; text-decoration: none; }
         .nav-mobile li, .nav-mobile .mobile-cta { opacity: 0; transform: translateY(14px); transition: opacity 0.45s ease, transform 0.45s ease; }
         .nav-mobile.open li, .nav-mobile.open .mobile-cta { opacity: 1; transform: translateY(0); }
@@ -134,7 +134,8 @@
         .nav-mobile.open li:nth-child(4) { transition-delay: 0.30s; }
         .nav-mobile.open li:nth-child(5) { transition-delay: 0.36s; }
         .nav-mobile.open li:nth-child(6) { transition-delay: 0.42s; }
-        .nav-mobile.open .mobile-cta { transition-delay: 0.48s; }
+        .nav-mobile.open li:nth-child(7) { transition-delay: 0.48s; }
+        .nav-mobile.open .mobile-cta { transition-delay: 0.54s; }
 
         /* ── SIPARIO tra pagine (come la home) ── */
         #pageCurtain { position: fixed; inset: 0; z-index: 9999; background: var(--dark); }
@@ -193,7 +194,7 @@
         .has-js .rv-ph.in img { clip-path: inset(0 0 0 0); transform: scale(1); }
 
         /* ── 1. APERTURA TIPOGRAFICA (niente hero, come le sottopagine framedworks) ── */
-        .open { padding-top: calc(var(--nav-h) + clamp(3rem, 8vh, 6rem)); }
+        .opening { padding-top: calc(var(--nav-h) + clamp(3rem, 8vh, 6rem)); }
         .open-title {
             font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; text-transform: uppercase;
             font-size: clamp(4rem, 17vw, 9.5rem); line-height: 0.86; letter-spacing: -0.03em; color: var(--dark);
@@ -553,6 +554,7 @@
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="index.html#servizi">Servizi</a></li>
+            <li><a href="wpc.html" aria-current="page">Cos’è il WPC</a></li>
             <li><a href="index.html#portfolio">Portfolio</a></li>
             <li><a href="chi-siamo.html">Chi siamo</a></li>
             <li><a href="faq.html">FAQ</a></li>
@@ -567,7 +569,7 @@
 <main>
 
 <!-- ── 1. APERTURA TIPOGRAFICA ──────────────────────────────────── -->
-<header class="open wrap">
+<header class="opening wrap">
     <h1 class="open-title rv-title" id="openTitle">
         <span class="ml"><span class="ml-in">Cos’è</span></span>
         <span class="ml"><span class="ml-in">il WPC</span></span>
