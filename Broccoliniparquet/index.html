@@ -475,9 +475,9 @@
             color: var(--dark);
             transition: color 0.35s;
         }
-        .service-row:hover .service-title { color: var(--mid); }
+        @media (hover: hover) and (pointer: fine) { .service-row:hover .service-title { color: var(--mid); } }
         /* riga cliccabile (Outdoor WPC → wpc.html) */
-        a.service-link { color: inherit; text-decoration: none; }
+        a.service-link { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         a.service-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
         /* pulsante "Scopri cos'è il WPC": si riempie al passaggio, con un punto che pulsa */
         .service-more {
@@ -497,13 +497,23 @@
         .svc-dot::after { content: ''; position: absolute; inset: -0.35rem; border-radius: 50%; border: 1px solid var(--accent); animation: svcPulse 2.2s ease-out infinite; }
         @keyframes svcPulse { 0% { transform: scale(0.4); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
         .service-more svg { width: 1.1rem; height: 1.1rem; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); }
-        a.service-link:hover .service-more, a.service-link:focus-visible .service-more { color: var(--dark); border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 16px 34px rgba(17,17,17,0.22); }
-        a.service-link:hover .service-more::before, a.service-link:focus-visible .service-more::before { transform: scaleX(1); }
-        a.service-link:hover .service-more svg, a.service-link:focus-visible .service-more svg { transform: translateX(5px); }
-        a.service-link:hover .svc-dot, a.service-link:focus-visible .svc-dot { background: var(--dark); }
-        a.service-link:hover .svc-dot::after, a.service-link:focus-visible .svc-dot::after { border-color: var(--dark); }
-        /* senza mouse il pulsante è già "acceso", così si capisce che è da toccare */
-        @media (hover: none) {
+        a.service-link:focus-visible .service-more { color: var(--dark); border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 16px 34px rgba(17,17,17,0.22); }
+        a.service-link:focus-visible .service-more::before { transform: scaleX(1); }
+        a.service-link:focus-visible .service-more svg { transform: translateX(5px); }
+        a.service-link:focus-visible .svc-dot { background: var(--dark); }
+        a.service-link:focus-visible .svc-dot::after { border-color: var(--dark); }
+        @media (hover: hover) and (pointer: fine) {
+            a.service-link:hover .service-more { color: var(--dark); border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 16px 34px rgba(17,17,17,0.22); }
+            a.service-link:hover .service-more::before { transform: scaleX(1); }
+            a.service-link:hover .service-more svg { transform: translateX(5px); }
+            a.service-link:hover .svc-dot { background: var(--dark); }
+            a.service-link:hover .svc-dot::after { border-color: var(--dark); }
+        }
+        /* tocco: riscontro immediato appena il dito preme */
+        a.service-link:active .service-more { transform: scale(0.97); filter: brightness(0.92); transition-duration: 0.08s; }
+        /* senza mouse il pulsante è già "acceso", così si capisce che è da toccare
+           (pointer: coarse copre anche gli Android che dichiarano erroneamente l'hover) */
+        @media (hover: none), (pointer: coarse) {
             .service-more { background: var(--accent); border-color: var(--accent); color: var(--dark); }
             .svc-dot { background: var(--dark); }
             .svc-dot::after { border-color: var(--dark); }
