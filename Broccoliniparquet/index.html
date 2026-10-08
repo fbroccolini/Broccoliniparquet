@@ -6,6 +6,8 @@
 
     <!-- Iubenda Cookie Solution (banner consenso + Google Consent Mode v2) -->
     <script type="text/javascript" src="https://embeds.iubenda.com/widgets/cc3c0458-e34d-4aa7-93d0-a3ea3b48fba4.js"></script>
+    <!-- Nasconde la barra Iubenda "Notice at collection / Your Privacy Choices" (leggi USA, non pertinente) -->
+    <style>.iub__us-widget{display:none!important}</style>
 
     <!-- Google tag (gtag.js) — GA4. Consenso gestito da Iubenda Consent Mode v2 (script sopra) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XVMX37BWHQ"></script>
@@ -647,6 +649,7 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: contain; /* niente rimbalzo né "indietro" di iOS a fine carosello */
             cursor: grab;
             padding: 0.6rem clamp(1.5rem, 5vw, 4.5rem);
             user-select: none;
@@ -1409,7 +1412,7 @@
         .ba-handle {
             position: absolute; top: 0; bottom: 0; left: 0; margin-left: -24px; z-index: 4;
             display: flex; align-items: center; justify-content: center;
-            touch-action: none; will-change: transform;
+            touch-action: pan-y; will-change: left;
         }
         .ba-handle::before {
             content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px;
@@ -1419,11 +1422,15 @@
             position: relative; width: 48px; height: 48px; border-radius: 50%; background: #fff;
             display: flex; align-items: center; justify-content: center; gap: 1px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.28); color: var(--dark);
+            touch-action: none; transition: transform 0.2s ease;
         }
+        /* area di presa più ampia del bottone visibile, comoda col pollice */
+        .ba-handle-btn::after { content: ''; position: absolute; inset: -14px; border-radius: 50%; }
+        .ba-slider.is-dragging .ba-handle-btn { transform: scale(1.08); }
         .ba-handle-btn svg { width: 13px; height: 13px; }
         .ba-handle:focus-visible .ba-handle-btn { outline: 2px solid var(--accent); outline-offset: 3px; }
         .ba-hint {
-            position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 3;
+            position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 5;
             font-family: var(--f); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
             text-transform: uppercase; color: #fff; background: rgba(17,17,17,0.55);
             padding: 0.4rem 0.85rem; border-radius: 2px; pointer-events: none; white-space: nowrap;
@@ -1812,8 +1819,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/Draggable.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/InertiaPlugin.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
 <script>
@@ -1906,103 +1911,93 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Prima/dopo: slider trascinabile con GSAP Draggable + inerzia (fallback a pointer events se GSAP non è disponibile)
+    // Prima/dopo: slider trascinabile pensato anche per il touch.
+    // Col dito il gesto viene prima "letto": se è orizzontale muove il confronto, se è
+    // verticale lascia scorrere la pagina (touch-action: pan-y) senza toccare la manopola.
+    // Mouse e manopola rispondono subito; un tocco singolo porta la manopola lì, animata.
     (function () {
         const stage = document.getElementById('baSlider');
         if (!stage) return;
         const before = document.getElementById('baBefore');
         const handle = document.getElementById('baHandle');
-        let pos = 50;
+        const knob = handle.querySelector('.ba-handle-btn');
+        let pos = 50, anim = null;
 
-        function setClip(p) {
+        function setPos(p) {
             pos = Math.min(96, Math.max(4, p));
             before.style.clipPath = 'inset(0 ' + (100 - pos) + '% 0 0)';
+            handle.style.left = pos + '%';
             handle.setAttribute('aria-valuenow', String(Math.round(pos)));
         }
-
-        const hasGSAP = window.gsap && window.Draggable;
-
-        if (hasGSAP) {
-            gsap.registerPlugin(Draggable, InertiaPlugin);
-
-            function bounds() {
-                const w = stage.clientWidth;
-                return { minX: w * 0.04, maxX: w * 0.96 };
-            }
-
-            gsap.set(handle, { x: stage.clientWidth * 0.5 });
-
-            const draggable = Draggable.create(handle, {
-                type: 'x',
-                bounds: bounds(),
-                inertia: true,
-                edgeResistance: 0.85,
-                onDrag: onMove,
-                onThrowUpdate: onMove
-            })[0];
-
-            function onMove() {
-                setClip(this.x / stage.clientWidth * 100);
-            }
-
-            let resizeTimer;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(() => {
-                    draggable.applyBounds(bounds());
-                    gsap.set(handle, { x: stage.clientWidth * pos / 100 });
-                }, 150);
-            });
-
-            // Clicca/tocca ovunque sull'immagine per spostare subito la manopola e continuare a trascinare
-            stage.addEventListener('pointerdown', (e) => {
-                if (e.target === handle || handle.contains(e.target)) return;
-                const rect = stage.getBoundingClientRect();
-                setClip((e.clientX - rect.left) / rect.width * 100);
-                gsap.set(handle, { x: stage.clientWidth * pos / 100 });
-                draggable.startDrag(e);
-            });
-
-            handle.addEventListener('keydown', (e) => {
-                let next = pos;
-                if (e.key === 'ArrowLeft') next -= 5;
-                else if (e.key === 'ArrowRight') next += 5;
-                else if (e.key === 'Home') next = 4;
-                else if (e.key === 'End') next = 96;
-                else return;
-                e.preventDefault();
-                setClip(next);
-                gsap.set(handle, { x: stage.clientWidth * pos / 100 });
-            });
-        } else {
-            function fromEvent(e) {
-                const rect = stage.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                setClip((clientX - rect.left) / rect.width * 100);
-                handle.style.left = pos + '%';
-            }
-
-            let dragging = false;
-            stage.addEventListener('pointerdown', (e) => {
-                dragging = true;
-                fromEvent(e);
-                stage.setPointerCapture(e.pointerId);
-            });
-            stage.addEventListener('pointermove', (e) => { if (dragging) fromEvent(e); });
-            stage.addEventListener('pointerup', () => { dragging = false; });
-            stage.addEventListener('pointercancel', () => { dragging = false; });
-
-            handle.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') { setClip(pos - 5); e.preventDefault(); }
-                else if (e.key === 'ArrowRight') { setClip(pos + 5); e.preventDefault(); }
-                else if (e.key === 'Home') { setClip(4); e.preventDefault(); }
-                else if (e.key === 'End') { setClip(96); e.preventDefault(); }
-                else return;
-                handle.style.left = pos + '%';
-            });
+        function pctAt(x) {
+            const r = stage.getBoundingClientRect();
+            return (x - r.left) / r.width * 100;
+        }
+        function stopGlide() { if (anim) { cancelAnimationFrame(anim); anim = null; } }
+        function glideTo(target) {
+            stopGlide();
+            const from = pos, t0 = performance.now(), dur = 380;
+            (function step(now) {
+                const k = Math.min(1, (now - t0) / dur);
+                setPos(from + (target - from) * (1 - Math.pow(1 - k, 3)));
+                anim = k < 1 ? requestAnimationFrame(step) : null;
+            })(t0);
         }
 
-        setClip(50);
+        // mode: 'pending' = dito appoggiato, direzione ancora da capire; 'drag' = trascinamento
+        let id = null, mode = null, sx = 0, sy = 0, grab = 0;
+        function startDrag() {
+            mode = 'drag';
+            stage.classList.add('is-dragging');
+            try { stage.setPointerCapture(id); } catch (_) {}
+        }
+        stage.addEventListener('pointerdown', (e) => {
+            if (id !== null || (e.pointerType === 'mouse' && e.button !== 0)) return;
+            stopGlide();
+            id = e.pointerId; sx = e.clientX; sy = e.clientY;
+            const onKnob = knob && knob.contains(e.target);
+            grab = onKnob ? pctAt(e.clientX) - pos : 0; // la manopola non "salta" sotto il dito
+            if (onKnob || e.pointerType !== 'touch') {
+                if (!onKnob) setPos(pctAt(e.clientX));
+                startDrag();
+            } else {
+                mode = 'pending';
+            }
+        });
+        stage.addEventListener('pointermove', (e) => {
+            if (e.pointerId !== id) return;
+            if (mode === 'pending') {
+                const dx = Math.abs(e.clientX - sx), dy = Math.abs(e.clientY - sy);
+                if (dx < 6 && dy < 6) return;
+                if (dx > dy) startDrag();
+                else { id = null; mode = null; return; } // gesto verticale: è lo scroll della pagina
+            }
+            if (mode === 'drag') setPos(pctAt(e.clientX) - grab);
+        });
+        function endDrag(e) {
+            if (e.pointerId !== id) return;
+            if (e.type === 'pointerup' && mode === 'pending') glideTo(pctAt(e.clientX)); // tocco singolo
+            id = null; mode = null;
+            stage.classList.remove('is-dragging');
+        }
+        stage.addEventListener('pointerup', endDrag);
+        stage.addEventListener('pointercancel', endDrag);
+        // iOS: a trascinamento avviato blocca lo scroll verticale anche se il dito scivola in diagonale
+        stage.addEventListener('touchmove', (e) => { if (mode === 'drag') e.preventDefault(); }, { passive: false });
+
+        handle.addEventListener('keydown', (e) => {
+            let next = pos;
+            if (e.key === 'ArrowLeft') next -= 5;
+            else if (e.key === 'ArrowRight') next += 5;
+            else if (e.key === 'Home') next = 4;
+            else if (e.key === 'End') next = 96;
+            else return;
+            e.preventDefault();
+            stopGlide();
+            setPos(next);
+        });
+
+        setPos(50);
     })();
 
     // Pausa i video fuori dal viewport (risparmio risorse su mobile)
@@ -2160,11 +2155,15 @@
         let dir = 1, pos = 0, paused = reduced, resumeTimer = null, moved = 0;
         const pause = () => { paused = true; clearTimeout(resumeTimer); };
         // alla ripresa sincronizzo pos con la posizione reale (dove l'utente ha lasciato)
-        const scheduleResume = () => { clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { pos = vp.scrollLeft; paused = false; }, 2200); };
+        const scheduleResume = () => { if (touched) return; clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { pos = vp.scrollLeft; paused = false; }, 2200); };
 
-        // Touch e wheel: passive → non bloccano MAI lo scroll nativo
-        vp.addEventListener('touchstart', pause, { passive: true });
-        vp.addEventListener('touchend', scheduleResume, { passive: true });
+        // Touch: passive → non blocca MAI lo scroll nativo. Al primo tocco la deriva si ferma
+        // per sempre: chi sfoglia col dito non vuole foto che ripartono da sole sotto il pollice.
+        let touched = false, lastUserScroll = 0;
+        vp.addEventListener('touchstart', () => { touched = true; pause(); }, { passive: true });
+        // scroll dell'utente (in pausa la deriva non scrive scrollLeft): serve a non aprire la
+        // foto col tocco che ferma lo scorrimento per inerzia
+        vp.addEventListener('scroll', () => { if (paused) lastUserScroll = performance.now(); }, { passive: true });
         vp.addEventListener('wheel', () => { pause(); scheduleResume(); }, { passive: true });
         vp.addEventListener('mouseenter', pause);
         vp.addEventListener('mouseleave', scheduleResume);
@@ -2191,7 +2190,7 @@
         // Apertura foto: click sulla tile (soppresso dopo un drag) + tastiera
         grid.querySelectorAll('.pf-tile').forEach(tile => {
             const img = tile.querySelector('img');
-            tile.addEventListener('click', () => { if (moved > 6) return; openLb(img.src, img.alt); });
+            tile.addEventListener('click', () => { if (moved > 6 || performance.now() - lastUserScroll < 150) return; openLb(img.src, img.alt); });
             tile.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(img.src, img.alt); }
             });

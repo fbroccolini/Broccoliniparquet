@@ -6,6 +6,8 @@
 
     <!-- Iubenda Cookie Solution (banner consenso + Google Consent Mode v2) -->
     <script type="text/javascript" src="https://embeds.iubenda.com/widgets/cc3c0458-e34d-4aa7-93d0-a3ea3b48fba4.js"></script>
+    <!-- Nasconde la barra Iubenda "Notice at collection / Your Privacy Choices" (leggi USA, non pertinente) -->
+    <style>.iub__us-widget{display:none!important}</style>
 
     <!-- Google tag (gtag.js) — GA4. Consent handled by Iubenda Consent Mode v2 (script above) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XVMX37BWHQ"></script>
@@ -668,6 +670,7 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: contain; /* niente rimbalzo né "indietro" di iOS a fine carosello */
             cursor: grab;
             padding: 0.6rem clamp(1.5rem, 5vw, 4.5rem);
             user-select: none;
@@ -1484,7 +1487,7 @@
         .ba-handle {
             position: absolute; top: 0; bottom: 0; left: 50%; z-index: 4;
             display: flex; align-items: center; justify-content: center;
-            transform: translateX(-50%); will-change: left;
+            transform: translateX(-50%); will-change: left; touch-action: pan-y;
         }
         .ba-handle::before {
             content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px;
@@ -1494,7 +1497,11 @@
             position: relative; width: 48px; height: 48px; border-radius: 50%; background: #fff;
             display: flex; align-items: center; justify-content: center; gap: 1px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.28); color: var(--dark);
+            touch-action: none; transition: transform 0.2s ease;
         }
+        /* area di presa più ampia del bottone visibile, comoda col pollice */
+        .ba-handle-btn::after { content: ''; position: absolute; inset: -14px; border-radius: 50%; }
+        .ba-slider.is-dragging .ba-handle-btn { transform: scale(1.08); }
         .ba-handle-btn svg { width: 13px; height: 13px; }
         .ba-handle:focus-visible .ba-handle-btn { outline: 2px solid var(--accent); outline-offset: 3px; }
         .ba-hint {
@@ -1870,13 +1877,17 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Prima/dopo: slider trascinabile (pointer + tastiera)
+    // Prima/dopo: slider trascinabile pensato anche per il touch.
+    // Col dito il gesto viene prima "letto": se è orizzontale muove il confronto, se è
+    // verticale lascia scorrere la pagina (touch-action: pan-y) senza toccare la manopola.
+    // Mouse e manopola rispondono subito; un tocco singolo porta la manopola lì, animata.
     (function () {
         const stage = document.getElementById('baSlider');
         if (!stage) return;
         const before = document.getElementById('baBefore');
         const handle = document.getElementById('baHandle');
-        let pos = 50;
+        const knob = handle.querySelector('.ba-handle-btn');
+        let pos = 50, anim = null;
 
         function setPos(p) {
             pos = Math.min(96, Math.max(4, p));
@@ -1884,27 +1895,72 @@
             handle.style.left = pos + '%';
             handle.setAttribute('aria-valuenow', String(Math.round(pos)));
         }
-        function fromEvent(e) {
-            const rect = stage.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            setPos((clientX - rect.left) / rect.width * 100);
+        function pctAt(x) {
+            const r = stage.getBoundingClientRect();
+            return (x - r.left) / r.width * 100;
+        }
+        function stopGlide() { if (anim) { cancelAnimationFrame(anim); anim = null; } }
+        function glideTo(target) {
+            stopGlide();
+            const from = pos, t0 = performance.now(), dur = 380;
+            (function step(now) {
+                const k = Math.min(1, (now - t0) / dur);
+                setPos(from + (target - from) * (1 - Math.pow(1 - k, 3)));
+                anim = k < 1 ? requestAnimationFrame(step) : null;
+            })(t0);
         }
 
-        let dragging = false;
+        // mode: 'pending' = dito appoggiato, direzione ancora da capire; 'drag' = trascinamento
+        let id = null, mode = null, sx = 0, sy = 0, grab = 0;
+        function startDrag() {
+            mode = 'drag';
+            stage.classList.add('is-dragging');
+            try { stage.setPointerCapture(id); } catch (_) {}
+        }
         stage.addEventListener('pointerdown', (e) => {
-            dragging = true;
-            fromEvent(e);
-            stage.setPointerCapture(e.pointerId);
+            if (id !== null || (e.pointerType === 'mouse' && e.button !== 0)) return;
+            stopGlide();
+            id = e.pointerId; sx = e.clientX; sy = e.clientY;
+            const onKnob = knob && knob.contains(e.target);
+            grab = onKnob ? pctAt(e.clientX) - pos : 0; // la manopola non "salta" sotto il dito
+            if (onKnob || e.pointerType !== 'touch') {
+                if (!onKnob) setPos(pctAt(e.clientX));
+                startDrag();
+            } else {
+                mode = 'pending';
+            }
         });
-        stage.addEventListener('pointermove', (e) => { if (dragging) fromEvent(e); });
-        stage.addEventListener('pointerup', () => { dragging = false; });
-        stage.addEventListener('pointercancel', () => { dragging = false; });
+        stage.addEventListener('pointermove', (e) => {
+            if (e.pointerId !== id) return;
+            if (mode === 'pending') {
+                const dx = Math.abs(e.clientX - sx), dy = Math.abs(e.clientY - sy);
+                if (dx < 6 && dy < 6) return;
+                if (dx > dy) startDrag();
+                else { id = null; mode = null; return; } // gesto verticale: è lo scroll della pagina
+            }
+            if (mode === 'drag') setPos(pctAt(e.clientX) - grab);
+        });
+        function endDrag(e) {
+            if (e.pointerId !== id) return;
+            if (e.type === 'pointerup' && mode === 'pending') glideTo(pctAt(e.clientX)); // tocco singolo
+            id = null; mode = null;
+            stage.classList.remove('is-dragging');
+        }
+        stage.addEventListener('pointerup', endDrag);
+        stage.addEventListener('pointercancel', endDrag);
+        // iOS: a trascinamento avviato blocca lo scroll verticale anche se il dito scivola in diagonale
+        stage.addEventListener('touchmove', (e) => { if (mode === 'drag') e.preventDefault(); }, { passive: false });
 
         handle.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') { setPos(pos - 5); e.preventDefault(); }
-            if (e.key === 'ArrowRight') { setPos(pos + 5); e.preventDefault(); }
-            if (e.key === 'Home') { setPos(4); e.preventDefault(); }
-            if (e.key === 'End') { setPos(96); e.preventDefault(); }
+            let next = pos;
+            if (e.key === 'ArrowLeft') next -= 5;
+            else if (e.key === 'ArrowRight') next += 5;
+            else if (e.key === 'Home') next = 4;
+            else if (e.key === 'End') next = 96;
+            else return;
+            e.preventDefault();
+            stopGlide();
+            setPos(next);
         });
 
         setPos(50);
@@ -2086,11 +2142,15 @@
         let dir = 1, pos = 0, paused = reduced, resumeTimer = null, moved = 0;
         const pause = () => { paused = true; clearTimeout(resumeTimer); };
         // alla ripresa sincronizzo pos con la posizione reale (dove l'utente ha lasciato)
-        const scheduleResume = () => { clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { pos = vp.scrollLeft; paused = false; }, 2200); };
+        const scheduleResume = () => { if (touched) return; clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { pos = vp.scrollLeft; paused = false; }, 2200); };
 
-        // Touch e wheel: passive → non bloccano MAI lo scroll nativo
-        vp.addEventListener('touchstart', pause, { passive: true });
-        vp.addEventListener('touchend', scheduleResume, { passive: true });
+        // Touch: passive → non blocca MAI lo scroll nativo. Al primo tocco la deriva si ferma
+        // per sempre: chi sfoglia col dito non vuole foto che ripartono da sole sotto il pollice.
+        let touched = false, lastUserScroll = 0;
+        vp.addEventListener('touchstart', () => { touched = true; pause(); }, { passive: true });
+        // scroll dell'utente (in pausa la deriva non scrive scrollLeft): serve a non aprire la
+        // foto col tocco che ferma lo scorrimento per inerzia
+        vp.addEventListener('scroll', () => { if (paused) lastUserScroll = performance.now(); }, { passive: true });
         vp.addEventListener('wheel', () => { pause(); scheduleResume(); }, { passive: true });
         vp.addEventListener('mouseenter', pause);
         vp.addEventListener('mouseleave', scheduleResume);
@@ -2117,7 +2177,7 @@
         // Apertura foto: click sulla tile (soppresso dopo un drag) + tastiera
         grid.querySelectorAll('.pf-tile').forEach(tile => {
             const img = tile.querySelector('img');
-            tile.addEventListener('click', () => { if (moved > 6) return; openLb(img.src, img.alt); });
+            tile.addEventListener('click', () => { if (moved > 6 || performance.now() - lastUserScroll < 150) return; openLb(img.src, img.alt); });
             tile.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(img.src, img.alt); }
             });
