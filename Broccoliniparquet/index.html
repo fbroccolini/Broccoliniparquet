@@ -470,6 +470,47 @@
             transition: color 0.35s;
         }
         .service-row:hover .service-title { color: var(--mid); }
+        /* riga cliccabile (Outdoor WPC → wpc.html) */
+        a.service-link { color: inherit; text-decoration: none; }
+        a.service-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+        /* pulsante "Scopri cos'è il WPC": si riempie al passaggio, con un punto che pulsa */
+        .service-more {
+            position: relative; isolation: isolate; overflow: hidden;
+            display: inline-flex; align-items: center; gap: 0.65rem; margin-top: 1.2rem;
+            padding: 0.75rem 1.2rem 0.75rem 1rem; min-height: 44px;
+            border: 1px solid var(--dark); border-radius: 999px;
+            font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+            color: var(--dark); transition: color 0.45s ease, border-color 0.45s ease;
+        }
+        .service-more::before {
+            content: ''; position: absolute; inset: 0; z-index: -1; background: var(--dark);
+            transform: scaleX(0); transform-origin: left center; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .svc-dot { position: relative; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); flex: none; }
+        .svc-dot::after { content: ''; position: absolute; inset: -0.35rem; border-radius: 50%; border: 1px solid var(--accent); animation: svcPulse 2.2s ease-out infinite; }
+        @keyframes svcPulse { 0% { transform: scale(0.4); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
+        .service-more svg { width: 1rem; height: 1rem; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); }
+        a.service-link:hover .service-more, a.service-link:focus-visible .service-more { color: #fff; }
+        a.service-link:hover .service-more::before, a.service-link:focus-visible .service-more::before { transform: scaleX(1); }
+        a.service-link:hover .service-more svg, a.service-link:focus-visible .service-more svg { transform: translateX(5px); }
+        /* senza mouse il pulsante è già "acceso", così si capisce che è da toccare */
+        @media (hover: none) {
+            .service-more { background: var(--accent); border-color: var(--accent); }
+            .svc-dot { background: var(--dark); }
+            .svc-dot::after { border-color: var(--dark); }
+        }
+        /* foto che segue il cursore sulla riga Outdoor WPC (solo mouse) */
+        .svc-preview {
+            position: fixed; left: 0; top: 0; z-index: 60; width: 15rem; aspect-ratio: 3 / 4;
+            pointer-events: none; overflow: hidden; border-radius: 4px; opacity: 0; visibility: hidden;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.25); will-change: transform, opacity;
+        }
+        .svc-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        @media (hover: none), (pointer: coarse) { .svc-preview { display: none; } }
+        @media (prefers-reduced-motion: reduce) { .svc-dot::after { animation: none; opacity: 0; } .svc-preview { display: none; } }
+        .has-js .service-more { opacity: 0; transition: opacity .8s ease; }
+        .service-row.in .service-more { opacity: 1; transition-delay: calc(var(--d) + 0.25s); }
+        @media (prefers-reduced-motion: reduce) { .has-js .service-more { opacity: 1; } }
 
         .service-body { padding-top: 0.4rem; }
 
@@ -1557,12 +1598,14 @@
                 <p class="service-desc">Posa di parquet in legno su ogni tipo di superficie. Sopralluogo gratuito, materiali selezionati, esecuzione diretta.</p>
             </div>
         </div>
-        <div class="service-row">
+        <a class="service-row service-link" href="wpc.html">
             <h3 class="service-title"><span class="st-mask"><span class="st-in">Outdoor WPC</span></span></h3>
             <div class="service-body">
                 <p class="service-desc">Pavimentazioni WPC per terrazze, giardini e bordi piscina. Resistenti alle intemperie, durevoli nel tempo.</p>
+                <span class="service-more"><span class="svc-dot" aria-hidden="true"></span>Scopri cos'è il WPC <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
             </div>
-        </div>
+            <span class="svc-preview" aria-hidden="true"><img src="img/wpc/terrazzo-fioriere-m.webp" alt="" width="900" height="1200" loading="lazy"></span>
+        </a>
         <div class="service-row">
             <h3 class="service-title"><span class="st-mask"><span class="st-in">Restauro</span></span></h3>
             <div class="service-body">
@@ -2026,6 +2069,28 @@
     }, { threshold: 0.1 });
     const servicesList = document.querySelector('.services-list');
     if (servicesList) servicesObserver.observe(servicesList);
+
+    // Riga "Outdoor WPC": foto di un lavoro che segue il cursore (solo mouse, GSAP quickTo)
+    (function () {
+        const row = document.querySelector('a.service-link');
+        const prev = row && row.querySelector('.svc-preview');
+        if (!prev || !window.gsap) return;
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        gsap.set(prev, { xPercent: -50, yPercent: -50, scale: 0.85, rotation: -3 });
+        const xTo = gsap.quickTo(prev, 'x', { duration: 0.55, ease: 'power3' });
+        const yTo = gsap.quickTo(prev, 'y', { duration: 0.55, ease: 'power3' });
+        // la foto sta un po' a destra del cursore, così non copre il testo che si sta leggendo
+        const move = (e) => { xTo(e.clientX + 150); yTo(e.clientY); };
+        row.addEventListener('mouseenter', (e) => {
+            gsap.set(prev, { x: e.clientX + 150, y: e.clientY });
+            gsap.to(prev, { autoAlpha: 1, scale: 1, rotation: 0, duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+        });
+        row.addEventListener('mousemove', move);
+        row.addEventListener('mouseleave', () => {
+            gsap.to(prev, { autoAlpha: 0, scale: 0.85, rotation: -3, duration: 0.35, ease: 'power2.in', overwrite: 'auto' });
+        });
+    })();
 
     // Titolo sezione servizi: reveal mascherato quando l'intestazione entra
     const collectionsHeader = document.querySelector('.collections-header');
