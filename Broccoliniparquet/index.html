@@ -1698,7 +1698,7 @@
     <p class="pf-desc">Una selezione di pose e rivestimenti che abbiamo realizzato. Trascina per esplorare, clicca su una foto per ingrandirla.</p>
   </div>
 
-  <div class="pf-viewport" id="pfViewport" data-lenis-prevent-horizontal>
+  <div class="pf-viewport" id="pfViewport" data-lenis-prevent-touch data-lenis-prevent-horizontal>
     <div class="pf-grid" id="pfGrid">
         <article class="pf-tile tall" tabindex="0" role="button" aria-label="Apri: Rovere rustico">
           <img src="img/lavoro-cucina-rovere.webp" alt="Parquet in rovere rustico in una cucina moderna" loading="lazy">
@@ -1872,7 +1872,9 @@
         if (!window.gsap || !window.ScrollTrigger) return;
         gsap.registerPlugin(ScrollTrigger);
 
-        if (window.Lenis) {
+        // Solo con mouse/trackpad: col dito lo scroll è comunque nativo, e gli ascoltatori
+        // touch di Lenis ritardano ogni nuovo gesto (es. ri-swipe del carosello in inerzia)
+        if (window.Lenis && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
             const lenis = new Lenis({ lerp: 0.09 });
             lenis.on('scroll', ScrollTrigger.update);
             gsap.ticker.add((time) => lenis.raf(time * 1000));
@@ -2174,13 +2176,17 @@
         vp.addEventListener('pointerdown', (e) => {
             if (e.pointerType === 'touch') return;
             down = true; moved = 0; startX = e.clientX; startScroll = vp.scrollLeft; pause();
-            try { vp.setPointerCapture(e.pointerId); } catch (_) {}
         });
         vp.addEventListener('pointermove', (e) => {
             if (!down) return;
             const dx = e.clientX - startX;
             moved = Math.max(moved, Math.abs(dx));
-            if (moved > 4) vp.classList.add('is-dragging');
+            // cattura il puntatore solo a trascinamento avviato: catturarlo subito
+            // dirotterebbe il click sul viewport e la foto non si aprirebbe più
+            if (moved > 4 && !vp.classList.contains('is-dragging')) {
+                vp.classList.add('is-dragging');
+                try { vp.setPointerCapture(e.pointerId); } catch (_) {}
+            }
             vp.scrollLeft = startScroll - dx;
         });
         const endDrag = () => { if (down) { down = false; vp.classList.remove('is-dragging'); scheduleResume(); } };
