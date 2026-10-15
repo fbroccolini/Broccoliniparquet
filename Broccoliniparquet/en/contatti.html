@@ -699,7 +699,7 @@
             if (json.success) {
                 form.style.display = 'none';
                 successEl.style.display = 'block';
-                if (window.trackConversion) window.trackConversion('lead_form_submit'); // conversione Google Ads
+                if (window.trackConversion) window.trackConversion('lead_form_submit', window.ctaOrigin ? window.ctaOrigin() : {}); // conversione Google Ads
             } else {
                 throw new Error(json.message || 'Errore invio');
             }
@@ -777,11 +777,12 @@
 <script>
   // Livello conversioni (event-based). Inerte finché non è presente GA4/GTM;
   // all'arrivo del tag, mappare questi eventi come conversioni in Google Ads.
-  window.trackConversion = function (name) {
+  window.trackConversion = function (name, params) {
+    params = params || {};
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: name });
+    window.dataLayer.push(Object.assign({ event: name }, params));
     if (typeof window.gtag === 'function') {
-      window.gtag('event', name);
+      window.gtag('event', name, params);
       // Conversioni Google Ads (AW-18382303561): mappa nome evento -> send_to
       var adsSendTo = {
         call_click: 'AW-18382303561/HQnECIrS8t8cEMnirr1E',
@@ -811,5 +812,6 @@
   })();
 </script>
 
+<script src="../cta-tracking.js?v=1"></script>
 </body>
 </html>

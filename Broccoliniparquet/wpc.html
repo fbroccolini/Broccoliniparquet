@@ -558,9 +558,9 @@
             <li><a href="index.html#portfolio">Portfolio</a></li>
             <li><a href="chi-siamo.html">Chi siamo</a></li>
             <li><a href="faq.html">FAQ</a></li>
-            <li><a href="contatti.html">Contatti</a></li>
+            <li><a data-cta="menu" href="contatti.html">Contatti</a></li>
         </ul>
-        <a href="contatti.html" class="mobile-cta">Richiedi preventivo</a>
+        <a data-cta="menu_mobile" href="contatti.html" class="mobile-cta">Richiedi preventivo</a>
     </div>
 </div>
 
@@ -949,7 +949,7 @@
 <section class="final" aria-labelledby="finalTitle">
     <h2 class="final-title rv-title" id="finalTitle"><span class="ml"><span class="ml-in">Vuoi il WPC per la tua terrazza o la tua piscina?</span></span></h2>
     <div class="final-row">
-        <a class="final-btn" href="contatti.html#form" data-goal="quote">Richiedi il sopralluogo gratuito
+        <a data-cta="sezione_finale" class="final-btn" href="contatti.html#form" data-goal="quote">Richiedi il sopralluogo gratuito
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
         <a class="final-call" id="finalCall" data-goal="call" href="tel:+393294116649">Chiama 329 411 6649</a>
@@ -1199,7 +1199,7 @@
 </style>
 <div class="fab-dial" id="fabDial">
   <div class="fab-actions" id="fabMenu">
-    <a class="fab-action" href="contatti.html#form" data-goal="quote">
+    <a data-cta="pulsante_flottante" class="fab-action" href="contatti.html#form" data-goal="quote">
       <span class="fab-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
       <span>Richiedi preventivo</span>
     </a>
@@ -1251,5 +1251,6 @@
   })();
 </script>
 
+<script src="cta-tracking.js?v=1"></script>
 </body>
 </html>

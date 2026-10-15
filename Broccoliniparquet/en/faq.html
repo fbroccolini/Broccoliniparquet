@@ -626,9 +626,9 @@
             <li><a href="index.html#portfolio">Portfolio</a></li>
             <li><a href="chi-siamo.html">About us</a></li>
             <li><a href="faq.html">FAQ</a></li>
-            <li><a href="contatti.html">Contact</a></li>
+            <li><a data-cta="menu" href="contatti.html">Contact</a></li>
         </ul>
-        <a href="contatti.html" class="mobile-cta">Get a quote</a>
+        <a data-cta="menu_mobile" href="contatti.html" class="mobile-cta">Get a quote</a>
     </div>
 </div>
 
@@ -716,7 +716,7 @@
     <div class="ask-box-inner">
         <div class="ask-box-intro">
             <h2 class="ask-title">Didn't find<br><em>your answer?</em></h2>
-            <p class="ask-sub">Send us your question: we'll reply within 24 working hours. Alternatively you can <a href="contatti.html">book a free on-site survey</a>.</p>
+            <p class="ask-sub">Send us your question: we'll reply within 24 working hours. Alternatively you can <a data-cta="testo_faq" href="contatti.html">book a free on-site survey</a>.</p>
         </div>
 
         <form class="ask-form" id="askForm" onsubmit="handleAsk(event)">
@@ -859,7 +859,7 @@
 </style>
 <div class="fab-dial" id="fabDial">
   <div class="fab-actions" id="fabMenu">
-    <a class="fab-action" href="contatti.html#form" data-goal="quote">
+    <a data-cta="pulsante_flottante" class="fab-action" href="contatti.html#form" data-goal="quote">
       <span class="fab-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
       <span>Request a quote</span>
     </a>
@@ -910,5 +910,6 @@
   })();
 </script>
 
+<script src="../cta-tracking.js?v=1"></script>
 </body>
 </html>

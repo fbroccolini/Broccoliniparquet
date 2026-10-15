@@ -324,7 +324,7 @@
         <h1>Il tuo esterno in WPC, bello e senza manutenzione</h1>
         <p class="hero-sub">Terrazze, giardini, bordi piscina e vialetti in decking WPC: antiscivolo, resistente alle intemperie, con la bellezza calda del legno. Fornitura e posa con un solo referente.</p>
         <div class="hero-actions">
-            <a href="#form" class="btn btn-primary" data-goal="quote">
+            <a data-cta="hero" href="#form" class="btn btn-primary" data-goal="quote">
                 Richiedi preventivo gratuito
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
@@ -527,7 +527,7 @@
 <!-- ── FAB contatti rapidi ── -->
 <div class="fab-dial" id="fabDial">
     <div class="fab-actions" id="fabMenu">
-        <a class="fab-action" href="#form" data-goal="quote">
+        <a data-cta="pulsante_flottante" class="fab-action" href="#form" data-goal="quote">
             <span class="fab-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
             <span>Richiedi preventivo</span>
         </a>
@@ -587,11 +587,12 @@
     })();
 
     // ── Livello conversioni (GA4 + Google Ads) ──
-    window.trackConversion = function (name) {
+    window.trackConversion = function (name, params) {
+        params = params || {};
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: name });
+        window.dataLayer.push(Object.assign({ event: name }, params));
         if (typeof window.gtag === 'function') {
-            window.gtag('event', name);
+            window.gtag('event', name, params);
             var adsSendTo = {
                 call_click: 'AW-18382303561/HQnECIrS8t8cEMnirr1E',
                 lead_form_submit: 'AW-18382303561/3Zg5CIyGg-AcEMnirr1E'
@@ -620,7 +621,7 @@
             if (json.success) {
                 form.style.display = 'none';
                 successEl.style.display = 'block';
-                if (window.trackConversion) window.trackConversion('lead_form_submit');
+                if (window.trackConversion) window.trackConversion('lead_form_submit', window.ctaOrigin ? window.ctaOrigin() : {});
             } else {
                 throw new Error(json.message || 'Errore invio');
             }
@@ -653,5 +654,6 @@
     })();
 </script>
 
+<script src="cta-tracking.js?v=1"></script>
 </body>
 </html>
