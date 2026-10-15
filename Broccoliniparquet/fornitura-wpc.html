@@ -129,22 +129,26 @@
         .hero-title-in { display: block; text-wrap: balance; transform: translateY(115%); animation: heroTitleRise 0.95s cubic-bezier(.22,1,.36,1) 0.75s forwards; }
         @keyframes heroTitleRise { to { transform: translateY(0); } }
         .hero-usp { margin-top: 1.2rem; max-width: 44ch; font-size: clamp(1.1rem, 1.7vw, 1.4rem); line-height: 1.5; animation: fadeInUp 0.8s ease 1.2s both; }
-        .hero-trust { margin-top: 1.3rem; display: flex; flex-wrap: wrap; gap: 0.3rem 1.6rem; animation: fadeInUp 0.8s ease 1.35s both; }
-        header.hero .hero-trust.mono { color: #68635d; }
+        .hero-trust { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.45rem 1.8rem; animation: fadeInUp 0.8s ease 1.35s both; }
+        header.hero .hero-trust.mono { color: var(--dark); font-size: 0.84rem; letter-spacing: 0.07em; }
         .hero-trust span { display: inline-flex; align-items: center; gap: 0.55rem; }
-        .hero-trust span::before { content: ''; width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--accent); }
+        .hero-trust span::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #9a7d4e; }
         .hero-ctas { margin-top: 2.2rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem 2rem; animation: fadeInUp 0.8s ease 1.5s both; }
-        .hero-cta { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 48px; padding: 1.05rem 2.1rem; color: var(--dark); border: 1.5px solid rgba(17,17,17,0.55); border-radius: 999px; font-family: var(--f); font-size: 1rem; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; transition: transform 0.25s var(--ease-out), background 0.25s, border-color 0.25s, color 0.25s; }
-        .hero-cta:hover { background: var(--dark); border-color: var(--dark); color: #fff; transform: translateY(-2px); }
-        .hero-cta svg { width: 18px; height: 18px; }
-        .hero-link { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 44px; color: var(--dark); text-decoration: none; font-family: var(--mono-f); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem; border-bottom: 1px solid rgba(17,17,17,0.3); transition: border-color 0.25s; }
+        .hero-cta { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 60px; padding: 1.2rem 2.6rem; color: #fff; background: var(--dark); border: 1.5px solid var(--dark); border-radius: 999px; font-family: var(--f); font-size: 1.08rem; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; box-shadow: 0 10px 28px rgba(17,17,17,0.18); transition: transform 0.25s var(--ease-out), background 0.25s, box-shadow 0.25s; }
+        .hero-cta:hover { background: #2a2a2a; transform: translateY(-2px); box-shadow: 0 14px 34px rgba(17,17,17,0.24); }
+        .hero-cta svg { width: 20px; height: 20px; }
+        /* type.css fissa i pulsanti del sito a 0.78rem: qui, nell'hero della landing, li vogliamo più grandi */
+        body header.hero .hero-cta { font-size: 0.95rem; }
+        body header.hero .hero-link { font-size: 0.9rem; }
+        @media (max-width: 600px) { body header.hero .hero-cta { font-size: 0.8rem; } body header.hero .hero-link { font-size: 0.85rem; } }
+        .hero-link { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 48px; color: var(--dark); text-decoration: none; font-family: var(--mono-f); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.9rem; border-bottom: 1.5px solid rgba(17,17,17,0.45); transition: border-color 0.25s; }
         .hero-link:hover { border-color: var(--dark); }
-        .hero-link svg { width: 15px; height: 15px; }
+        .hero-link svg { width: 17px; height: 17px; }
         .hero-cta:focus-visible, .hero-link:focus-visible { outline: 2px solid var(--dark); outline-offset: 3px; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
         @media (max-width: 600px) {
             .hero-ctas { flex-direction: column; align-items: stretch; gap: 1rem; }
-            .hero-cta { justify-content: center; min-height: 54px; padding: 1rem 1.25rem; }
+            .hero-cta { justify-content: center; min-height: 58px; padding: 1.1rem 1.25rem; }
             .hero-link { align-self: flex-start; }
         }
 
