@@ -35,7 +35,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&family=Cormorant+Garamond:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&family=Cormorant+Garamond:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="preload" as="image" href="img/wpc/villa-rivestimento.webp">
+    <link rel="preload" as="image" href="img/wpc/campioni-wpc.webp" imagesrcset="img/wpc/campioni-wpc-m.webp 900w, img/wpc/campioni-wpc.webp 1536w" imagesizes="(max-width: 768px) 66vw, 40vw">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
@@ -109,58 +109,41 @@
         .has-js .rv-ph img { clip-path: inset(100% 0 0 0); transform: scale(1.14); transition: clip-path 1.35s cubic-bezier(0.77, 0, 0.18, 1), transform 1.8s var(--ease-out); }
         .has-js .rv-ph.in img { clip-path: inset(0 0 0 0); transform: scale(1); }
 
-        /* ── HERO (come la home) ── */
-        .hero { position: relative; z-index: 1; min-height: 100vh; min-height: 100svh; padding-top: var(--nav-h); display: flex; align-items: flex-end; overflow: hidden; background: #1b1d1f; }
-        .hero-media { position: absolute; inset: 0; z-index: 0; }
-        .hero-media img, .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 64% 70%; }
-        .hero-media img { transform: scale(1.08); animation: heroImgScale 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards; }
-        .hero-video { opacity: 0; transition: opacity 0.9s ease; filter: brightness(0.92) contrast(1.03); }
-        /* da telefono: villa con il piano superiore rivestito in WPC, inquadrata sul rivestimento */
-        @media (max-width: 768px) {
-            .hero-media img { object-position: 50% 22%; }
-            header.hero::before { background: linear-gradient(to top, rgba(10,7,5,0.86) 0%, rgba(10,7,5,0.62) 48%, rgba(10,7,5,0.12) 76%); }
-        }
-        /* da computer la foto verticale resta intera (niente tagli né ingrandimenti) */
-        /* testo nero su fondo chiaro a sinistra; foto grande a destra con le sue proporzioni:
-           più alta dello schermo, il resto della casa si scopre scorrendo mentre il testo resta fermo */
-        @media (min-width: 769px) {
-            /* overflow: clip invece di hidden: ritaglia lo zoom della foto senza bloccare il testo "fermo" (sticky) */
-            .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; min-height: 0; background: var(--bg); overflow: clip; }
-            .hero::before { display: none; }
-            .hero-media { position: relative; inset: auto; grid-column: 2; grid-row: 1; width: min(48vw, 842px); aspect-ratio: 842 / 1472; }
-            .hero-media img { object-position: center; }
-            .hero-left { grid-column: 1; grid-row: 1; position: sticky; top: var(--nav-h); min-height: calc(100svh - var(--nav-h)); display: flex; flex-direction: column; justify-content: center; padding-top: 2rem; padding-bottom: 2rem; padding-right: clamp(2rem, 4vw, 4rem); }
-            body header.hero :is(.hero-title, .hero-usp) { color: var(--dark); text-shadow: none; }
-            header.hero .hero-trust.mono { color: #68635d; }
-            header.hero .hero-cta { color: var(--dark); border-color: rgba(17,17,17,0.55); }
-            header.hero .hero-cta:hover { background: var(--dark); border-color: var(--dark); color: #fff; }
-            header.hero .hero-link { color: var(--dark); border-color: rgba(17,17,17,0.3); }
-            header.hero .hero-link:hover { color: var(--dark); border-color: var(--dark); }
-            header.hero :is(.hero-cta, .hero-link):focus-visible { outline-color: var(--dark); }
-        }
-        .hero-video.is-playing { opacity: 1; }
+        /* ── HERO: il materiale (campioni) + la posa (villa), foto intere; testo nero su fondo chiaro ── */
+        .hero { position: relative; z-index: 1; padding-top: var(--nav-h); display: grid; grid-template-columns: 1fr; background: var(--bg); overflow: clip; }
+        .hero-media { grid-row: 1; display: grid; grid-template-columns: 70fr 30fr; column-gap: 4%; align-items: start; padding: 1.5rem var(--gut) 0; }
+        .hm { margin: 0; }
+        .hm-pic { overflow: hidden; background: var(--light); }
+        .hm img { width: 100%; height: auto; transform: scale(1.06); animation: heroImgScale 2s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards; }
+        .hm-posa { margin-top: 22%; }
+        .hm figcaption { margin-top: 0.55rem; font-size: 0.62rem; }
         @keyframes heroImgScale { to { transform: scale(1); } }
-        .hero::before { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background:
-            linear-gradient(to top, rgba(10,7,5,0.74) 0%, rgba(10,7,5,0.2) 50%, transparent 72%),
-            linear-gradient(to right, rgba(10,7,5,0.42) 0%, transparent 58%); }
-        .hero-left { position: relative; z-index: 2; width: 100%; padding: 4rem var(--gut) clamp(3rem, 8vh, 4.5rem); }
-        .hero-title { color: #fff; font-size: clamp(2.6rem, 6.4vw, 5.6rem); line-height: 0.95; letter-spacing: -0.02em; max-width: 18ch; }
+        .hero-left { grid-row: 2; padding: 1.8rem var(--gut) clamp(3rem, 8vh, 4.5rem); }
+        @media (min-width: 769px) {
+            .hero { grid-template-columns: minmax(0, 1fr) min(52vw, 1200px); align-items: center; min-height: 100svh; }
+            body header.hero h1.hero-title { font-size: clamp(2.4rem, 3.6vw, 3.8rem); }
+            .hero-media { grid-column: 2; grid-row: 1; padding: 3rem var(--gut) 3rem 0; }
+            .hm figcaption { font-size: 0.7rem; }
+            .hero-left { grid-column: 1; grid-row: 1; padding: 3rem clamp(1.5rem, 3vw, 3rem) 3rem var(--gut); }
+        }
+        .hero-title { font-size: clamp(2.6rem, 6.4vw, 5.6rem); line-height: 0.95; letter-spacing: -0.02em; max-width: 18ch; }
+        body header.hero :is(.hero-title, .hero-usp) { color: var(--dark); text-shadow: none; }
         .hero-title-mask { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
         .hero-title-in { display: block; text-wrap: balance; transform: translateY(115%); animation: heroTitleRise 0.95s cubic-bezier(.22,1,.36,1) 0.75s forwards; }
         @keyframes heroTitleRise { to { transform: translateY(0); } }
-        .hero-usp { margin-top: 1.2rem; max-width: 44ch; font-size: clamp(1.1rem, 1.7vw, 1.4rem); line-height: 1.5; color: rgba(255,255,255,0.88); animation: fadeInUp 0.8s ease 1.2s both; }
+        .hero-usp { margin-top: 1.2rem; max-width: 44ch; font-size: clamp(1.1rem, 1.7vw, 1.4rem); line-height: 1.5; animation: fadeInUp 0.8s ease 1.2s both; }
         .hero-trust { margin-top: 1.3rem; display: flex; flex-wrap: wrap; gap: 0.3rem 1.6rem; animation: fadeInUp 0.8s ease 1.35s both; }
-        .hero-trust.mono { color: rgba(255,255,255,0.82); }
+        header.hero .hero-trust.mono { color: #68635d; }
         .hero-trust span { display: inline-flex; align-items: center; gap: 0.55rem; }
         .hero-trust span::before { content: ''; width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--accent); }
         .hero-ctas { margin-top: 2.2rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem 2rem; animation: fadeInUp 0.8s ease 1.5s both; }
-        .hero-cta { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 48px; padding: 1.05rem 2.1rem; color: #fff; border: 1.5px solid rgba(255,255,255,0.7); border-radius: 999px; font-family: var(--f); font-size: 1rem; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; transition: transform 0.25s var(--ease-out), background 0.25s, border-color 0.25s; }
-        .hero-cta:hover { background: rgba(255,255,255,0.14); border-color: #fff; transform: translateY(-2px); }
+        .hero-cta { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 48px; padding: 1.05rem 2.1rem; color: var(--dark); border: 1.5px solid rgba(17,17,17,0.55); border-radius: 999px; font-family: var(--f); font-size: 1rem; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; transition: transform 0.25s var(--ease-out), background 0.25s, border-color 0.25s, color 0.25s; }
+        .hero-cta:hover { background: var(--dark); border-color: var(--dark); color: #fff; transform: translateY(-2px); }
         .hero-cta svg { width: 18px; height: 18px; }
-        .hero-link { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 44px; color: rgba(255,255,255,0.9); text-decoration: none; font-family: var(--mono-f); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem; border-bottom: 1px solid rgba(255,255,255,0.35); transition: color 0.25s, border-color 0.25s; }
-        .hero-link:hover { color: #fff; border-color: #fff; }
+        .hero-link { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 44px; color: var(--dark); text-decoration: none; font-family: var(--mono-f); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem; border-bottom: 1px solid rgba(17,17,17,0.3); transition: border-color 0.25s; }
+        .hero-link:hover { border-color: var(--dark); }
         .hero-link svg { width: 15px; height: 15px; }
-        .hero-cta:focus-visible, .hero-link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+        .hero-cta:focus-visible, .hero-link:focus-visible { outline: 2px solid var(--dark); outline-offset: 3px; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
         @media (max-width: 600px) {
             .hero-ctas { flex-direction: column; align-items: stretch; gap: 1rem; }
@@ -390,7 +373,7 @@
         /* ── Animazioni ridotte: tutto visibile, niente movimento ── */
         @media (prefers-reduced-motion: reduce) {
             #pageCurtain { display: none !important; }
-            .hero-media img, .hero-title-in, .hero-usp, .hero-trust, .hero-ctas { animation: none !important; transform: none !important; opacity: 1 !important; }
+            .hm img, .hero-title-in, .hero-usp, .hero-trust, .hero-ctas { animation: none !important; transform: none !important; opacity: 1 !important; }
             .has-js .rv-title .ml-in, .has-js .rv-fade, .has-js .rv-ph img, .has-js .layer, .has-js .step-i, .has-js .steps::before { transform: none !important; opacity: 1 !important; clip-path: none !important; transition: none !important; }
             .note-fig.in .drop, .note-fig.in .wind path, .note-fig.in .gaps path { animation: none; }
             .note-fig .wind path { stroke-dasharray: none; opacity: 0.8; }
@@ -433,7 +416,14 @@
 <!-- ── HERO (come la home) ── -->
 <header class="hero">
     <div class="hero-media" id="heroMedia">
-        <img src="img/wpc/villa-rivestimento.webp" alt="Villa contemporanea con il piano superiore rivestito in doghe WPC color legno" fetchpriority="high" width="842" height="1472">
+        <figure class="hm hm-prod">
+            <div class="hm-pic"><img src="img/wpc/campioni-wpc.webp" srcset="img/wpc/campioni-wpc-m.webp 900w, img/wpc/campioni-wpc.webp 1536w" sizes="(max-width: 768px) 66vw, 40vw" alt="Campioni di doghe WPC in diverse finiture e colori" width="1536" height="1024" fetchpriority="high"></div>
+            <figcaption class="mono">Il materiale</figcaption>
+        </figure>
+        <figure class="hm hm-posa">
+            <div class="hm-pic"><img src="img/wpc/villa-rivestimento.webp" alt="Villa con il piano superiore rivestito in doghe WPC" width="842" height="1472"></div>
+            <figcaption class="mono">La posa</figcaption>
+        </figure>
     </div>
     <div class="hero-left">
         <h1 class="hero-title">
