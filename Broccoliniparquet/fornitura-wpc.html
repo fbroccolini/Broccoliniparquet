@@ -305,6 +305,9 @@
         .choice input:checked + span { background: var(--dark); border-color: var(--dark); color: #fff; }
         .choice input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
         .step-error { color: #8b2e2e; font-size: 0.92rem; margin: -0.4rem 0 1rem; }
+        .choice-group[aria-invalid="true"] legend { color: #8b2e2e; }
+        .choice-group[aria-invalid="true"] .choice span { border-color: rgba(139,46,46,0.55); }
+        .form-success:focus { outline: none; }
         .back-link { display: inline-flex; align-items: center; min-height: 44px; background: none; border: 0; padding: 0; margin-bottom: 0.2rem; cursor: pointer; color: var(--dark); font-family: var(--mono-f); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; text-decoration: underline; text-underline-offset: 4px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
         @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
@@ -730,7 +733,7 @@
                 </div>
             </form>
 
-            <div id="formSuccess" class="form-success" role="status" style="display:none">
+            <div id="formSuccess" class="form-success" role="status" tabindex="-1" style="display:none">
                 <p class="big">Richiesta inviata</p>
                 <p class="prose">Ti risponderemo entro 24 ore lavorative.</p>
             </div>
@@ -783,13 +786,8 @@
     </button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<!-- Conversioni e form prima delle librerie CDN: con una rete lenta l'invio resta tracciato -->
 <script>
-    document.documentElement.classList.add('has-js');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     // ── Livello conversioni (GA4 + Google Ads) ──
     window.trackConversion = function (name, params) {
         params = params || {};
@@ -809,10 +807,114 @@
         if (el) el.addEventListener('click', () => window.trackConversion('call_click'));
     });
 
+    // ── Form a due passaggi ──
+    (function () {
+        const form = document.getElementById('contactForm');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const next = document.getElementById('nextBtn');
+        const back = document.getElementById('backBtn');
+        const error = document.getElementById('step1Error');
+        const GROUPS = ['tipo_richiesta', 'mq', 'tempistica'];
+        const checked = (name) => form.querySelector('input[name="' + name + '"]:checked');
+        const group = (name) => form.querySelector('input[name="' + name + '"]').closest('fieldset');
+        GROUPS.forEach((name) => group(name).setAttribute('aria-invalid', 'false'));
+
+        /** Codici delle tre scelte per GA4: mai dati personali. */
+        window.formChoices = function () {
+            const out = {};
+            GROUPS.forEach((name) => { const el = checked(name); out[name] = el ? el.getAttribute('data-code') : 'non_indicato'; });
+            return out;
+        };
+        function showStep(n) {
+            step1.hidden = n !== 1;
+            step2.hidden = n !== 2;
+            if (window.ScrollTrigger) ScrollTrigger.refresh();
+        }
+
+        // Con JavaScript il form diventa a due passaggi; senza, resta tutto in una pagina.
+        next.hidden = false;
+        back.hidden = false;
+        form.querySelectorAll('.step-count').forEach((el) => { el.hidden = false; });
+        showStep(1);
+
+        next.addEventListener('click', () => {
+            const missing = GROUPS.filter((name) => !checked(name));
+            GROUPS.forEach((name) => group(name).setAttribute('aria-invalid', missing.includes(name) ? 'true' : 'false'));
+            if (missing.length) {
+                const question = group(missing[0]).querySelector('legend').textContent;
+                // testo sempre diverso dal precedente, così i lettori di schermo lo rileggono a ogni tentativo
+                const text = 'Manca una risposta: «' + question + '». Scegli un\'opzione, poi premi Avanti.';
+                error.textContent = error.textContent === text ? text + '\u200B' : text;
+                error.hidden = false;
+                form.querySelector('input[name="' + missing[0] + '"]').focus();
+                return;
+            }
+            error.hidden = true;
+            window.trackConversion('form_step2', window.formChoices());
+            showStep(2);
+            document.getElementById('nome').focus();
+        });
+        back.addEventListener('click', () => {
+            showStep(1);
+            (checked('tipo_richiesta') || form.querySelector('input[name="tipo_richiesta"]')).focus();
+        });
+        form.addEventListener('change', (event) => {
+            if (event.target.name === 'tipo_richiesta') {
+                window.trackConversion('scelta_offerta', { tipo_richiesta: event.target.getAttribute('data-code'), origine: 'form' });
+            }
+            if (GROUPS.includes(event.target.name)) group(event.target.name).setAttribute('aria-invalid', 'false');
+            if (GROUPS.every(checked)) error.hidden = true;
+        });
+        // Riquadri "Due strade": portano al form con la scelta già fatta.
+        document.querySelectorAll('[data-offerta]').forEach((link) => link.addEventListener('click', () => {
+            const code = link.getAttribute('data-offerta');
+            const radio = form.querySelector('input[name="tipo_richiesta"][data-code="' + code + '"]');
+            if (radio) radio.checked = true;
+            showStep(1);
+            window.trackConversion('scelta_offerta', { tipo_richiesta: code, origine: 'riquadro' });
+        }));
+    })();
+
+    // ── Invio form (Web3Forms) ──
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const form = document.getElementById('contactForm');
+        const successEl = document.getElementById('formSuccess');
+        btn.textContent = 'Invio in corso…';
+        btn.disabled = true;
+        try {
+            const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
+            const json = await res.json();
+            if (!json.success) throw new Error(json.message || 'Errore invio');
+            form.style.display = 'none';
+            successEl.style.display = 'block';
+            successEl.focus({ preventScroll: true });
+            if (window.__lenis) window.__lenis.scrollTo(successEl, { offset: -160 });
+            else successEl.scrollIntoView({ block: 'center' });
+            window.trackConversion('lead_form_submit', Object.assign({}, window.ctaOrigin ? window.ctaOrigin() : {}, window.formChoices()));
+        } catch (err) {
+            btn.textContent = 'Errore — riprova';
+            btn.style.background = '#8b2e2e';
+            btn.disabled = false;
+            setTimeout(() => { btn.textContent = 'Invia richiesta'; btn.style.background = ''; }, 2600);
+        }
+    }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script>
+    document.documentElement.classList.add('has-js');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     // ── Sipario d'ingresso e tra pagine (come le altre pagine) ──
     (function () {
         const curtain = document.getElementById('pageCurtain');
         if (!curtain) return;
+        window.addEventListener('pageshow', (e) => { if (e.persisted) curtain.style.display = 'none'; });
         const seam = curtain.querySelector('.pc-seam');
         const mark = curtain.querySelector('.pc-mark');
         if (!window.gsap || reduceMotion) { curtain.style.display = 'none'; return; }
@@ -880,90 +982,6 @@
         }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
         els.forEach((el) => io.observe(el));
     })();
-
-    // ── Form a due passaggi ──
-    (function () {
-        const form = document.getElementById('contactForm');
-        const step1 = document.getElementById('step1');
-        const step2 = document.getElementById('step2');
-        const next = document.getElementById('nextBtn');
-        const back = document.getElementById('backBtn');
-        const error = document.getElementById('step1Error');
-        const GROUPS = ['tipo_richiesta', 'mq', 'tempistica'];
-        const checked = (name) => form.querySelector('input[name="' + name + '"]:checked');
-
-        /** Codici delle tre scelte per GA4: mai dati personali. */
-        window.formChoices = function () {
-            const out = {};
-            GROUPS.forEach((name) => { const el = checked(name); out[name] = el ? el.getAttribute('data-code') : 'non_indicato'; });
-            return out;
-        };
-        function showStep(n) {
-            step1.hidden = n !== 1;
-            step2.hidden = n !== 2;
-            if (window.ScrollTrigger) ScrollTrigger.refresh();
-        }
-
-        // Con JavaScript il form diventa a due passaggi; senza, resta tutto in una pagina.
-        next.hidden = false;
-        back.hidden = false;
-        form.querySelectorAll('.step-count').forEach((el) => { el.hidden = false; });
-        showStep(1);
-
-        next.addEventListener('click', () => {
-            const missing = GROUPS.filter((name) => !checked(name));
-            if (missing.length) {
-                error.hidden = false;
-                form.querySelector('input[name="' + missing[0] + '"]').focus();
-                return;
-            }
-            error.hidden = true;
-            window.trackConversion('form_step2', window.formChoices());
-            showStep(2);
-            document.getElementById('nome').focus();
-        });
-        back.addEventListener('click', () => {
-            showStep(1);
-            (checked('tipo_richiesta') || form.querySelector('input[name="tipo_richiesta"]')).focus();
-        });
-        form.addEventListener('change', (event) => {
-            if (event.target.name === 'tipo_richiesta') {
-                window.trackConversion('scelta_offerta', { tipo_richiesta: event.target.getAttribute('data-code'), origine: 'form' });
-            }
-            if (GROUPS.every(checked)) error.hidden = true;
-        });
-        // Riquadri "Due strade": portano al form con la scelta già fatta.
-        document.querySelectorAll('[data-offerta]').forEach((link) => link.addEventListener('click', () => {
-            const code = link.getAttribute('data-offerta');
-            const radio = form.querySelector('input[name="tipo_richiesta"][data-code="' + code + '"]');
-            if (radio) radio.checked = true;
-            showStep(1);
-            window.trackConversion('scelta_offerta', { tipo_richiesta: code, origine: 'riquadro' });
-        }));
-    })();
-
-    // ── Invio form (Web3Forms) ──
-    async function handleSubmit(e) {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        const form = document.getElementById('contactForm');
-        const successEl = document.getElementById('formSuccess');
-        btn.textContent = 'Invio in corso…';
-        btn.disabled = true;
-        try {
-            const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
-            const json = await res.json();
-            if (!json.success) throw new Error(json.message || 'Errore invio');
-            form.style.display = 'none';
-            successEl.style.display = 'block';
-            window.trackConversion('lead_form_submit', Object.assign({}, window.ctaOrigin ? window.ctaOrigin() : {}, window.formChoices()));
-        } catch (err) {
-            btn.textContent = 'Errore — riprova';
-            btn.style.background = '#8b2e2e';
-            btn.disabled = false;
-            setTimeout(() => { btn.textContent = 'Invia richiesta'; btn.style.background = ''; }, 2600);
-        }
-    }
 
     // ── FAB speed-dial ──
     (function () {
